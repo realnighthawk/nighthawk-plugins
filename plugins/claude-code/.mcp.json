@@ -2,10 +2,9 @@
   "mcpServers": {
     "agent-brain": {
       "type": "http",
-      "url": "http://localhost:8899/mcp",
+      "url": "${AGENT_BRAIN_MCP_URL:-http://localhost:8890/mcp}",
       "headers": {
-        "X-API-Key": "nh_bdcdffad0a6540c4b6f158db368950d8",
-        "X-Agent-ID": "claude-code-mac"
+        "X-API-Key": "${AGENT_BRAIN_API_KEY:-}"
       }
     }
   }

@@ -1,7 +1,7 @@
 {
   "name": "agent-brain",
-  "version": "0.1.3",
-  "description": "Unified long-term memory via hosted agent-brain MCP (auto recall + index hooks)",
+  "version": "0.2.0",
+  "description": "Long-term memory from the agent-brain MCP server: recall before prompts, retain finished parts of the session",
   "author": {
     "name": "AgentBrain"
   },

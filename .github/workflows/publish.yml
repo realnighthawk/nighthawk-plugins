@@ -38,8 +38,12 @@ jobs:
             GOOS="$goos" GOARCH="$goarch" CGO_ENABLED=0 \
               go build -trimpath -ldflags="-s -w" -o "$out" ./cmd/mcp-call
             chmod +x "$out"
+            hook="dist/agent-brain-hook-${goos}-${goarch}"
+            GOOS="$goos" GOARCH="$goarch" CGO_ENABLED=0 \
+              go build -trimpath -ldflags="-s -w" -o "$hook" ./cmd/agent-brain-hook
+            chmod +x "$hook"
           done
-          (cd dist && sha256sum mcp-call-* > checksums.txt)
+          (cd dist && sha256sum mcp-call-* agent-brain-hook-* > checksums.txt)
 
       - name: Upload CI artifacts (Actions tab only, not installable)
         uses: actions/upload-artifact@v4
