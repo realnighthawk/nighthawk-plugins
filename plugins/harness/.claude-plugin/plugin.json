@@ -1,0 +1,9 @@
+{
+  "name": "harness",
+  "version": "0.1.0",
+  "description": "Agent Harness MCP: the tenant's agents, tools, memory, and connected services.",
+  "author": {
+    "name": "Nighthawk Labs"
+  },
+  "keywords": ["harness", "mcp", "agent", "tools"]
+}

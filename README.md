@@ -5,7 +5,8 @@ Public client plugins for [agent-brain](https://github.com/realnighthawk/agent-b
 | IDE | Path | Install |
 |-----|------|---------|
 | Cursor | [plugins/cursor/](plugins/cursor/README.md) | `curl \| bash` — see [runbook](docs/runbooks/cursor-plugin.md) |
-| Claude Code | [plugins/claude-code/](plugins/claude-code/README.md) | [plugins/claude-code/install.sh](plugins/claude-code/install.sh) |
+| Claude Code (memory) | [plugins/claude-code/](plugins/claude-code/README.md) | [plugins/claude-code/install.sh](plugins/claude-code/install.sh) |
+| Claude Code (harness) | [plugins/harness/](plugins/harness/README.md) | `claude plugin install harness@agent-plugins --scope user` |
 | OpenClaw | [plugins/openclaw/](plugins/openclaw/README.md) | [plugins/openclaw/install.sh](plugins/openclaw/install.sh) |
 
 ## Quick install (Cursor)

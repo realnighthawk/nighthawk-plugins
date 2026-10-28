@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "harness": {
+      "type": "http",
+      "url": "${HARNESS_MCP_URL:-https://api.nighthawklabs.org/hub/mcp}",
+      "oauth": {
+        "scopes": "openid profile email",
+        "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
+      }
+    }
+  }
+}
