@@ -16,9 +16,9 @@
       "repository": "https://github.com/realnighthawk/agent-plugins.git"
     },
     {
-      "name": "hippocampus",
+      "name": "nighthawk",
       "version": "0.1.0",
-      "source": "./plugins/hippocampus-claude-code",
+      "source": "./plugins/nighthawk-claude-code",
       "description": "Agent Harness MCP: the tenant's agents, tools, memory, and connected services.",
       "homepage": "https://github.com/realnighthawk/agent-plugins",
       "repository": "https://github.com/realnighthawk/agent-plugins.git"

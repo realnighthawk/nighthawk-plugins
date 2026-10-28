@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "harness": {
+    "hippocampus": {
       "type": "http",
       "url": "https://api.nighthawklabs.org/hub/mcp",
       "oauth": {

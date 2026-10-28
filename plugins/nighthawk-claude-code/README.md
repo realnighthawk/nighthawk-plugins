@@ -1,4 +1,4 @@
-# Agent Harness: Claude Code plugin
+# Nighthawk: Claude Code plugin
 
 Connects Claude Code to the agent harness MCP endpoint at
 `https://api.nighthawklabs.org/hub/mcp` — the tenant's agents, tools, memory,
@@ -14,16 +14,16 @@ stores the tokens in the OS keychain, and refreshes them automatically.
 
 ```bash
 claude plugin marketplace add realnighthawk/agent-plugins --scope user
-claude plugin install hippocampus@nighthawk-plugins --scope user
+claude plugin install nighthawk@nighthawk-plugins --scope user
 ```
 
-Then open `/mcp`, select `plugin:hippocampus:harness`, and authenticate. The
-server's tools appear as `mcp__plugin_hippocampus_harness__*`.
+Then open `/mcp`, select `plugin:nighthawk:hippocampus`, and authenticate. The
+server's tools appear as `mcp__plugin_nighthawk_hippocampus__*`.
 
 For SSH/headless sessions:
 
 ```bash
-claude mcp login plugin:hippocampus:harness --no-browser
+claude mcp login plugin:nighthawk:hippocampus --no-browser
 ```
 
 (`claude -p` and Agent SDK runs cannot complete OAuth; authenticate once in an
@@ -46,7 +46,7 @@ The harness router must serve the MCP OAuth discovery documents
 ## Remove
 
 ```bash
-claude plugin uninstall hippocampus@nighthawk-plugins --scope user
+claude plugin uninstall nighthawk@nighthawk-plugins --scope user
 ```
 
 Uninstalling also removes the stored OAuth credentials for the endpoint.

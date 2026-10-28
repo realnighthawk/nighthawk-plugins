@@ -6,7 +6,7 @@ Public client plugins for [agent-brain](https://github.com/realnighthawk/agent-b
 |-----|------|---------|
 | Cursor | [plugins/cursor/](plugins/cursor/README.md) | `curl \| bash` — see [runbook](docs/runbooks/cursor-plugin.md) |
 | Claude Code (memory) | [plugins/claude-code/](plugins/claude-code/README.md) | [plugins/claude-code/install.sh](plugins/claude-code/install.sh) |
-| Claude Code (hippocampus) | [plugins/hippocampus-claude-code/](plugins/hippocampus-claude-code/README.md) | `claude plugin install hippocampus@nighthawk-plugins --scope user` |
+| Claude Code (nighthawk) | [plugins/nighthawk-claude-code/](plugins/nighthawk-claude-code/README.md) | `claude plugin install nighthawk@nighthawk-plugins --scope user` |
 | OpenClaw | [plugins/openclaw/](plugins/openclaw/README.md) | [plugins/openclaw/install.sh](plugins/openclaw/install.sh) |
 
 ## Quick install (Cursor)
