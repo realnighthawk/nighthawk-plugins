@@ -7,12 +7,12 @@
 #
 # Env:
 #   MCP_CALL_VERSION   Tag (v1.2.3), "latest", or empty for latest release asset
-#   NIGHTHAWK_MCP_CALL_REPO  default realnighthawk/agent-plugins
+#   NIGHTHAWK_MCP_CALL_REPO  default realnighthawk/nighthawk-plugins
 #   NIGHTHAWK_MCP_CALL_SKIP_DOWNLOAD=1  force local go build only
 set -euo pipefail
 
 DEST="${1:?usage: fetch-mcp-call.sh <dest-path>}"
-REPO="${NIGHTHAWK_MCP_CALL_REPO:-realnighthawk/agent-plugins}"
+REPO="${NIGHTHAWK_MCP_CALL_REPO:-realnighthawk/nighthawk-plugins}"
 VERSION="${MCP_CALL_VERSION:-latest}"
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 

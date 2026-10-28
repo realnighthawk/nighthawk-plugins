@@ -11,7 +11,7 @@ plugins_install_setup() {
 
   if [[ -z "${script_path}" ]]; then
     local dest="${AGENT_PLUGINS_INSTALL_DIR:-${HOME}/.local/share/agent-plugins}"
-    local repo="${AGENT_PLUGINS_REPO:-https://github.com/realnighthawk/agent-plugins.git}"
+    local repo="${AGENT_PLUGINS_REPO:-https://github.com/realnighthawk/nighthawk-plugins.git}"
     local ref="${AGENT_PLUGINS_REF:-main}"
     if [[ ! -f "${dest}/go.mod" ]]; then
       echo "agent-plugins: cloning to ${dest} ..." >&2
@@ -37,7 +37,7 @@ plugins_repo_root() {
   fi
 
   local dest="${AGENT_PLUGINS_INSTALL_DIR:-${HOME}/.local/share/agent-plugins}"
-  local repo="${AGENT_PLUGINS_REPO:-https://github.com/realnighthawk/agent-plugins.git}"
+  local repo="${AGENT_PLUGINS_REPO:-https://github.com/realnighthawk/nighthawk-plugins.git}"
   local ref="${AGENT_PLUGINS_REF:-main}"
   if [[ ! -f "${dest}/go.mod" ]]; then
     echo "agent-plugins: cloning to ${dest} ..." >&2

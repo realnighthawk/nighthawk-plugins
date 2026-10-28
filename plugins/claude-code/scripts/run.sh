@@ -4,8 +4,8 @@
 #
 # Env: AGENT_BRAIN_HOOK_BIN      use this binary (development)
 #      AGENT_BRAIN_HOOK_VERSION  release tag, default "latest"
-#      AGENT_BRAIN_HOOK_REPO     default realnighthawk/agent-plugins
-REPO="${AGENT_BRAIN_HOOK_REPO:-realnighthawk/agent-plugins}"
+#      AGENT_BRAIN_HOOK_REPO     default realnighthawk/nighthawk-plugins
+REPO="${AGENT_BRAIN_HOOK_REPO:-realnighthawk/nighthawk-plugins}"
 VERSION="${AGENT_BRAIN_HOOK_VERSION:-latest}"
 DIR="${CLAUDE_PLUGIN_DATA:-${AGENT_BRAIN_STATE_DIR:-$HOME/.cache/agent-brain}}/bin"
 BIN="${AGENT_BRAIN_HOOK_BIN:-$DIR/agent-brain-hook}"

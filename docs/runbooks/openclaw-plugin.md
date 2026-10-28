@@ -12,7 +12,7 @@ Native plugin at `plugins/openclaw/`. Connects to **hosted** agent-brain (SSE). 
 ## Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/realnighthawk/agent-plugins/main/plugins/openclaw/install.sh | bash -s -- \
+curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/openclaw/install.sh | bash -s -- \
   --url https://agent-memory.nighthawklabs.org/mcp \
   --agent-id openclaw-alice \
   --api-key YOUR_KEY \
@@ -62,7 +62,7 @@ Pulls latest from GitHub (remote installs) or skips the pull (local checkout), t
 
 ```bash
 # Remote
-curl -fsSL https://raw.githubusercontent.com/realnighthawk/agent-plugins/main/plugins/openclaw/update.sh | bash -s -- --restart
+curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/openclaw/update.sh | bash -s -- --restart
 
 # Local checkout — changes already on disk
 openclaw gateway restart

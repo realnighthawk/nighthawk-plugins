@@ -22,7 +22,7 @@ If you only see **Artifacts** but not **Releases**, the run was probably **workf
 
 Onboarding URLs in agent-brain / agent-web assume a **public** repo:
 
-`https://github.com/realnighthawk/agent-plugins`
+`https://github.com/realnighthawk/nighthawk-plugins`
 
 If the repo is private, anonymous users get **404** on raw install scripts and release downloads. Settings → General → Change repository visibility → Public.
 
@@ -46,7 +46,7 @@ If the repo is private, anonymous users get **404** on raw install scripts and r
 
    ```bash
    curl -fsSL -o /tmp/mcp-call \
-     https://github.com/realnighthawk/agent-plugins/releases/latest/download/mcp-call-darwin-arm64
+     https://github.com/realnighthawk/nighthawk-plugins/releases/latest/download/mcp-call-darwin-arm64
    chmod +x /tmp/mcp-call && /tmp/mcp-call --help 2>&1 | head -3
    ```
 

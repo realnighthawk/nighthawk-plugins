@@ -22,7 +22,7 @@ Client-only integration: hosted agent-brain **SSE MCP** + Cursor **hooks**. No d
 **Global** (`~/.cursor/`) — recommended:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/realnighthawk/agent-plugins/main/plugins/cursor/install.sh | bash -s -- \
+curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/cursor/install.sh | bash -s -- \
   --global \
   --url https://agent-memory.nighthawklabs.org/mcp \
   --agent-id cursor-you \
@@ -69,7 +69,7 @@ Syncs hooks and skills to `~/.cursor/` without touching credentials or binaries.
 
 ```bash
 # Remote
-curl -fsSL https://raw.githubusercontent.com/realnighthawk/agent-plugins/main/plugins/cursor/update.sh | bash
+curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/cursor/update.sh | bash
 
 # Local checkout
 ./plugins/cursor/update.sh

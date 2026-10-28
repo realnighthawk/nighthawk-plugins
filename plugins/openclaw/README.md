@@ -19,7 +19,7 @@ Instructions for the agent live in hosted memory + MCP tools — not a root `CLA
 ## Install (recommended)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/realnighthawk/agent-plugins/main/plugins/openclaw/install.sh | bash -s -- \
+curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/openclaw/install.sh | bash -s -- \
   --url https://agent-memory.nighthawklabs.org/mcp \
   --agent-id openclaw-you \
   --api-key YOUR_KEY \

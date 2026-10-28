@@ -61,7 +61,7 @@ From the agent-brain repository root:
 Remote one-liner:
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/realnighthawk/agent-plugins/main/plugins/cursor/install.sh | bash -s -- \
+curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/cursor/install.sh | bash -s -- \
   --scope global --url https://agent-memory.nighthawklabs.org/mcp --agent-id cursor-you --api-key YOUR_KEY
 ```
 

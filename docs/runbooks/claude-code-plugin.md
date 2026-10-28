@@ -14,7 +14,7 @@ Official plugin under `plugins/claude-code/`. Connects to **hosted** agent-brain
 ## Install
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/realnighthawk/agent-plugins/main/plugins/claude-code/install.sh | bash -s -- \
+curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/claude-code/install.sh | bash -s -- \
   --url https://agent-memory.nighthawklabs.org/mcp \
   --agent-id claude-alice \
   --api-key YOUR_KEY
@@ -46,7 +46,7 @@ Skips marketplace re-registration (`--skip-plugin-add`) but refreshes `mcp-call`
 
 ```bash
 # Remote
-curl -fsSL https://raw.githubusercontent.com/realnighthawk/agent-plugins/main/plugins/claude-code/update.sh | bash -s -- \
+curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/claude-code/update.sh | bash -s -- \
   --url https://agent-memory.nighthawklabs.org/mcp \
   --agent-id claude-alice \
   --api-key YOUR_KEY

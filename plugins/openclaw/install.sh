@@ -9,10 +9,10 @@
 #     [--config-file ~/.openclaw/openclaw.gemini.json]
 #
 # Remote (no clone needed):
-#   curl -fsSL https://raw.githubusercontent.com/realnighthawk/agent-plugins/main/plugins/openclaw/install.sh | bash -s -- --api-key ...
+#   curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/openclaw/install.sh | bash -s -- --api-key ...
 set -euo pipefail
 
-PLUGIN_GITHUB_REPO="${AGENT_PLUGINS_GITHUB_REPO:-realnighthawk/agent-plugins}"
+PLUGIN_GITHUB_REPO="${AGENT_PLUGINS_GITHUB_REPO:-realnighthawk/nighthawk-plugins}"
 AGENT_PLUGINS_REF="${AGENT_PLUGINS_REF:-main}"
 
 # Detect if running from a local checkout (dev workflow — enables go build fallback for mcp-call).
@@ -127,7 +127,7 @@ install_mcp_call() {
   esac
 
   asset="mcp-call-${os_name}-${arch}"
-  repo="${NIGHTHAWK_MCP_CALL_REPO:-realnighthawk/agent-plugins}"
+  repo="${NIGHTHAWK_MCP_CALL_REPO:-realnighthawk/nighthawk-plugins}"
   ver="${MCP_CALL_VERSION:-latest}"
   if [[ -z "$ver" || "$ver" == "latest" ]]; then
     url="https://github.com/${repo}/releases/latest/download/${asset}"

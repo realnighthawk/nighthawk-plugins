@@ -6,10 +6,10 @@
 #   ./plugins/cursor/update.sh [--scope global|project] [--url URL] [--agent-id ID] [--api-key KEY | --jwt TOKEN]
 #
 # Remote (no clone needed):
-#   curl -fsSL https://raw.githubusercontent.com/realnighthawk/agent-plugins/main/plugins/cursor/update.sh | bash -s -- --api-key YOUR_KEY
+#   curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/cursor/update.sh | bash -s -- --api-key YOUR_KEY
 set -euo pipefail
 
-PLUGIN_GITHUB_REPO="${AGENT_PLUGINS_GITHUB_REPO:-realnighthawk/agent-plugins}"
+PLUGIN_GITHUB_REPO="${AGENT_PLUGINS_GITHUB_REPO:-realnighthawk/nighthawk-plugins}"
 AGENT_PLUGINS_REF="${AGENT_PLUGINS_REF:-main}"
 
 _script_path="${BASH_SOURCE[0]:-}"

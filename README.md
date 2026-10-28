@@ -1,4 +1,4 @@
-# agent-plugins
+# nighthawk-plugins
 
 Public client plugins for [agent-brain](https://github.com/realnighthawk/agent-brain) (hosted MCP + hooks) and the Agent Harness.
 
@@ -12,7 +12,7 @@ Public client plugins for [agent-brain](https://github.com/realnighthawk/agent-b
 ## Quick install (Cursor)
 
 ```bash
-curl -fsSL https://raw.githubusercontent.com/realnighthawk/agent-plugins/main/plugins/cursor/install.sh | bash -s -- \
+curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/cursor/install.sh | bash -s -- \
   --global \
   --url https://agent-memory.nighthawklabs.org/mcp \
   --agent-id cursor-you \

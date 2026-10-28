@@ -7,10 +7,10 @@
 #   ./plugins/openclaw/update.sh [--restart]
 #
 # Remote (no clone needed):
-#   curl -fsSL https://raw.githubusercontent.com/realnighthawk/agent-plugins/main/plugins/openclaw/update.sh | bash -s -- [--restart]
+#   curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/openclaw/update.sh | bash -s -- [--restart]
 set -euo pipefail
 
-PLUGIN_GITHUB_REPO="${AGENT_PLUGINS_GITHUB_REPO:-realnighthawk/agent-plugins}"
+PLUGIN_GITHUB_REPO="${AGENT_PLUGINS_GITHUB_REPO:-realnighthawk/nighthawk-plugins}"
 AGENT_PLUGINS_REF="${AGENT_PLUGINS_REF:-main}"
 RESTART_GATEWAY=0
 

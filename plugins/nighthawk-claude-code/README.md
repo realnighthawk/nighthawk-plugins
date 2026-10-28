@@ -13,7 +13,7 @@ stores the tokens in the OS keychain, and refreshes them automatically.
 ## Install
 
 ```bash
-claude plugin marketplace add realnighthawk/agent-plugins --scope user
+claude plugin marketplace add realnighthawk/nighthawk-plugins --scope user
 claude plugin install nighthawk@nighthawk-plugins --scope user
 ```
 
