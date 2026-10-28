@@ -1,28 +1,50 @@
 ---
 name: hippocampus
-description: Use the Hippocampus MCP as the user's living context and memory layer. Use when the user asks about their own data — goals, tasks, FPL team, trips, spending, wardrobe, saved decisions — or asks what you know/remember about them. Also use at the start of a session when personal context would change the answer.
+description: Use the Hippocampus MCP as the user's tool belt and memory layer. Use when the task involves the user's own data (goals, tasks, FPL, trips, spending, wardrobe, saved decisions), when a connected service could answer or perform the task, or before concluding you lack a capability — the hub exposes the user's whole connected ecosystem behind four entry tools.
 ---
 
-# Hippocampus context layer
+# Hippocampus: tools + context
 
-The `hippocampus` MCP is the tenant's connected-services hub. It is where the
-user's current facts live: goals and tasks, FPL, trips, spending, wardrobe,
-places, Notion memories, and the rest of the tenant's connected ecosystem.
-Search it before guessing or asking the user to repeat themselves.
+The `hippocampus` MCP is the tenant's connected-services hub. Only four tools
+are visible on the surface (`search_tools`, `call_tool`, `search_skills`,
+`get_skill`); behind them is the user's entire connected ecosystem — life
+goals and tasks, finance, maps, trips, wardrobe, FPL, Notion memory, the
+agents they own, and anything else they have connected. It has two jobs:
+
+- **Memory** — the user's current facts, so they don't have to repeat them.
+- **Tools** — the user's real accounts and actions, so you act on the actual
+  account instead of approximating.
+
+Search it before guessing, before asking the user, and before saying you
+can't do something.
 
 ## Protocol
 
-1. `search_tools(query)` — search by **capability**, not by the user's sentence.
-2. `call_tool(server, tool, arguments)` — use the exact `input_schema` returned
-   by `search_tools`.
-3. `search_skills` / `get_skill` for curated procedures.
+1. `search_tools(query)` — describe the **capability** needed, not the user's
+   sentence. Results are scoped to the query: for a request with several
+   distinct sub-tasks, search again per sub-task.
+2. `call_tool(server, tool, arguments)` — use the exact `input_schema`
+   returned by `search_tools`. Never invent a server name, tool name, or
+   argument.
+3. `search_skills` / `get_skill` — curated procedures when the task is more
+   than a single call.
 
-Never claim a stored fact unless a tool result in this conversation shows it.
+## Capability rule
+
+Before you conclude you cannot do something — book it, find it, check it,
+send it, plan it, compare it — call `search_tools` with a short description
+of the capability. If it returns nothing relevant, say so explicitly and
+then proceed with your own judgment; never substitute a fabricated
+capability, a web guess, or a generic answer for the user's real account.
+
+If a tool reports a missing connection, name the connection and stop — do
+not silently fall back to an approximation.
 
 ## Where things live
 
-| Question | Start with |
+| Task | Start with |
 |---|---|
+| Anything not listed below | `search_tools("<capability>")` |
 | Goals / open tasks | `life/goals_list`, `life/tasks_list` |
 | FPL team, captain, transfers | `fantasy-pl/get_my_team`, `fantasy-pl/get_team`, `fpl-intelligence/fpl_manager_hub` |
 | Trips / bucket list | `trek/list_trips` and the other `trek` tools |
@@ -55,6 +77,10 @@ returns “No default team ID”, the ID lives in the user's life goal
 ## Rules
 
 - Search before asking the user for something the hub may already know.
+- Search before claiming a capability is unavailable — the visible tool list
+  is four entry points, not the ecosystem.
+- Prefer the hub's tool over a web lookup or your own approximation whenever
+  it covers the task; it is the user's real account.
 - Confirm before writes that create, change, or delete records.
 - Use the exact schema; do not guess argument names.
 - If a tool reports a missing connection, name the connection; do not fall back
@@ -69,3 +95,7 @@ returns “No default team ID”, the ID lives in the user's life goal
 - “What's on my plate?” → `life/tasks_list` with `status: "open"`.
 - “What did we decide about the house?” → `notion/notion-memory-search`.
 - “What trips do I have?” → `trek/list_trips`.
+- “How much did I spend eating out last month?” → `search_tools("spending")`
+  → call the finance tool with the right window.
+- “Plan a route to the airport that avoids tolls.” → `search_tools("directions")`
+  → maps tool with the avoidance option, if it exists.
