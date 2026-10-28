@@ -1,0 +1,11 @@
+{
+  "description": "Hippocampus memory: recall long-term memory at session start, retain the session when it ends.",
+  "hooks": {
+    "SessionStart": [
+      { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/run.sh\" session-start", "timeout": 20 } ] }
+    ],
+    "SessionEnd": [
+      { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/run.sh\" retain flush", "timeout": 20 } ] }
+    ]
+  }
+}

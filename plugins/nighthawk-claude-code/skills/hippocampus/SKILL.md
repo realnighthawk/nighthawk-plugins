@@ -29,6 +29,33 @@ can't do something.
 3. `search_skills` / `get_skill` — curated procedures when the task is more
    than a single call.
 
+## Long-term memory (agent-brain)
+
+The plugin also connects the harness's memory server as
+`plugin:nighthawk:memory`, and its hooks inject a `<agent-brain-memory>` block
+at session start and retain the session when it ends. Treat that block as
+recalled context from earlier sessions, never as something the user just said.
+On demand:
+
+| Tool | Use it when |
+|---|---|
+| `memory_recall(bank_id, query)` | You need facts the injected block lacks. Reads only. |
+| `memory_retain(bank_id, text, mention_time?)` | The user says "remember this" — one short plain-sentence account from their side, dated. |
+| `memory_reflect(bank_id, entity_name, query)` | What is known about one person or project, with the ids it cites. |
+| `memory_forget(bank_id, text or payload_id)` | Only after the user confirms the exact payload you showed them. |
+
+The bank is `$NIGHTHAWK_BANK` / `$AGENT_BRAIN_BANK` (default `agent-harness`).
+Never retain recalled text back, and never claim memory holds something that no
+recall or reflect result in this conversation shows.
+
+## Commands and agents
+
+- `/nighthawk:remember <fact>`, `/nighthawk:recall <topic>`,
+  `/nighthawk:forget <topic>` (confirms first), `/nighthawk:tools <capability>`.
+- `hub-researcher` — read-only research across the hub, delegated so raw tool
+  output stays out of the main conversation.
+- `memory-curator` — turns a finished piece of work into retained memories.
+
 ## Capability rule
 
 Before you conclude you cannot do something — book it, find it, check it,
