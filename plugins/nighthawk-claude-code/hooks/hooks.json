@@ -1,8 +1,11 @@
 {
-  "description": "Hippocampus memory: signal a recall at session start. The agent performs the MCP call itself over its own OAuth connection; retention is skill-driven during the session.",
+  "description": "Hippocampus memory: signal a recall at session start, spool a compact slice at session end, and have the next session retain it. The agent performs every MCP call itself over its own OAuth connection.",
   "hooks": {
     "SessionStart": [
       { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/session-start.sh\"", "timeout": 5 } ] }
+    ],
+    "SessionEnd": [
+      { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/session-end.sh\"", "timeout": 15 } ] }
     ]
   }
 }

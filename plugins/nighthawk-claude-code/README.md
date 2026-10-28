@@ -8,7 +8,7 @@ commands, two subagents, and the memory hooks.
 | `reactor` MCP | The tenant's connected ecosystem — life goals and tasks, finance, maps, trips, wardrobe, FPL, Notion — behind four entry tools (`search_tools`, `call_tool`, `search_skills`, `get_skill`). Fixed at `https://api.nighthawklabs.org/hub/mcp`, native MCP OAuth — no token to copy. |
 | `hippocampus` MCP | The harness's long-term memory (agent-brain) at `https://api.nighthawklabs.org/memory/mcp`, through the router with the same native MCP OAuth as Reactor: `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. No API key in the client config. |
 | `hippocampus` skill | Tool-belt + memory layer instructions: search before guessing, exact schemas, the source table, memory-write rules. Loads automatically for personal-data and connected-service tasks. |
-| Hooks | One signal-only script: `SessionStart` tells the agent to recall. The agent makes the MCP call itself over its OAuth connection — no key, no network call in the hook. |
+| Hooks | Signal-only scripts: `SessionStart` tells the agent to recall (and to retain any slice the last session spooled); `SessionEnd` spools a compact slice of the session. The agent makes every MCP call itself over its OAuth connection — no key, no network call in the hooks. |
 | Commands | `/nighthawk:remember`, `/nighthawk:recall`, `/nighthawk:forget` (confirms first), `/nighthawk:tools`. |
 | Agents | `hub-researcher` (read-only research across the hub), `memory-curator` (turns finished work into retained memory). |
 
@@ -46,18 +46,26 @@ the bank in their instructions:
 
 ## Hooks
 
-`SessionStart` is a tiny shell script that only prints an instruction. It makes
-no network call, holds no credential, and downloads nothing — the MCP
-interaction is the agent's own, over the OAuth connection Claude Code already
-holds. It injects `<hippocampus-memory>`: recall relevant facts with
-`memory_recall` before answering the first request, then use what is relevant.
+Both hooks are tiny shell scripts. They make no network call, hold no
+credential, and download nothing — every MCP interaction is the agent's own,
+over the OAuth connection Claude Code already holds.
 
-There is deliberately no stop hook: `Stop` fires when a response finishes, not
-when the session ends, and `SessionEnd` runs after the model is gone, so it
-cannot ask the agent to call a tool. Retention is skill-driven instead — the
-skill tells the agent to call `memory_retain` when the user states a durable
-decision, preference, correction, or personal fact, and `/nighthawk:remember`
-retains on demand.
+- **SessionStart** injects `<hippocampus-memory>`: call `memory_recall` before
+  answering the first request; if the previous session spooled a slice, first
+  delegate each slice to the `memory-curator` subagent with the bank id, then
+  delete the file.
+- **SessionEnd** spools a compact slice of the finished session (user and
+  assistant text only, tool output dropped, last 120 KB) to the plugin data
+  directory. The next session's start signal is what retains it — `SessionEnd`
+  itself runs after the model is gone and cannot call a tool. At most 10
+  slices are kept.
+
+Retention is also skill-driven during a session: the skill tells the agent to
+call `memory_retain` when the user states a durable decision, preference,
+correction, or personal fact, and `/nighthawk:remember` retains on demand.
+
+The spool is plain text on this machine, never uploaded; only the compacted
+slice the subagent retains is sent to the memory server.
 
 If the `agent-brain` plugin is also enabled, turn its hooks off
 (`AGENT_BRAIN_DISABLE_HOOKS=1`) or uninstall it — two memory plugins recall and
