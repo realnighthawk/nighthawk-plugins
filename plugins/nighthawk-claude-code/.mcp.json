@@ -10,9 +10,10 @@
     },
     "memory": {
       "type": "http",
-      "url": "${NIGHTHAWK_MCP_URL:-https://agent-memory.nighthawklabs.org/mcp}",
-      "headers": {
-        "X-API-Key": "${NIGHTHAWK_API_KEY:-}"
+      "url": "https://api.nighthawklabs.org/memory/mcp",
+      "oauth": {
+        "scopes": "openid profile email",
+        "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
       }
     }
   }
