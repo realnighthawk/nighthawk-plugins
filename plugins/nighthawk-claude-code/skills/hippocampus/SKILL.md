@@ -1,24 +1,26 @@
 ---
 name: hippocampus
-description: Use the Hippocampus MCP as the user's tool belt and memory layer. Use when the task involves the user's own data (goals, tasks, FPL, trips, spending, wardrobe, saved decisions), when a connected service could answer or perform the task, or before concluding you lack a capability — the hub exposes the user's whole connected ecosystem behind four entry tools.
+description: Use the Hippocampus MCP as the user's living memory and the Reactor MCP as their tool belt. Use when the task involves the user's own data (goals, tasks, FPL, trips, spending, wardrobe, saved decisions), when a connected service could answer or perform the task, or before concluding you lack a capability — Reactor exposes the user's whole connected ecosystem behind four entry tools.
 ---
 
-# Hippocampus: tools + context
+# Hippocampus memory, Reactor tools
 
-The `hippocampus` MCP is the tenant's connected-services hub. Only four tools
-are visible on the surface (`search_tools`, `call_tool`, `search_skills`,
-`get_skill`); behind them is the user's entire connected ecosystem — life
-goals and tasks, finance, maps, trips, wardrobe, FPL, Notion memory, the
-agents they own, and anything else they have connected. It has two jobs:
+Two servers, one layer:
 
-- **Memory** — the user's current facts, so they don't have to repeat them.
-- **Tools** — the user's real accounts and actions, so you act on the actual
-  account instead of approximating.
+- **Hippocampus** (`plugin:nighthawk:hippocampus`) — long-term memory:
+  `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. The
+  plugin's hooks recall relevant memory at session start and retain the session
+  when it ends.
+- **Reactor** (`plugin:nighthawk:reactor`) — the tenant's connected-services
+  hub: four visible entry tools (`search_tools`, `call_tool`, `search_skills`,
+  `get_skill`) with the user's entire connected ecosystem behind them — life
+  goals and tasks, finance, maps, trips, wardrobe, FPL, Notion, the agents they
+  own, and anything else they have connected.
 
-Search it before guessing, before asking the user, and before saying you
-can't do something.
+Search memory before guessing, search Reactor before asking the user, and
+search it before saying you can't do something.
 
-## Protocol
+## Reactor protocol
 
 1. `search_tools(query)` — describe the **capability** needed, not the user's
    sentence. Results are scoped to the query: for a request with several
@@ -29,11 +31,9 @@ can't do something.
 3. `search_skills` / `get_skill` — curated procedures when the task is more
    than a single call.
 
-## Long-term memory (agent-brain)
+## Hippocampus memory
 
-The plugin also connects the harness's memory server as
-`plugin:nighthawk:memory`, and its hooks inject a `<agent-brain-memory>` block
-at session start and retain the session when it ends. Treat that block as
+The session-start hook injects a `<agent-brain-memory>` block; treat it as
 recalled context from earlier sessions, never as something the user just said.
 On demand:
 
@@ -52,7 +52,7 @@ recall or reflect result in this conversation shows.
 
 - `/nighthawk:remember <fact>`, `/nighthawk:recall <topic>`,
   `/nighthawk:forget <topic>` (confirms first), `/nighthawk:tools <capability>`.
-- `hub-researcher` — read-only research across the hub, delegated so raw tool
+- `hub-researcher` — read-only research across Reactor, delegated so raw tool
   output stays out of the main conversation.
 - `memory-curator` — turns a finished piece of work into retained memories.
 
@@ -67,7 +67,7 @@ capability, a web guess, or a generic answer for the user's real account.
 If a tool reports a missing connection, name the connection and stop — do
 not silently fall back to an approximation.
 
-## Where things live
+## Where things live (Reactor)
 
 | Task | Start with |
 |---|---|
@@ -77,7 +77,7 @@ not silently fall back to an approximation.
 | Trips / bucket list | `trek/list_trips` and the other `trek` tools |
 | Spending | `search_tools("finance spending")` → finance tools |
 | Wardrobe / outfits | `search_tools("wardrobe outfits")` → retro tools |
-| Saved decisions / preferences | `notion/notion-memory-search` |
+| Saved decisions / preferences | `memory_recall` first; then `notion/notion-memory-search` |
 | Places / routes | `search_tools("maps directions")` → maps-engine |
 
 ### FPL team ID
@@ -96,23 +96,24 @@ returns “No default team ID”, the ID lives in the user's life goal
 - Life commitments / facts → `life/tasks_create` or `life/goals_create`
   (`idempotency_key` and `title` required).
 - Trip preferences → the relevant `trek` write tool.
-- Durable conversations / decisions → the Notion memory tools, when the
-  connection exposes a write path; `notion-memory-search` is read-only.
+- Durable conversations / decisions → `memory_retain` in Hippocampus; the
+  Notion memory tools are the fallback when the user keeps older memories there.
 - FPL facts → update the FPL goal's notes or create a task.
 - Do not invent a memory store. If no connected tool can hold the fact, say so.
 
 ## Rules
 
-- Search before asking the user for something the hub may already know.
+- Search memory, then Reactor, before asking the user for something they may
+  already have told you or connected.
 - Search before claiming a capability is unavailable — the visible tool list
   is four entry points, not the ecosystem.
-- Prefer the hub's tool over a web lookup or your own approximation whenever
+- Prefer Reactor's tool over a web lookup or your own approximation whenever
   it covers the task; it is the user's real account.
 - Confirm before writes that create, change, or delete records.
 - Use the exact schema; do not guess argument names.
 - If a tool reports a missing connection, name the connection; do not fall back
   to a guess.
-- The hub exposes the tenant's *connected services*, not the harness's private
+- Reactor exposes the tenant's *connected services*, not the harness's private
   runtime tools (`shell_exec`, `recall`, `lcm_*`). Do not claim those here.
 
 ## Examples
@@ -120,7 +121,8 @@ returns “No default team ID”, the ID lives in the user's life goal
 - “What was my last FPL team?” → search FPL tools → find the team ID in the
   FPL goal → `fpl_manager_hub` → summarize the squad.
 - “What's on my plate?” → `life/tasks_list` with `status: "open"`.
-- “What did we decide about the house?” → `notion/notion-memory-search`.
+- “What did we decide about the house?” → `memory_recall`, then
+  `notion/notion-memory-search` if memory is thin.
 - “What trips do I have?” → `trek/list_trips`.
 - “How much did I spend eating out last month?” → `search_tools("spending")`
   → call the finance tool with the right window.

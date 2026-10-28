@@ -1,6 +1,6 @@
 {
   "mcpServers": {
-    "hippocampus": {
+    "reactor": {
       "type": "http",
       "url": "https://api.nighthawklabs.org/hub/mcp",
       "oauth": {
@@ -8,7 +8,7 @@
         "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
       }
     },
-    "memory": {
+    "hippocampus": {
       "type": "http",
       "url": "https://api.nighthawklabs.org/memory/mcp",
       "oauth": {

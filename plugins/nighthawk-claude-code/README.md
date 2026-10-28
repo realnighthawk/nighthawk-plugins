@@ -5,8 +5,8 @@ commands, two subagents, and the memory hooks.
 
 | Piece | What it does |
 |---|---|
-| `hippocampus` MCP | The tenant's connected ecosystem — life goals and tasks, finance, maps, trips, wardrobe, FPL, Notion — behind four entry tools (`search_tools`, `call_tool`, `search_skills`, `get_skill`). Fixed at `https://api.nighthawklabs.org/hub/mcp`, native MCP OAuth — no token to copy. |
-| `memory` MCP | The harness's long-term memory (agent-brain) at `https://api.nighthawklabs.org/memory/mcp`, through the router with the same native MCP OAuth as the hub: `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. No API key in the client config. |
+| `reactor` MCP | The tenant's connected ecosystem — life goals and tasks, finance, maps, trips, wardrobe, FPL, Notion — behind four entry tools (`search_tools`, `call_tool`, `search_skills`, `get_skill`). Fixed at `https://api.nighthawklabs.org/hub/mcp`, native MCP OAuth — no token to copy. |
+| `hippocampus` MCP | The harness's long-term memory (agent-brain) at `https://api.nighthawklabs.org/memory/mcp`, through the router with the same native MCP OAuth as Reactor: `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. No API key in the client config. |
 | `hippocampus` skill | Tool-belt + memory layer instructions: search before guessing, exact schemas, the source table, memory-write rules. Loads automatically for personal-data and connected-service tasks. |
 | Hooks | `SessionStart` recalls relevant memory into the session; `SessionEnd` retains what the session produced. |
 | Commands | `/nighthawk:remember`, `/nighthawk:recall`, `/nighthawk:forget` (confirms first), `/nighthawk:tools`. |
@@ -19,10 +19,10 @@ claude plugin marketplace add realnighthawk/nighthawk-plugins --scope user
 claude plugin install nighthawk@nighthawk-plugins --scope user
 ```
 
-Then open `/mcp` and authenticate both `plugin:nighthawk:hippocampus` and
-`plugin:nighthawk:memory` (one Clerk consent each, same account). The hub's
-tools appear as `mcp__plugin_nighthawk_hippocampus__*`; the memory tools as
-`mcp__plugin_nighthawk_memory__*`.
+Then open `/mcp` and authenticate both `plugin:nighthawk:reactor` and
+`plugin:nighthawk:hippocampus` (one Clerk consent each, same account).
+Reactor's tools appear as `mcp__plugin_nighthawk_reactor__*`; the memory tools
+as `mcp__plugin_nighthawk_hippocampus__*`.
 
 For SSH/headless sessions:
 
@@ -35,8 +35,8 @@ interactive session first.)
 
 ## Memory configuration (hooks)
 
-The `memory` MCP server needs no configuration — it authenticates through the
-router with OAuth like the hub. The hooks cannot complete an OAuth flow, so
+The `hippocampus` MCP server needs no configuration — it authenticates through
+the router with OAuth like Reactor. The hooks cannot complete an OAuth flow, so
 they need a static credential of their own. They read `NIGHTHAWK_*` from the
 environment (Claude Code `env` settings or a shell profile) or from a
 `KEY=VALUE` file: the path in `NIGHTHAWK_CONFIG`, else
@@ -64,8 +64,8 @@ its own API key.
 | `NIGHTHAWK_DISABLE_HOOKS` | Any value turns both hooks into no-ops. |
 | `NIGHTHAWK_RECALL_LIMIT`, `NIGHTHAWK_RECALL_TIMEOUT`, `NIGHTHAWK_RETAIN_MIN_TURNS`, `NIGHTHAWK_RETAIN_MIN_CHARS` | Accepted through the shared `AGENT_BRAIN_*` names. |
 
-Without `NIGHTHAWK_MCP_URL` and `NIGHTHAWK_BANK` the hooks do nothing; the hub,
-memory server, skill, commands, and agents still work.
+Without `NIGHTHAWK_MCP_URL` and `NIGHTHAWK_BANK` the hooks do nothing; Reactor,
+the memory server, skill, commands, and agents still work.
 
 ## Hooks
 
@@ -94,8 +94,8 @@ The harness router must serve the MCP OAuth discovery documents
 (preferred) or DCR enabled for the OAuth application, with default scopes
 `openid profile email offline_access`.
 
-Do not add an `Authorization` header or `headersHelper` for the `hippocampus`
-or `memory` servers — either disables Claude Code's OAuth fallback.
+Do not add an `Authorization` header or `headersHelper` for the `reactor` or
+`hippocampus` servers — either disables Claude Code's OAuth fallback.
 
 ## Remove
 

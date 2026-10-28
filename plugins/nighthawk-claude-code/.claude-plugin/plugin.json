@@ -1,6 +1,6 @@
 {
   "name": "nighthawk",
-  "version": "0.5.0",
+  "version": "0.6.0",
   "description": "Agent Harness: the tenant's connected tools and services, plus long-term memory with recall at session start and retain at session end.",
   "author": {
     "name": "Nighthawk Labs"

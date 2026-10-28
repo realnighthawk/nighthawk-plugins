@@ -5,7 +5,7 @@ argument-hint: <capability, e.g. "send an email" or "check spending">
 
 Capability wanted: $ARGUMENTS
 
-Run `search_tools` on the Hippocampus hub with two or three differently-worded
+Run `search_tools` on the Reactor hub with two or three differently-worded
 queries for the capability (by what it does, not by the user's sentence). Then
 report:
 

@@ -1,11 +1,11 @@
 ---
 name: hub-researcher
-description: Research a question across the user's connected services — life goals and tasks, finance, maps, trips, wardrobe, FPL, Notion — through the Hippocampus hub, and return a compact answer with the evidence. Use when an answer needs several lookups or may span services, so the raw tool output stays out of the main conversation.
-tools: mcp__plugin_nighthawk_hippocampus__search_tools, mcp__plugin_nighthawk_hippocampus__call_tool, mcp__plugin_nighthawk_hippocampus__search_skills, mcp__plugin_nighthawk_hippocampus__get_skill
+description: Research a question across the user's connected services — life goals and tasks, finance, maps, trips, wardrobe, FPL, Notion — through the Reactor hub, and return a compact answer with the evidence. Use when an answer needs several lookups or may span services, so the raw tool output stays out of the main conversation.
+tools: mcp__plugin_nighthawk_reactor__search_tools, mcp__plugin_nighthawk_reactor__call_tool, mcp__plugin_nighthawk_reactor__search_skills, mcp__plugin_nighthawk_reactor__get_skill
 model: inherit
 ---
 
-You research the user's own ecosystem through the Hippocampus MCP hub. The hub
+You research the user's own ecosystem through the Reactor MCP hub. The hub
 shows four entry tools; the ecosystem behind them is much larger.
 
 ## Method
