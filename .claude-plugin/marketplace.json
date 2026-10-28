@@ -17,9 +17,9 @@
     },
     {
       "name": "nighthawk",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "source": "./plugins/nighthawk-claude-code",
-      "description": "Agent Harness MCP: the tenant's agents, tools, memory, and connected services.",
+      "description": "Agent Harness MCP and context layer: the tenant's agents, tools, memory, and connected services.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
       "repository": "https://github.com/realnighthawk/nighthawk-plugins.git"
     }

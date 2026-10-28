@@ -10,6 +10,13 @@ Authentication is Claude Code's native MCP OAuth flow. There is no token to
 copy and no secret in this plugin: `/mcp` opens the Clerk consent screen,
 stores the tokens in the OS keychain, and refreshes them automatically.
 
+## Context / memory skill
+
+The plugin ships the `hippocampus` skill (`nighthawk:hippocampus`). It teaches
+Claude Code to search the MCP for the user's goals, tasks, FPL team, trips,
+spending, and saved decisions before asking or guessing. It loads
+automatically when a question is about the user's own data.
+
 ## Install
 
 ```bash
