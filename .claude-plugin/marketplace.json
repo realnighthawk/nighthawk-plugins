@@ -1,6 +1,6 @@
 {
   "$schema": "https://anthropic.ai/claude-code/marketplace.schema.json",
-  "name": "agent-plugins",
+  "name": "nighthawk-plugins",
   "description": "Agent Brain and Agent Harness client plugins for Claude Code, Cursor, and OpenClaw.",
   "owner": {
     "name": "Nighthawk Labs",
@@ -16,9 +16,9 @@
       "repository": "https://github.com/realnighthawk/agent-plugins.git"
     },
     {
-      "name": "harness",
+      "name": "hippocampus",
       "version": "0.1.0",
-      "source": "./plugins/harness",
+      "source": "./plugins/hippocampus-claude-code",
       "description": "Agent Harness MCP: the tenant's agents, tools, memory, and connected services.",
       "homepage": "https://github.com/realnighthawk/agent-plugins",
       "repository": "https://github.com/realnighthawk/agent-plugins.git"
