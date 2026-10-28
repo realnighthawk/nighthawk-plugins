@@ -8,7 +8,7 @@ commands, two subagents, and the memory hooks.
 | `reactor` MCP | The tenant's connected ecosystem — life goals and tasks, finance, maps, trips, wardrobe, FPL, Notion — behind four entry tools (`search_tools`, `call_tool`, `search_skills`, `get_skill`). Fixed at `https://api.nighthawklabs.org/hub/mcp`, native MCP OAuth — no token to copy. |
 | `hippocampus` MCP | The harness's long-term memory (agent-brain) at `https://api.nighthawklabs.org/memory/mcp`, through the router with the same native MCP OAuth as Reactor: `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. No API key in the client config. |
 | `hippocampus` skill | Tool-belt + memory layer instructions: search before guessing, exact schemas, the source table, memory-write rules. Loads automatically for personal-data and connected-service tasks. |
-| Hooks | Two signal-only scripts: `SessionStart` tells the agent to recall, and a once-per-session `Stop` tells it to retain. The agent makes the MCP calls itself over its OAuth connection — no key, no network call in the hook. |
+| Hooks | One signal-only script: `SessionStart` tells the agent to recall. The agent makes the MCP call itself over its OAuth connection — no key, no network call in the hook. |
 | Commands | `/nighthawk:remember`, `/nighthawk:recall`, `/nighthawk:forget` (confirms first), `/nighthawk:tools`. |
 | Agents | `hub-researcher` (read-only research across the hub), `memory-curator` (turns finished work into retained memory). |
 
@@ -46,19 +46,18 @@ the bank in their instructions:
 
 ## Hooks
 
-Both hooks are tiny shell scripts that only print an instruction. They make no
-network call, hold no credential, and download nothing — the MCP interaction is
-the agent's own, over the OAuth connection Claude Code already holds.
+`SessionStart` is a tiny shell script that only prints an instruction. It makes
+no network call, holds no credential, and downloads nothing — the MCP
+interaction is the agent's own, over the OAuth connection Claude Code already
+holds. It injects `<hippocampus-memory>`: recall relevant facts with
+`memory_recall` before answering the first request, then use what is relevant.
 
-- **SessionStart** — injects `<hippocampus-memory>`: recall relevant facts with
-  `memory_recall` before answering the first request, then use what is relevant.
-- **Stop** — at most once per session, and only once the session is substantial
-  (4+ user turns or 4 KB of transcript), blocks the final stop with a
-  one-time instruction to retain durable decisions with `memory_retain`. If
-  nothing is durable, the agent stops normally.
-
-The skill also tells the agent to retain durable facts as they happen, so a
-long session does not depend on the Stop signal alone.
+There is deliberately no stop hook: `Stop` fires when a response finishes, not
+when the session ends, and `SessionEnd` runs after the model is gone, so it
+cannot ask the agent to call a tool. Retention is skill-driven instead — the
+skill tells the agent to call `memory_retain` when the user states a durable
+decision, preference, correction, or personal fact, and `/nighthawk:remember`
+retains on demand.
 
 If the `agent-brain` plugin is also enabled, turn its hooks off
 (`AGENT_BRAIN_DISABLE_HOOKS=1`) or uninstall it — two memory plugins recall and

@@ -35,10 +35,8 @@ search it before saying you can't do something.
 
 The session-start hook injects a `<hippocampus-memory>` instruction, not facts:
 you perform the recall yourself with `memory_recall` before answering the
-first substantive request. The Stop hook may ask once, before a substantial
-session ends, to retain durable facts — do that once, and only for durable
-items. Recalled memory is context from earlier sessions, never something the
-user just said.
+first substantive request. Recalled memory is context from earlier sessions,
+never something the user just said.
 
 | Tool | Use it when |
 |---|---|
