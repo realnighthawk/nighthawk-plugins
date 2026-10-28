@@ -1,11 +1,11 @@
 {
-  "description": "Hippocampus memory: recall long-term memory at session start, retain the session when it ends.",
+  "description": "Hippocampus memory: signal a recall at session start, and one retain check before a substantial session ends. The agent performs the MCP calls itself over its own OAuth connection.",
   "hooks": {
     "SessionStart": [
-      { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/run.sh\" session-start", "timeout": 20 } ] }
+      { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/session-start.sh\"", "timeout": 5 } ] }
     ],
-    "SessionEnd": [
-      { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/run.sh\" retain flush", "timeout": 20 } ] }
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/stop-retain.sh\"", "timeout": 5 } ] }
     ]
   }
 }

@@ -8,7 +8,7 @@ commands, two subagents, and the memory hooks.
 | `reactor` MCP | The tenant's connected ecosystem — life goals and tasks, finance, maps, trips, wardrobe, FPL, Notion — behind four entry tools (`search_tools`, `call_tool`, `search_skills`, `get_skill`). Fixed at `https://api.nighthawklabs.org/hub/mcp`, native MCP OAuth — no token to copy. |
 | `hippocampus` MCP | The harness's long-term memory (agent-brain) at `https://api.nighthawklabs.org/memory/mcp`, through the router with the same native MCP OAuth as Reactor: `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. No API key in the client config. |
 | `hippocampus` skill | Tool-belt + memory layer instructions: search before guessing, exact schemas, the source table, memory-write rules. Loads automatically for personal-data and connected-service tasks. |
-| Hooks | `SessionStart` recalls relevant memory into the session; `SessionEnd` retains what the session produced. |
+| Hooks | Two signal-only scripts: `SessionStart` tells the agent to recall, and a once-per-session `Stop` tells it to retain. The agent makes the MCP calls itself over its OAuth connection — no key, no network call in the hook. |
 | Commands | `/nighthawk:remember`, `/nighthawk:recall`, `/nighthawk:forget` (confirms first), `/nighthawk:tools`. |
 | Agents | `hub-researcher` (read-only research across the hub), `memory-curator` (turns finished work into retained memory). |
 
@@ -33,54 +33,32 @@ claude mcp login plugin:nighthawk:hippocampus --no-browser
 (`claude -p` and Agent SDK runs cannot complete OAuth; authenticate once in an
 interactive session first.)
 
-## Memory configuration (hooks)
+## Memory bank
 
 The `hippocampus` MCP server needs no configuration — it authenticates through
-the router with OAuth like Reactor. The hooks cannot complete an OAuth flow, so
-they need a static credential of their own. They read `NIGHTHAWK_*` from the
-environment (Claude Code `env` settings or a shell profile) or from a
-`KEY=VALUE` file: the path in `NIGHTHAWK_CONFIG`, else
-`~/.config/nighthawk/plugin.env`, else `~/.config/agent-brain/plugin.env`.
-`AGENT_BRAIN_*` equivalents are accepted.
-
-Recommended — point the hooks at the router with the tenant token, the same
-`<tenant>.<hmac>` credential `/hub/mcp` uses:
-
-```
-NIGHTHAWK_MCP_URL=https://api.nighthawklabs.org/memory/mcp
-NIGHTHAWK_API_KEY=<tenant>.<hmac>
-NIGHTHAWK_BANK=<bank>
-```
-
-The hook binary sends that key as `X-API-Key`, which `/memory/mcp` accepts.
-Alternatively, point `NIGHTHAWK_MCP_URL` straight at a memory server and use
-its own API key.
+the router with OAuth like Reactor. The hooks read one optional setting to name
+the bank in their instructions:
 
 | Variable | Meaning |
 |---|---|
-| `NIGHTHAWK_MCP_URL` | Streamable-HTTP URL of the memory server. Required for the hooks. |
-| `NIGHTHAWK_API_KEY` | Sent as `X-API-Key`: the tenant token (via the router) or the memory server's own key (direct). |
-| `NIGHTHAWK_BANK` | Bank name; one bank per user so every harness shares memory. Required for the hooks. |
-| `NIGHTHAWK_DISABLE_HOOKS` | Any value turns both hooks into no-ops. |
-| `NIGHTHAWK_RECALL_LIMIT`, `NIGHTHAWK_RECALL_TIMEOUT`, `NIGHTHAWK_RETAIN_MIN_TURNS`, `NIGHTHAWK_RETAIN_MIN_CHARS` | Accepted through the shared `AGENT_BRAIN_*` names. |
-
-Without `NIGHTHAWK_MCP_URL` and `NIGHTHAWK_BANK` the hooks do nothing; Reactor,
-the memory server, skill, commands, and agents still work.
+| `NIGHTHAWK_BANK` (or `AGENT_BRAIN_BANK`) | Bank name; default `agent-harness`. One bank per user so every harness shares memory. |
+| `NIGHTHAWK_DISABLE_HOOKS` | Any value turns both signals into no-ops. |
 
 ## Hooks
 
-`scripts/run.sh` runs `agent-brain-hook` — the memory hook binary released from
-this repo — downloading it from GitHub Releases (checksum verified) on first
-use and caching it in the plugin data directory.
+Both hooks are tiny shell scripts that only print an instruction. They make no
+network call, hold no credential, and download nothing — the MCP interaction is
+the agent's own, over the OAuth connection Claude Code already holds.
 
-- **SessionStart** — `memory_recall` for facts about the project; injected as a
-  `<agent-brain-memory>` block.
-- **SessionEnd** — queues the new turns and drains them to `memory_retain` in a
-  detached process; a failed send stays in the outbox and is retried by the
-  next hook. Recalled blocks are stripped before retaining.
+- **SessionStart** — injects `<hippocampus-memory>`: recall relevant facts with
+  `memory_recall` before answering the first request, then use what is relevant.
+- **Stop** — at most once per session, and only once the session is substantial
+  (4+ user turns or 4 KB of transcript), blocks the final stop with a
+  one-time instruction to retain durable decisions with `memory_retain`. If
+  nothing is durable, the agent stops normally.
 
-Failures are logged to `hook.log` in the plugin data directory
-(`~/.cache/nighthawk` outside Claude Code) and never block a prompt.
+The skill also tells the agent to retain durable facts as they happen, so a
+long session does not depend on the Stop signal alone.
 
 If the `agent-brain` plugin is also enabled, turn its hooks off
 (`AGENT_BRAIN_DISABLE_HOOKS=1`) or uninstall it — two memory plugins recall and

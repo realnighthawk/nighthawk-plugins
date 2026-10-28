@@ -33,9 +33,12 @@ search it before saying you can't do something.
 
 ## Hippocampus memory
 
-The session-start hook injects a `<agent-brain-memory>` block; treat it as
-recalled context from earlier sessions, never as something the user just said.
-On demand:
+The session-start hook injects a `<hippocampus-memory>` instruction, not facts:
+you perform the recall yourself with `memory_recall` before answering the
+first substantive request. The Stop hook may ask once, before a substantial
+session ends, to retain durable facts — do that once, and only for durable
+items. Recalled memory is context from earlier sessions, never something the
+user just said.
 
 | Tool | Use it when |
 |---|---|
@@ -45,6 +48,10 @@ On demand:
 | `memory_forget(bank_id, text or payload_id)` | Only after the user confirms the exact payload you showed them. |
 
 The bank is `$NIGHTHAWK_BANK` / `$AGENT_BRAIN_BANK` (default `agent-harness`).
+
+Retain proactively: when the user states a decision, preference, correction,
+or personal fact that should outlive the session, call `memory_retain` without
+waiting to be asked — one short, dated, plain-sentence account from their side.
 Never retain recalled text back, and never claim memory holds something that no
 recall or reflect result in this conversation shows.
 
