@@ -45,7 +45,7 @@ never something the user just said.
 | `memory_reflect(bank_id, entity_name, query)` | What is known about one person or project, with the ids it cites. |
 | `memory_forget(bank_id, text or payload_id)` | Only after the user confirms the exact payload you showed them. |
 
-The bank is `$NIGHTHAWK_BANK` / `$AGENT_BRAIN_BANK` (default `agent-harness`).
+The bank is `$NIGHTHAWK_BANK` / `$AGENT_BRAIN_BANK` (default `nighthawk`).
 
 Retain proactively: when the user states a decision, preference, correction,
 or personal fact that should outlive the session, call `memory_retain` without

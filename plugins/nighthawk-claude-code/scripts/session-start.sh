@@ -4,7 +4,7 @@
 # previous SessionEnd spooled. This script only prints an instruction — it
 # makes no network call and holds no credential.
 [ -n "${NIGHTHAWK_DISABLE_HOOKS:-}" ] && exit 0
-BANK="${NIGHTHAWK_BANK:-${AGENT_BRAIN_BANK:-agent-harness}}"
+BANK="${NIGHTHAWK_BANK:-${AGENT_BRAIN_BANK:-nighthawk}}"
 
 dir="${CLAUDE_PLUGIN_DATA:-$HOME/.cache/nighthawk}/retain-queue"
 deferred=""
