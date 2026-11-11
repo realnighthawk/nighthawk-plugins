@@ -1,16 +1,17 @@
 # Mission Control — Cursor plugin
 
-Long-term memory for Cursor through the Hippocampus MCP (`https://api.nighthawklabs.org/memory/mcp`).
+Hippocampus long-term memory (`https://api.nighthawklabs.org/memory/mcp`) and the Reactor tool hub (`https://api.nighthawklabs.org/hub/mcp`) for Cursor.
 
 | File | Does |
 |---|---|
-| `mcp.json` | Registers the `hippocampus` server. Sends `X-Agent-ID: cursor`, so memory records Cursor as the speaker. |
+| `mcp.json` | Registers the `hippocampus` server (sends `X-Agent-ID: cursor`, so memory records Cursor as the speaker) and the `reactor` server. |
 | `rules/hippocampus.mdc` | Always-on rule: recall before the first answer, retain what should outlive the session. |
 | `skills/hippocampus/SKILL.md` | The tools and how to phrase a retain. |
+| `rules/reactor.mdc`, `skills/reactor/SKILL.md` | Search the hub for a tool before concluding a capability is missing; the four entry tools. |
 
 ## Sign in
 
-No key is stored. On first use Cursor opens the browser for OAuth (the same Clerk login as the Claude Code plugin). Approve it under Settings → MCP → hippocampus.
+No key is stored. On first use Cursor opens the browser for OAuth (the same Clerk login as the Claude Code plugin). Approve it under Settings → MCP, once for `hippocampus` and once for `reactor`.
 
 ## Why a rule and not a hook
 

@@ -1,37 +1,17 @@
 ---
 name: hippocampus
-description: Use the Hippocampus MCP as the user's living memory and the Reactor MCP as their tool belt. Use when the task involves the user's own data (goals, tasks, FPL, trips, spending, wardrobe, saved decisions), when a connected service could answer or perform the task, or before concluding you lack a capability — Reactor exposes the user's whole connected ecosystem behind four entry tools.
+description: Use the Hippocampus MCP as the user's long-term memory. Use when the task depends on what the user decided, prefers, or did in earlier sessions, or when the user says remember, recall, or forget.
 ---
 
-# Hippocampus memory, Reactor tools
+# Hippocampus memory
 
-Two servers, one layer:
+The `hippocampus` server (`plugin:mission-control:hippocampus`) is the user's
+long-term memory: `memory_recall`, `memory_retain`, `memory_reflect`,
+`memory_forget`. The plugin's hooks recall relevant memory at session start and
+retain the session when it ends. The `reactor` skill covers the connected-services
+hub. Search memory before guessing.
 
-- **Hippocampus** (`plugin:mission-control:hippocampus`) — long-term memory:
-  `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. The
-  plugin's hooks recall relevant memory at session start and retain the session
-  when it ends.
-- **Reactor** (`plugin:mission-control:reactor`) — the tenant's connected-services
-  hub: four visible entry tools (`search_tools`, `call_tool`, `search_skills`,
-  `get_skill`) with the user's entire connected ecosystem behind them — life
-  goals and tasks, finance, maps, trips, wardrobe, FPL, Notion, the agents they
-  own, and anything else they have connected.
-
-Search memory before guessing, search Reactor before asking the user, and
-search it before saying you can't do something.
-
-## Reactor protocol
-
-1. `search_tools(query)` — describe the **capability** needed, not the user's
-   sentence. Results are scoped to the query: for a request with several
-   distinct sub-tasks, search again per sub-task.
-2. `call_tool(server, tool, arguments)` — use the exact `input_schema`
-   returned by `search_tools`. Never invent a server name, tool name, or
-   argument.
-3. `search_skills` / `get_skill` — curated procedures when the task is more
-   than a single call.
-
-## Hippocampus memory
+## Memory protocol
 
 The session-start hook injects a `<hippocampus-memory>` instruction, not facts:
 you perform the recall yourself with `memory_recall` before answering the

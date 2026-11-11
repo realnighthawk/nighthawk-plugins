@@ -1,16 +1,18 @@
 {
   "name": "mission-control",
   "displayName": "Mission Control",
-  "version": "0.3.0",
-  "description": "Long-term memory for Cursor through the Hippocampus MCP: recall before answering, retain what should outlive the session.",
+  "version": "0.4.0",
+  "description": "Hippocampus long-term memory and the Reactor tool hub for Cursor: recall before answering, retain what should outlive the session, find a connected tool before concluding one is missing.",
   "author": {
     "name": "Nighthawk Labs"
   },
   "keywords": [
-    "memory",
-    "mcp",
     "hippocampus",
-    "recall"
+    "mcp",
+    "memory",
+    "reactor",
+    "recall",
+    "tools"
   ],
   "category": "developer-tools",
   "logo": "assets/icon.svg",

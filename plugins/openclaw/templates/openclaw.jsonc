@@ -1,5 +1,15 @@
 // Merge into ~/.openclaw/openclaw.json. Set MISSION_CONTROL_MCP_TOKEN in the gateway's environment.
 {
+  // Reactor is a plain MCP server for OpenClaw; the plugin below carries Hippocampus (hooks) and both skills.
+  "mcp": {
+    "servers": {
+      "reactor": {
+        "url": "https://api.nighthawklabs.org/hub/mcp",
+        "transport": "streamable-http",
+        "headers": { "Authorization": "Bearer ${MISSION_CONTROL_MCP_TOKEN}" }
+      }
+    }
+  },
   "plugins": {
     "slots": { "memory": "mission-control" },
     "entries": {

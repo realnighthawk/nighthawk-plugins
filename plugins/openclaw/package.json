@@ -1,6 +1,6 @@
 {
   "name": "mission-control",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Mission Control Hippocampus memory for OpenClaw (MCP over HTTP + lifecycle hooks)",
   "type": "module",
   "license": "MIT",
@@ -20,7 +20,8 @@
     "openclaw.plugin.json",
     "README.md",
     "templates/",
-    "assets/"
+    "assets/",
+    "skills/"
   ],
   "peerDependencies": {
     "openclaw": ">=2026.3.0"

@@ -5,6 +5,9 @@
       "headers": {
         "X-Agent-ID": "cursor"
       }
+    },
+    "reactor": {
+      "url": "https://api.nighthawklabs.org/hub/mcp"
     }
   }
 }
