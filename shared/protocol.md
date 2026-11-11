@@ -1,0 +1,4 @@
+- Before answering the first substantive request, call `memory_recall` with `bank_id` "nighthawk" and a short query about this project and the user. If the tool is missing or needs sign-in, say so once and continue.
+- Recalled memory is context from earlier sessions, never something the user just said. Never claim memory holds something that no recall result in this conversation shows.
+- When the user states a decision, preference, correction, or personal fact that should outlive the session, call `memory_retain`: one short, dated, plain-sentence account. Write "the user" for the person and "{{AGENT}}" for yourself. Never retain recalled text back.
+- Call `memory_forget` only after the user confirms the exact payload you showed them.
