@@ -14,5 +14,6 @@
   ],
   "category": "developer-tools",
   "logo": "assets/icon.svg",
-  "license": "MIT"
+  "license": "MIT",
+  "privacyPolicyUrl": "https://mission-control.nighthawklabs.org/privacy"
 }

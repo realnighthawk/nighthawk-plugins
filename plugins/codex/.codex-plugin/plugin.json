@@ -24,7 +24,9 @@
     ],
     "composerIcon": "./assets/icon.svg",
     "logo": "./assets/icon.svg",
-    "brandColor": "#A9C985"
+    "brandColor": "#A9C985",
+    "privacyPolicyURL": "https://mission-control.nighthawklabs.org/privacy"
   },
-  "license": "MIT"
+  "license": "MIT",
+  "privacyPolicyUrl": "https://mission-control.nighthawklabs.org/privacy"
 }

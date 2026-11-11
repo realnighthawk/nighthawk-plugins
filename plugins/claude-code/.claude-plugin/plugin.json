@@ -13,5 +13,6 @@
     "memory",
     "context"
   ],
-  "license": "MIT"
+  "license": "MIT",
+  "privacyPolicyUrl": "https://mission-control.nighthawklabs.org/privacy"
 }
