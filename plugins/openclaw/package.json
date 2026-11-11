@@ -19,7 +19,8 @@
     "session-state.ts",
     "openclaw.plugin.json",
     "README.md",
-    "templates/"
+    "templates/",
+    "assets/"
   ],
   "peerDependencies": {
     "openclaw": ">=2026.3.0"

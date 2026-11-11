@@ -1,3 +1,5 @@
+<img src="assets/nighthawk.svg" width="96" align="right" alt="Nighthawk">
+
 # nighthawk-plugins
 
 Public client plugins for [agent-brain](https://github.com/realnighthawk/agent-brain) and the Agent Harness.

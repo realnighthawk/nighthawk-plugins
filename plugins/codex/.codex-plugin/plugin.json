@@ -1,16 +1,29 @@
 {
   "name": "nighthawk-memory",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Long-term memory for Codex through the Hippocampus MCP: recall before answering, retain what should outlive the session.",
-  "author": { "name": "Nighthawk Labs" },
+  "author": {
+    "name": "Nighthawk Labs"
+  },
   "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
-  "keywords": ["memory", "mcp", "hippocampus", "recall"],
+  "keywords": [
+    "memory",
+    "mcp",
+    "hippocampus",
+    "recall"
+  ],
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "Nighthawk Memory",
     "shortDescription": "Long-term memory across sessions",
     "category": "Productivity",
-    "capabilities": ["Read", "Write"]
+    "capabilities": [
+      "Read",
+      "Write"
+    ],
+    "composerIcon": "./assets/icon.svg",
+    "logo": "./assets/icon.svg",
+    "brandColor": "#A9C985"
   }
 }
