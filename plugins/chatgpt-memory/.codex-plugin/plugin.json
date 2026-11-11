@@ -1,6 +1,6 @@
 {
   "name": "mission-control-memory",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Long-term memory (Hippocampus) for ChatGPT: recall before answering, retain what should outlive the conversation.",
   "author": {
     "name": "Nighthawk Labs",
@@ -91,7 +91,8 @@
               "prompt": "Explain how binary search works in two sentences."
             }
           ]
-        }
+        },
+        "demo_recording_url": "https://www.youtube.com/watch?v=sTE4JolPBT4"
       }
     }
   }
