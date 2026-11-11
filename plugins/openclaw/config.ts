@@ -1,7 +1,6 @@
 export type MemoryPluginConfig = {
   token: string;
   agentId: string;
-  bank: string;
   autoRecall: boolean;
   autoCapture: boolean;
   recallMinPromptLength: number;
@@ -21,8 +20,6 @@ export function parseConfig(raw: Record<string, unknown> | undefined): MemoryPlu
     token,
     // One agent for this client. Memory records it as the speaker; it is not derived per session.
     agentId,
-    // Memory is one bank per agent, named by X-Agent-ID; the server ignores bank_id, so this is only the label the tools require.
-    bank: pickString(c.bank, process.env.NIGHTHAWK_BANK) ?? agentId,
     autoRecall: bool(c.autoRecall, true),
     autoCapture: bool(c.autoCapture, true),
     recallMinPromptLength: num(c.recallMinPromptLength, 12),

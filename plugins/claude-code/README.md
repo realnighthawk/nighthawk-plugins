@@ -36,12 +36,10 @@ interactive session first.)
 ## Memory bank
 
 The `hippocampus` MCP server needs no configuration — it authenticates through
-the router with OAuth like Reactor. The hooks read one optional setting to name
-the bank in their instructions:
+the router with OAuth like Reactor. Memory is one bank per agent, named by a fixed header:
 
 | Variable | Meaning |
 |---|---|
-| `NIGHTHAWK_BANK` (or `AGENT_BRAIN_BANK`) | A label only (default `claude-code`); the server ignores `bank_id`. |
 | (fixed) `X-Agent-ID: claude-code` | Sent on every call. Memory is one bank per agent: this header names the bank, so Claude Code's memory is its own, as in the Hindsight paper. |
 | `NIGHTHAWK_DISABLE_HOOKS` | Any value turns both signals into no-ops. |
 
@@ -53,7 +51,7 @@ over the OAuth connection Claude Code already holds.
 
 - **SessionStart** injects `<hippocampus-memory>`: call `memory_recall` before
   answering the first request; if the previous session spooled a slice, first
-  delegate each slice to the `memory-curator` subagent with the bank id, then
+  delegate each slice to the `memory-curator` subagent then
   delete the file.
 - **SessionEnd** spools a compact slice of the finished session (user and
   assistant text only, tool output dropped, last 120 KB) to the plugin data
@@ -70,7 +68,7 @@ slice the subagent retains is sent to the memory server.
 
 If the `agent-brain` plugin is also enabled, turn its hooks off
 (`AGENT_BRAIN_DISABLE_HOOKS=1`) or uninstall it — two memory plugins recall and
-retain twice against the same bank.
+retain twice against the same memory.
 
 ## Server prerequisites
 

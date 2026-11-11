@@ -31,15 +31,15 @@ describe("McpClient", () => {
   it("initializes once, then sends bearer, agent id and session on each call", async () => {
     const { fetchImpl, seen } = fakeServer({ results: [] });
     const client = new McpClient(cfg, fetchImpl);
-    await client.callTool("memory_recall", { bank_id: "nighthawk", query: "x" });
-    await client.callTool("memory_recall", { bank_id: "nighthawk", query: "y" });
+    await client.callTool("memory_recall", { query: "x" });
+    await client.callTool("memory_recall", { query: "y" });
     assert.equal(seen[0].url, "https://api.nighthawklabs.org/memory/mcp");
     assert.deepEqual(seen.map((s) => s.body.method), ["initialize", "notifications/initialized", "tools/call", "tools/call"]);
     const call = seen[3];
     assert.equal(call.headers.authorization, "Bearer tenant.mac");
     assert.equal(call.headers["x-agent-id"], "openclaw");
     assert.equal(call.headers["mcp-session-id"], "sess-1");
-    assert.deepEqual(call.body.params, { name: "memory_recall", arguments: { bank_id: "nighthawk", query: "y" } });
+    assert.deepEqual(call.body.params, { name: "memory_recall", arguments: { query: "y" } });
   });
 
   it("reads an SSE reply", async () => {
@@ -64,7 +64,7 @@ describe("hooks", () => {
     const { fetchImpl, seen } = fakeServer({ results: [{ text: "The user prefers short answers.", mention_time: "2026-11-01T00:00:00Z" }] });
     const out = await createRecallHook({ logger }, cfg, new McpClient(cfg, fetchImpl))({ prompt: "how should you answer me?", sessionKey: "s1" });
     assert.match(out.prependContext, /The user prefers short answers\. \(2026-11-01\)/);
-    assert.equal(seen.at(-1).body.params.arguments.bank_id, "openclaw");
+    assert.deepEqual(Object.keys(seen.at(-1).body.params.arguments), ["query"], "no bank is sent");
   });
 
   it("recall fails open", async () => {

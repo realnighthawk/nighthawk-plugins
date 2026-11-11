@@ -5,8 +5,6 @@ argument-hint: <person, project, or fact to forget>
 
 Target: $ARGUMENTS
 
-Bank: !`printenv NIGHTHAWK_BANK || printenv AGENT_BRAIN_BANK || echo claude-code`
-
 1. `memory_recall` to find the exact payload text that holds this memory.
 2. Show the user each exact payload and what forgetting it would remove, then
    wait for an explicit yes in this conversation.

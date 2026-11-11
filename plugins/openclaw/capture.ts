@@ -19,7 +19,7 @@ export function createCaptureHook(api: PluginApi, cfg: MemoryPluginConfig, clien
     const reply = [...(ctx.messages ?? [])].reverse().find((m) => m.role === "assistant" && m.content?.trim())?.content?.trim() ?? "";
     const text = `user: ${prompt.slice(0, 1500)}${reply ? `\n\nassistant: ${reply.slice(0, 1500)}` : ""}`;
     try {
-      await client.callTool("memory_retain", { bank_id: cfg.bank, text, mention_time: new Date().toISOString() });
+      await client.callTool("memory_retain", { text, mention_time: new Date().toISOString() });
     } catch (err) {
       api.logger.warn(`nighthawk-memory: retain failed: ${String(err)}`);
     }

@@ -5,9 +5,7 @@ argument-hint: <topic or question>
 
 Question: $ARGUMENTS
 
-Bank: !`printenv NIGHTHAWK_BANK || printenv AGENT_BRAIN_BANK || echo claude-code`
-
-1. `memory_recall` with the bank and a tight query for the topic.
+1. `memory_recall` with a tight query for the topic.
 2. If the answer could equally live in a connected service (goals, tasks,
    trips, spending, FPL, Notion), also `search_tools` → `call_tool` on the
    Reactor hub.

@@ -40,12 +40,12 @@ never something the user just said.
 
 | Tool | Use it when |
 |---|---|
-| `memory_recall(bank_id, query)` | You need facts the injected block lacks. Reads only. |
-| `memory_retain(bank_id, text, mention_time?)` | The user says "remember this" — one short plain-sentence account from their side, dated. |
-| `memory_reflect(bank_id, entity_name, query)` | What is known about one person or project, with the ids it cites. |
-| `memory_forget(bank_id, text or payload_id)` | Only after the user confirms the exact payload you showed them. |
+| `memory_recall(query)` | You need facts the injected block lacks. Reads only. |
+| `memory_retain(text, mention_time?)` | The user says "remember this" — one short plain-sentence account from their side, dated. |
+| `memory_reflect(entity_name, query)` | What is known about one person or project, with the ids it cites. |
+| `memory_forget(text or payload_id)` | Only after the user confirms the exact payload you showed them. |
 
-`bank_id` is only a label (`$NIGHTHAWK_BANK`, default `claude-code`): the server ignores it, and your bank is your own, named by the `X-Agent-ID: claude-code` header.
+Your memory is your own bank, named by the `X-Agent-ID: claude-code` header; no tool takes a bank.
 
 Retain proactively: when the user states a decision, preference, correction,
 or personal fact that should outlive the session, call `memory_retain` without

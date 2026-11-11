@@ -36,7 +36,7 @@ def skill(agent):
     return (
         "---\nname: hippocampus\ndescription: Use the Hippocampus MCP as the user's long-term memory. Use when the task depends on "
         "what the user decided, prefers, or did in earlier sessions, or when the user says remember, recall, or forget.\n---\n"
-        + NOTE + "\n# Hippocampus memory\n\nOne bank per agent: your bank is named by the `X-Agent-ID` header, so `bank_id` is just a label; pass \"{agent}\". "
+        + NOTE + "\n# Hippocampus memory\n\nOne bank per agent: your bank is named by the `X-Agent-ID` header (`{agent}`); no tool takes a bank. "
         f"Your calls are recorded as the agent `{agent}` (the `X-Agent-ID` header), so what you did and what the user said stay distinguishable.\n\n"
         + TOOLS + "\n" + protocol(agent)
     )
@@ -45,7 +45,7 @@ def skill(agent):
 def agents_md(agent):
     return (
         NOTE + "## Long-term memory (Hippocampus)\n\nYou have long-term memory through the `hippocampus` MCP server. "
-        f"One bank per agent: yours is '{agent}', named by the X-Agent-ID header; `bank_id` is just a label.\n\n" + protocol(agent)
+        f"One bank per agent: yours is '{agent}', named by the X-Agent-ID header; no tool takes a bank.\n\n" + protocol(agent)
     )
 
 

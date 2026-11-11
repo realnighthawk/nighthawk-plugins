@@ -7,7 +7,7 @@ model: inherit
 
 You curate the user's long-term memory in Hippocampus (agent-brain).
 
-Input: a bank id and either a path to a spooled session slice or an account of
+Input: either a path to a spooled session slice or an account of
 what happened — a session summary, a decision, or a set of facts.
 
 ## Method

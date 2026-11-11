@@ -19,7 +19,7 @@ export function createRecallHook(api: PluginApi, cfg: MemoryPluginConfig, client
 
     const query = prompt.replace(/\s+/g, " ").slice(0, 500);
     try {
-      const block = formatRecallBlock(await client.callTool("memory_recall", { bank_id: cfg.bank, query }));
+      const block = formatRecallBlock(await client.callTool("memory_recall", { query }));
       return block ? { prependContext: block } : {};
     } catch (err) {
       api.logger.warn(`nighthawk-memory: recall failed: ${String(err)}`);

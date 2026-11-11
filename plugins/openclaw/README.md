@@ -9,7 +9,7 @@ OpenClaw plugin (`kind: "memory"`) for the Hippocampus memory MCP at `https://ap
 
 ## Identity
 
-Every request carries `X-Agent-ID: openclaw` (config `agentId`), so memory records OpenClaw as the speaker. It is one fixed agent, not derived per session. Memory is one bank per agent, named by that header; `bank_id` is ignored.
+Every request carries `X-Agent-ID: openclaw` (config `agentId`), so memory records OpenClaw as the speaker. It is one fixed agent, not derived per session. Memory is one bank per agent, named by that header; no call names a bank.
 
 ## Credential
 

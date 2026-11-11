@@ -17,7 +17,6 @@ describe("parseConfig", () => {
     assert.equal(MEMORY_MCP_URL, "https://api.nighthawklabs.org/memory/mcp");
     assert.equal("url" in c, false, "no url override");
     assert.equal(c.agentId, "openclaw");
-    assert.equal(c.bank, "openclaw");
     assert.equal(c.autoRecall, true);
   });
 });

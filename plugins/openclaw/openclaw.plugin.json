@@ -17,10 +17,6 @@
         "default": "openclaw",
         "description": "Sent as X-Agent-ID; memory records this agent as the speaker."
       },
-      "bank": {
-        "type": "string",
-        "description": "A label only: memory is one bank per agent, named by agentId."
-      },
       "autoRecall": {
         "type": "boolean",
         "default": true
