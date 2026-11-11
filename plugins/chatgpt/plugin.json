@@ -17,7 +17,8 @@
           "Remember that I prefer window seats on morning flights",
           "What did we decide about the Lisbon trip?",
           "Check my connected services for my spending this month"
-        ]
+        ],
+        "supportURL": "https://mission-control.nighthawklabs.org/support"
       }
     }
   }
