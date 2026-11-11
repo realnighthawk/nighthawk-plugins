@@ -53,6 +53,7 @@ TARGETS = {
     "plugins/cursor/rules/hippocampus.mdc": lambda: rule(CLIENTS["cursor"]),
     "plugins/cursor/skills/hippocampus/SKILL.md": lambda: skill(CLIENTS["cursor"]),
     "plugins/codex/AGENTS.md": lambda: agents_md(CLIENTS["codex"]),
+    "plugins/codex/skills/hippocampus/SKILL.md": lambda: skill(CLIENTS["codex"]),
 }
 
 URL = "https://api.nighthawklabs.org/memory/mcp"
@@ -60,6 +61,7 @@ URL = "https://api.nighthawklabs.org/memory/mcp"
 IDENTITY = {
     "plugins/cursor/mcp.json": "cursor",
     "plugins/codex/config.toml": "codex",
+    "plugins/codex/.mcp.json": "codex",
     "plugins/openclaw/config.ts": "openclaw",
     "plugins/claude-code/.mcp.json": "claude-code",
 }

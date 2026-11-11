@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "hippocampus": {
+      "type": "http",
+      "url": "https://api.nighthawklabs.org/memory/mcp",
+      "http_headers": { "X-Agent-ID": "codex" },
+      "startup_timeout_sec": 15,
+      "tool_timeout_sec": 60
+    }
+  }
+}
