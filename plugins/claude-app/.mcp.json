@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "hippocampus": {
+      "type": "http",
+      "url": "https://api.nighthawklabs.org/memory/mcp/claude-app"
+    },
+    "reactor": {
+      "type": "http",
+      "url": "https://api.nighthawklabs.org/hub/mcp"
+    }
+  }
+}

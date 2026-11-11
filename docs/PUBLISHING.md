@@ -20,6 +20,20 @@ Both servers are connectors in both apps: Hippocampus (memory) and Reactor (the 
 
 Add yourself in Claude: Settings, Connectors, Add custom connector, once per URL. The OAuth redirect `https://claude.ai/api/mcp/auth_callback` (and ChatGPT's) must be allowed on the Clerk application. Directory submission is separate and is one submission per server: Claude through the Claude.ai developer portal, ChatGPT through the plugin submission portal. Each needs the privacy policy URL (`https://mission-control.nighthawklabs.org/privacy`), a logo (`assets/mission-control.svg`), and tool hints, which both servers declare (memory in `agent-brain`, the hub in `infra/mcp-hub`). `call_tool` is declared destructive and open-world because it proxies arbitrary backend tools, so expect reviewers to ask about it.
 
+## Store listings: one "Mission Control" in each store
+
+One listing per store holds both servers and both skills. Each store also takes the two servers as separate connectors, which is why the listing points at the same URLs.
+
+| Store | Folder | Submit as |
+|---|---|---|
+| Claude directory | `plugins/claude-app` | Plugin bundle from this public repo (`claude plugin validate plugins/claude-app` passes), plus each server as an MCP connector so the two listings pair. No hooks or commands, because command hooks are held for a reviewer until the org is Verified. |
+| ChatGPT | `plugins/chatgpt` | ZIP of the folder (`cd plugins/chatgpt && zip -r ../mission-control-chatgpt.zip .`) uploaded at Plugins, Upload new or existing plugin. Declares both MCP servers in `mcp.json` and ships both skills. |
+
+Still to do before submitting to ChatGPT, none of which is in the repo:
+- `supportURL` and `termsOfServiceURL` in `plugins/chatgpt/plugin.json` (working HTTPS links; I have not invented them), and verified publisher identity.
+- OAuth settings for each server on the portal's MCPs step, and domain verification: serve the portal's token as plain text at `https://api.nighthawklabs.org/.well-known/openai-apps-challenge`.
+- Five positive and three negative test cases, a reviewer video, release notes, and a test account.
+
 ## Release
 
 Tag and create a GitHub release; there is no workflow:

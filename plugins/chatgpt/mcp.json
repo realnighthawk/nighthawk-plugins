@@ -1,0 +1,12 @@
+{
+  "mcpServers": {
+    "hippocampus": {
+      "type": "streamable-http",
+      "url": "https://api.nighthawklabs.org/memory/mcp/chatgpt"
+    },
+    "reactor": {
+      "type": "streamable-http",
+      "url": "https://api.nighthawklabs.org/hub/mcp"
+    }
+  }
+}

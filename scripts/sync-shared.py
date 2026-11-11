@@ -85,6 +85,11 @@ TARGETS = {
     "plugins/cursor/rules/reactor.mdc": reactor_rule,
     "plugins/claude-code/skills/reactor/SKILL.md": reactor_skill,
     "plugins/openclaw/skills/reactor/SKILL.md": reactor_skill,
+    "plugins/claude-app/skills/reactor/SKILL.md": reactor_skill,
+    "plugins/claude-app/skills/hippocampus/SKILL.md": lambda: skill("claude-app"),
+    "plugins/claude-app/assets/icon.svg": lambda: ICON("mission-control"),
+    "plugins/chatgpt/skills/reactor/SKILL.md": reactor_skill,
+    "plugins/chatgpt/skills/hippocampus/SKILL.md": lambda: skill("chatgpt"),
     "plugins/openclaw/skills/hippocampus/SKILL.md": lambda: skill("openclaw"),
 }
 
@@ -96,6 +101,8 @@ IDENTITY = {
     "plugins/codex/.mcp.json": "codex",
     "plugins/openclaw/config.ts": "openclaw",
     "plugins/claude-code/.mcp.json": "claude-code",
+    "plugins/claude-app/.mcp.json": "claude-app",
+    "plugins/chatgpt/mcp.json": "chatgpt",
 }
 wrong = []
 for path, agent in IDENTITY.items():
@@ -107,7 +114,7 @@ for path, agent in IDENTITY.items():
 
 HUB = "https://api.nighthawklabs.org/hub/mcp"
 # every client must register the hub, so Hippocampus and Reactor are available everywhere
-for path in ["plugins/cursor/mcp.json", "plugins/codex/.mcp.json", "plugins/codex/config.toml", "plugins/claude-code/.mcp.json", "plugins/openclaw/templates/openclaw.jsonc"]:
+for path in ["plugins/cursor/mcp.json", "plugins/codex/.mcp.json", "plugins/codex/config.toml", "plugins/claude-code/.mcp.json", "plugins/openclaw/templates/openclaw.jsonc", "plugins/claude-app/.mcp.json", "plugins/chatgpt/mcp.json"]:
     if HUB not in (ROOT / path).read_text():
         wrong.append(f"{path}: reactor endpoint is not {HUB}")
 
