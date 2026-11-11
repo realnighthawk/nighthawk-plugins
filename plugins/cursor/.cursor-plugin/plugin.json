@@ -1,24 +1,9 @@
 {
-  "name": "agent-brain",
-  "displayName": "Agent Brain Memory",
-  "version": "0.1.3",
-  "description": "Hosted long-term memory for Cursor via SSE MCP, auto recall, and indexing hooks",
-  "author": {
-    "name": "Nighthawk Labs"
-  },
-  "keywords": ["memory", "mcp", "agent-brain", "recall"],
-  "category": "developer-tools",
-  "hooks": "templates/hooks.json",
-  "mcpServers": {
-    "agent-brain": {
-      "type": "http",
-      "url": "${NIGHTHAWK_MCP_URL}",
-      "envFile": "${HOME}/.cursor/agent-brain.env",
-      "headers": {
-        "X-API-Key": "${NIGHTHAWK_API_KEY}",
-        "X-Agent-ID": "${NIGHTHAWK_AGENT_ID}",
-        "X-Session-ID": "${NIGHTHAWK_SESSION_ID}"
-      }
-    }
-  }
+  "name": "nighthawk-memory",
+  "displayName": "Nighthawk Memory",
+  "version": "0.2.0",
+  "description": "Long-term memory for Cursor through the Hippocampus MCP: recall before answering, retain what should outlive the session.",
+  "author": { "name": "Nighthawk Labs" },
+  "keywords": ["memory", "mcp", "hippocampus", "recall"],
+  "category": "developer-tools"
 }

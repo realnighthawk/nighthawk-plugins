@@ -1,59 +1,20 @@
 {
-  "id": "agent-brain",
-  "version": "0.1.3",
+  "id": "nighthawk-memory",
+  "version": "0.2.0",
   "kind": "memory",
-  "name": "Agent Brain",
-  "description": "Unified long-term memory via hosted agent-brain MCP (auto recall + capture)",
+  "name": "Nighthawk Memory",
+  "description": "Hippocampus long-term memory over MCP: recall before each prompt, retain after each turn",
   "configSchema": {
     "type": "object",
     "additionalProperties": false,
     "properties": {
-      "url": {
-        "type": "string",
-        "description": "Hosted agent-brain SSE URL (e.g. https://memory.example.com/sse)"
-      },
-      "apiKey": {
-        "type": "string",
-        "description": "API key (maps to user_id on server). Use apiKey or jwt."
-      },
-      "jwt": {
-        "type": "string",
-        "description": "Bearer JWT (sub = user id). Use apiKey or jwt."
-      },
-      "agentId": {
-        "type": "string",
-        "description": "Fixed agent id (e.g. openclaw-alice). Overrides agentPrefix derivation."
-      },
-      "agentPrefix": {
-        "type": "string",
-        "default": "openclaw",
-        "description": "Prefix when deriving agent id from sessionKey (openclaw-alice-main)"
-      },
-      "autoRecall": {
-        "type": "boolean",
-        "default": true,
-        "description": "Inject memories before each prompt (before_prompt_build)"
-      },
-      "autoCapture": {
-        "type": "boolean",
-        "default": true,
-        "description": "Write durable facts after each agent run (agent_end)"
-      },
-      "recallLimit": {
-        "type": "number",
-        "default": 8,
-        "description": "Max memories per recall"
-      },
-      "recallMinPromptLength": {
-        "type": "number",
-        "default": 12,
-        "description": "Skip recall for very short prompts"
-      },
-      "mcpCallPath": {
-        "type": "string",
-        "description": "Path to mcp-call binary (default: <plugin>/bin/mcp-call)"
-      }
-    },
-    "required": ["url"]
+      "token": { "type": "string", "description": "Tenant MCP token (<tenant>.<hmac>), sent as a bearer. Or set NIGHTHAWK_MCP_TOKEN." },
+      "url": { "type": "string", "default": "https://api.nighthawklabs.org/memory/mcp" },
+      "agentId": { "type": "string", "default": "openclaw", "description": "Sent as X-Agent-ID; memory records this agent as the speaker." },
+      "bank": { "type": "string", "default": "nighthawk", "description": "A label only: the server pins one bank per user." },
+      "autoRecall": { "type": "boolean", "default": true },
+      "autoCapture": { "type": "boolean", "default": true },
+      "recallMinPromptLength": { "type": "number", "default": 12 }
+    }
   }
 }

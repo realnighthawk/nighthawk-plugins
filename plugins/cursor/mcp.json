@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "hippocampus": {
+      "url": "https://api.nighthawklabs.org/memory/mcp",
+      "headers": {
+        "X-Agent-ID": "cursor"
+      }
+    }
+  }
+}

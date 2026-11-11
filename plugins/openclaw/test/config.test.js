@@ -1,33 +1,26 @@
 import { describe, it } from "node:test";
 import assert from "node:assert/strict";
-import { parseConfig, resolveAgentId, resolveSessionId } from "../config.ts";
+import { parseConfig } from "../config.ts";
+
+for (const k of ["NIGHTHAWK_MCP_URL", "NIGHTHAWK_AGENT_ID", "NIGHTHAWK_BANK"]) delete process.env[k];
 
 describe("parseConfig", () => {
-  it("requires url", () => {
+  it("requires a token", () => {
+    const saved = process.env.NIGHTHAWK_MCP_TOKEN;
+    delete process.env.NIGHTHAWK_MCP_TOKEN;
     assert.throws(() => parseConfig({}));
+    if (saved) process.env.NIGHTHAWK_MCP_TOKEN = saved;
   });
 
-  it("parses defaults", () => {
-    const c = parseConfig({ url: "https://memory.example.com/sse", apiKey: "k" });
+  it("defaults to the hosted memory MCP, one agent, one bank label", () => {
+    const c = parseConfig({ token: "t.abc" });
+    assert.equal(c.url, "https://api.nighthawklabs.org/memory/mcp");
+    assert.equal(c.agentId, "openclaw");
+    assert.equal(c.bank, "nighthawk");
     assert.equal(c.autoRecall, true);
-    assert.equal(c.recallLimit, 8);
-  });
-});
-
-describe("resolveAgentId", () => {
-  it("uses fixed agentId", () => {
-    const c = parseConfig({ url: "http://x/sse", agentId: "openclaw-alice" });
-    assert.equal(resolveAgentId(c, "user:main"), "openclaw-alice");
   });
 
-  it("derives from sessionKey", () => {
-    const c = parseConfig({ url: "http://x/sse", agentPrefix: "openclaw" });
-    assert.equal(resolveAgentId(c, "user:main"), "openclaw-user-main");
-  });
-});
-
-describe("resolveSessionId", () => {
-  it("prefixes session key", () => {
-    assert.equal(resolveSessionId("abc"), "agent-brain-abc");
+  it("ignores unexpanded ${VAR} placeholders", () => {
+    assert.equal(parseConfig({ token: "t.abc", url: "${NIGHTHAWK_MCP_URL}" }).url, "https://api.nighthawklabs.org/memory/mcp");
   });
 });

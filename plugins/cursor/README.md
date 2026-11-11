@@ -1,105 +1,21 @@
-# Agent Brain — Cursor Plugin
+# Nighthawk Memory — Cursor plugin
 
-Client-only integration for agent-brain: **hosted MCP (SSE)** plus **Cursor hooks** for per-turn recall and indexing.
+Long-term memory for Cursor through the Hippocampus MCP (`https://api.nighthawklabs.org/memory/mcp`).
 
-No database, Docker, or `go run` in this package.
+| File | Does |
+|---|---|
+| `mcp.json` | Registers the `hippocampus` server. Sends `X-Agent-ID: cursor`, so memory records Cursor as the speaker. |
+| `rules/hippocampus.mdc` | Always-on rule: recall before the first answer, retain what should outlive the session. |
+| `skills/hippocampus/SKILL.md` | The tools and how to phrase a retain. |
 
-## Plugin layout
+## Sign in
 
-```
-plugins/cursor/
-├── .cursor-plugin/plugin.json   # manifest
-├── hooks/                       # sessionStart, recall, index hook commands
-├── skills/
-│   ├── replay-memory/SKILL.md   # transcript replay skill
-│   └── replay-memory/SKILL.md   # historical transcript → memory extraction
-├── scripts/
-│   └── extract_conversations.py # Phase 1 replay: --project NAME, --list-projects
-└── templates/                   # mcp.json, hooks.json templates
-```
+No key is stored. On first use Cursor opens the browser for OAuth (the same Clerk login as the Claude Code plugin). Approve it under Settings → MCP → hippocampus.
 
-## Prerequisites
+## Why a rule and not a hook
 
-- Hosted agent-brain SSE endpoint (e.g. `https://memory.example.com/sse`)
-- API key or JWT registered on the server
-- Agent id registered for your user in Postgres (`iam_service_accounts` via Memory Explorer **Settings**)
-- `jq` on PATH
+Cursor's `sessionStart` hook output is accepted, but injected context does not reliably reach the agent window (Cursor forum, 3.0.x). A rule always reaches it. The previous hook plugin called `memory_search`/`memory_write`, which no longer exist, so it was removed.
 
-## Install via Cursor `/add-plugin` (when published)
+## One bank
 
-In Cursor chat:
-
-```
-/add-plugin agent-brain
-```
-
-Then set credentials in `~/.cursor/agent-brain.env` (or run `install.sh` below). The plugin manifest lives in `plugins/cursor/.cursor-plugin/plugin.json`. Until the plugin is listed in the Cursor marketplace, use the install script or copy templates manually.
-
-## Install (recommended)
-
-From the agent-brain repository root:
-
-```bash
-# All Cursor workspaces (global ~/.cursor/)
-./plugins/cursor/install.sh --scope global \
-  --url https://agent-memory.nighthawklabs.org/mcp \
-  --agent-id cursor-agent \
-  --api-key YOUR_API_KEY
-
-# Or JWT instead of API key:
-./plugins/cursor/install.sh --scope global \
-  --url https://agent-memory.nighthawklabs.org/mcp \
-  --agent-id cursor-agent \
-  --jwt "$(go run ./scripts/mint-jwt.go -sub YOUR_USER_ID -secret YOUR_JWT_SECRET)"
-
-# Project-scoped install (./.cursor/)
-./plugins/cursor/install.sh --scope project --api-key YOUR_API_KEY
-```
-
-`--global` and `--project` are aliases for `--scope global` and `--scope project`.
-
-Remote one-liner:
-
-```bash
-curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/plugins/cursor/install.sh | bash -s -- \
-  --scope global --url https://agent-memory.nighthawklabs.org/mcp --agent-id cursor-you --api-key YOUR_KEY
-```
-
-The script removes any existing Agent Brain install, builds `mcp-call`, copies hooks and **local** bundled skills (`replay-memory`), writes `agent-brain.env`, merges `agent-brain` into `mcp.json`, and installs `hooks.json`.
-
-## Update
-
-Reinstall in place (credentials loaded from `agent-brain.env` if omitted):
-
-```bash
-./plugins/cursor/update.sh --scope global
-```
-
-Bundled plugin skills are **not** uploaded to agent-brain. After editing shared write fragments, run `./scripts/sync-agent-brain-skills.sh` then `plugins/cursor/update.sh`.
-
-Restart Cursor. Enable **Hooks** in Settings and check the Hooks output channel.
-
-### Manual install
-
-See [docs/runbooks/cursor-plugin.md](../../docs/runbooks/cursor-plugin.md) for copy-by-hand steps.
-
-## Agent id conventions
-
-| Install | Suggested `NIGHTHAWK_AGENT_ID` |
-|---------|--------------------------------|
-| Global | `cursor-<user>` |
-| Project | `cursor-<user>-<project>` |
-
-Per-conversation provenance uses **`X-Session-ID`** (set by `session-start` hook), not the agent id.
-
-## Tests
-
-```bash
-plugins/cursor/tests/run-hook-tests.sh
-```
-
-## Docs
-
-- Runbook: [docs/runbooks/cursor-plugin.md](../../docs/runbooks/cursor-plugin.md)
-- Spec: [docs/superpowers/specs/2026-06-04-cursor-plugin-design.md](../../docs/superpowers/specs/2026-06-04-cursor-plugin-design.md)
-- Plan: [docs/superpowers/plans/2026-06-04-cursor-plugin.md](../../docs/superpowers/plans/2026-06-04-cursor-plugin.md)
+The server pins every call to one bank, so a `bank_id` sent by this plugin is only a label.

@@ -1,31 +1,16 @@
-// Example ~/.openclaw/openclaw.json (or project config) — adjust paths and secrets.
+// Merge into ~/.openclaw/openclaw.json. Set NIGHTHAWK_MCP_TOKEN in the gateway's environment.
 {
   "plugins": {
-    "slots": {
-      "memory": "agent-brain"
-    },
+    "slots": { "memory": "nighthawk-memory" },
     "entries": {
-      "agent-brain": {
+      "nighthawk-memory": {
         "enabled": true,
         "config": {
-          "url": "${NIGHTHAWK_MCP_URL}",
-          "apiKey": "${NIGHTHAWK_API_KEY}",
-          "agentId": "openclaw-alice",
+          "token": "${NIGHTHAWK_MCP_TOKEN}",
+          "agentId": "openclaw",
           "autoRecall": true,
-          "autoCapture": true,
-          "recallLimit": 8
+          "autoCapture": true
         }
-      }
-    }
-  },
-  "mcp": {
-    "agent-brain": {
-      "type": "streamable-http",
-      "url": "${NIGHTHAWK_MCP_URL}",
-      "headers": {
-        "X-API-Key": "${NIGHTHAWK_API_KEY}",
-        "X-Agent-ID": "openclaw-alice",
-        "X-Session-ID": "openclaw-session"
       }
     }
   }

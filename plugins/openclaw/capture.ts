@@ -1,6 +1,5 @@
-import type { AgentBrainPluginConfig } from "./config.js";
-import { callMcpTool } from "./client.js";
-import { resolveAgentId } from "./config.js";
+import type { MemoryPluginConfig } from "./config.js";
+import type { McpClient } from "./client.js";
 import type { PluginApi } from "./recall.js";
 import { loadLastUserPrompt } from "./session-state.js";
 
@@ -10,51 +9,20 @@ export type AgentEndCtx = {
   messages?: Array<{ role?: string; content?: string }>;
 };
 
-export function createCaptureHook(api: PluginApi, cfg: AgentBrainPluginConfig) {
+/** Retains the finished turn as role-prefixed lines. The server records the caller (X-Agent-ID) as the speaker. */
+export function createCaptureHook(api: PluginApi, cfg: MemoryPluginConfig, client: McpClient) {
   return async (ctx: AgentEndCtx) => {
-    if (ctx.trigger === "memory") return {};
-    if (ctx.sessionKey?.includes(":memory-capture:")) return {};
+    if (ctx.trigger === "memory" || ctx.sessionKey?.includes(":memory-capture:")) return {};
+    const prompt = (await loadLastUserPrompt(ctx.sessionKey).catch(() => "")).trim();
+    if (!prompt) return {};
 
-    const lastPrompt = await loadLastUserPrompt(ctx.sessionKey).catch(() => "");
-    if (!lastPrompt.trim()) return {};
-
-    const agentId = resolveAgentId(cfg, ctx.sessionKey);
-    const eventId = `turn-${new Date().toISOString().replace(/[:.]/g, "-")}-${Date.now() % 100000}`;
-
-    const observations = (ctx.messages ?? [])
-      .filter((m) => m.role === "assistant" && m.content?.trim())
-      .slice(-2)
-      .map((m) => ({
-        type: "agent_response",
-        value: (m.content ?? "").slice(0, 1000),
-        confidence: 0.8,
-      }));
-
+    const reply = [...(ctx.messages ?? [])].reverse().find((m) => m.role === "assistant" && m.content?.trim())?.content?.trim() ?? "";
+    const text = `user: ${prompt.slice(0, 1500)}${reply ? `\n\nassistant: ${reply.slice(0, 1500)}` : ""}`;
     try {
-      await callMcpTool(
-        cfg,
-        api.rootDir,
-        "memory_write",
-        {
-          event_id: eventId,
-          type: "conversation",
-          trigger: {
-            type: "input",
-            content: lastPrompt.slice(0, 500),
-          },
-          participants: [
-            { id: "user", type: "self" },
-            { id: agentId, type: "agent" },
-          ],
-          observations,
-          confidence: 0.8,
-        },
-        ctx.sessionKey,
-      );
+      await client.callTool("memory_retain", { bank_id: cfg.bank, text, mention_time: new Date().toISOString() });
     } catch (err) {
-      api.logger.warn(`agent-brain: memory_write failed: ${String(err)}`);
+      api.logger.warn(`nighthawk-memory: retain failed: ${String(err)}`);
     }
-
     return {};
   };
 }

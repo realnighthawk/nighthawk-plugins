@@ -1,11 +1,13 @@
 {
-  "name": "agent-brain",
-  "version": "0.1.3",
-  "description": "AgentBrain unified memory for OpenClaw (hosted MCP + lifecycle hooks)",
+  "name": "nighthawk-memory",
+  "version": "0.2.0",
+  "description": "Nighthawk Hippocampus memory for OpenClaw (MCP over HTTP + lifecycle hooks)",
   "type": "module",
   "license": "MIT",
   "openclaw": {
-    "extensions": ["./index.ts"]
+    "extensions": [
+      "./index.ts"
+    ]
   },
   "files": [
     "index.ts",
@@ -15,7 +17,6 @@
     "capture.ts",
     "format.ts",
     "session-state.ts",
-    "session-skill.ts",
     "openclaw.plugin.json",
     "README.md",
     "templates/"

@@ -1,0 +1,7 @@
+# Add to ~/.codex/config.toml, then run: codex mcp login hippocampus
+[mcp_servers.hippocampus]
+url = "https://api.nighthawklabs.org/memory/mcp"
+auth = "oauth"
+http_headers = { "X-Agent-ID" = "codex" }
+startup_timeout_sec = 15
+tool_timeout_sec = 60

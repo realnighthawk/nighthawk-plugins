@@ -1,46 +1,35 @@
-export type AgentBrainPluginConfig = {
+export type MemoryPluginConfig = {
   url: string;
-  apiKey?: string;
-  jwt?: string;
-  agentId?: string;
-  agentPrefix: string;
+  token: string;
+  agentId: string;
+  bank: string;
   autoRecall: boolean;
   autoCapture: boolean;
-  recallLimit: number;
   recallMinPromptLength: number;
-  mcpCallPath?: string;
 };
 
-const defaults = {
-  agentPrefix: "openclaw",
-  autoRecall: true,
-  autoCapture: true,
-  recallLimit: 8,
-  recallMinPromptLength: 12,
-};
+const DEFAULT_URL = "https://api.nighthawklabs.org/memory/mcp";
 
-export function parseConfig(raw: Record<string, unknown> | undefined): AgentBrainPluginConfig {
+export function parseConfig(raw: Record<string, unknown> | undefined): MemoryPluginConfig {
   const c = raw ?? {};
-  const rawUrl = String(c.url ?? "").trim();
-  const url = (rawUrl && !rawUrl.startsWith("${") ? rawUrl : process.env.NIGHTHAWK_MCP_URL ?? "");
-  if (!url) {
-    throw new Error("agent-brain: plugins.entries.agent-brain.config.url (or NIGHTHAWK_MCP_URL) is required");
+  const token = pickString(c.token, process.env.NIGHTHAWK_MCP_TOKEN);
+  if (!token) {
+    throw new Error("nighthawk-memory: plugins.entries.nighthawk-memory.config.token (or NIGHTHAWK_MCP_TOKEN) is required");
   }
   return {
-    url,
-    apiKey: pickString(c.apiKey, process.env.NIGHTHAWK_API_KEY),
-    jwt: pickString(c.jwt, process.env.NIGHTHAWK_JWT),
-    agentId: pickString(c.agentId, process.env.NIGHTHAWK_AGENT_ID),
-    agentPrefix: pickString(c.agentPrefix, process.env.NIGHTHAWK_AGENT_PREFIX) ?? defaults.agentPrefix,
-    autoRecall: bool(c.autoRecall, defaults.autoRecall),
-    autoCapture: bool(c.autoCapture, defaults.autoCapture),
-    recallLimit: num(c.recallLimit, defaults.recallLimit),
-    recallMinPromptLength: num(c.recallMinPromptLength, defaults.recallMinPromptLength),
-    mcpCallPath: pickString(c.mcpCallPath, process.env.NIGHTHAWK_MCP_CALL),
+    url: pickString(c.url, process.env.NIGHTHAWK_MCP_URL) ?? DEFAULT_URL,
+    token,
+    // One agent for this client. Memory records it as the speaker; it is not derived per session.
+    agentId: pickString(c.agentId, process.env.NIGHTHAWK_AGENT_ID) ?? "openclaw",
+    // The server pins the bank, so this is only a label the tools require.
+    bank: pickString(c.bank, process.env.NIGHTHAWK_BANK) ?? "nighthawk",
+    autoRecall: bool(c.autoRecall, true),
+    autoCapture: bool(c.autoCapture, true),
+    recallMinPromptLength: num(c.recallMinPromptLength, 12),
   };
 }
 
-function pickString(...vals: (unknown | undefined)[]): string | undefined {
+function pickString(...vals: unknown[]): string | undefined {
   for (const v of vals) {
     if (typeof v === "string") {
       const s = v.trim();
@@ -56,19 +45,4 @@ function bool(v: unknown, d: boolean): boolean {
 
 function num(v: unknown, d: number): number {
   return typeof v === "number" && !Number.isNaN(v) ? v : d;
-}
-
-/** Agent scope: fixed agentId or openclaw-<prefix>-<session-slug> */
-export function resolveAgentId(cfg: AgentBrainPluginConfig, sessionKey?: string): string {
-  if (cfg.agentId) return cfg.agentId;
-  if (sessionKey) {
-    const slug = sessionKey.replace(/[^a-zA-Z0-9]+/g, "-").replace(/^-|-$/g, "");
-    return `${cfg.agentPrefix}-${slug}`;
-  }
-  return cfg.agentPrefix;
-}
-
-export function resolveSessionId(sessionKey?: string): string {
-  if (sessionKey) return `agent-brain-${sessionKey}`;
-  return `agent-brain-${Date.now()}`;
 }
