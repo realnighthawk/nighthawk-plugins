@@ -1,7 +1,7 @@
 {
   "name": "mission-control",
   "displayName": "Mission Control",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Long-term memory (Hippocampus) and the user's connected services (Reactor) for Claude: recall before answering, retain what should outlive the conversation, and find a connected tool before concluding one is missing.",
   "author": {
     "name": "Nighthawk Labs"

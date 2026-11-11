@@ -91,7 +91,6 @@ TARGETS = {
     "plugins/openclaw/skills/reactor/SKILL.md": reactor_skill,
     "plugins/claude-app/skills/reactor/SKILL.md": reactor_skill,
     "plugins/claude-app/skills/hippocampus/SKILL.md": lambda: skill("claude-app"),
-    "plugins/claude-app/assets/icon.svg": lambda: ICON("mission-control"),
     "assets/mission-control.png": PNG,
     "plugins/claude-app/assets/icon.png": PNG,
     "plugins/chatgpt/assets/logo.png": PNG,
