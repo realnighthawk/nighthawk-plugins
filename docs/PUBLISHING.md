@@ -30,7 +30,7 @@ One listing per store holds both servers and both skills. Each store also takes 
 | ChatGPT | `plugins/chatgpt` | ZIP of the folder (`cd plugins/chatgpt && zip -r ../mission-control-chatgpt.zip .`) uploaded at Plugins, Upload new or existing plugin. Declares both MCP servers in `mcp.json` and ships both skills. |
 
 Still to do before submitting to ChatGPT, none of which is in the repo:
-- `termsOfServiceURL` in `plugins/chatgpt/plugin.json` (a working HTTPS link), and verified publisher identity. `supportURL` is `https://mission-control.nighthawklabs.org/support`.
+- Verified publisher identity. `supportURL` and `termsOfServiceURL` are set in `plugins/chatgpt/plugin.json` (`/support` and `/terms` on mission-control.nighthawklabs.org).
 - OAuth settings for each server on the portal's MCPs step, and domain verification: serve the portal's token as plain text at `https://api.nighthawklabs.org/.well-known/openai-apps-challenge`.
 - Five positive and three negative test cases, a reviewer video, release notes, and a test account.
 
