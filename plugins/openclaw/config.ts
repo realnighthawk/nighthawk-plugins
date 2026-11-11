@@ -1,5 +1,4 @@
 export type MemoryPluginConfig = {
-  url: string;
   token: string;
   agentId: string;
   bank: string;
@@ -8,7 +7,8 @@ export type MemoryPluginConfig = {
   recallMinPromptLength: number;
 };
 
-const DEFAULT_URL = "https://api.nighthawklabs.org/memory/mcp";
+/** Fixed, like the Claude Code plugin's .mcp.json: not configurable, so it cannot point at a stale or wrong server. */
+export const MEMORY_MCP_URL = "https://api.nighthawklabs.org/memory/mcp";
 
 export function parseConfig(raw: Record<string, unknown> | undefined): MemoryPluginConfig {
   const c = raw ?? {};
@@ -17,7 +17,6 @@ export function parseConfig(raw: Record<string, unknown> | undefined): MemoryPlu
     throw new Error("nighthawk-memory: plugins.entries.nighthawk-memory.config.token (or NIGHTHAWK_MCP_TOKEN) is required");
   }
   return {
-    url: pickString(c.url, process.env.NIGHTHAWK_MCP_URL) ?? DEFAULT_URL,
     token,
     // One agent for this client. Memory records it as the speaker; it is not derived per session.
     agentId: pickString(c.agentId, process.env.NIGHTHAWK_AGENT_ID) ?? "openclaw",

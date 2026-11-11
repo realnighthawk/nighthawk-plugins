@@ -1,6 +1,6 @@
 # Nighthawk Memory — OpenClaw plugin
 
-OpenClaw plugin (`kind: "memory"`) for the Hippocampus memory MCP at `https://api.nighthawklabs.org/memory/mcp`. It talks to the server directly over HTTP; there is no helper binary.
+OpenClaw plugin (`kind: "memory"`) for the Hippocampus memory MCP at `https://api.nighthawklabs.org/memory/mcp`. The endpoint is fixed in the code, as in the Claude Code plugin; there is no `url` setting. It talks to the server directly over HTTP; there is no helper binary.
 
 | Hook | Does |
 |---|---|

@@ -8,13 +8,32 @@
     "type": "object",
     "additionalProperties": false,
     "properties": {
-      "token": { "type": "string", "description": "Tenant MCP token (<tenant>.<hmac>), sent as a bearer. Or set NIGHTHAWK_MCP_TOKEN." },
-      "url": { "type": "string", "default": "https://api.nighthawklabs.org/memory/mcp" },
-      "agentId": { "type": "string", "default": "openclaw", "description": "Sent as X-Agent-ID; memory records this agent as the speaker." },
-      "bank": { "type": "string", "default": "nighthawk", "description": "A label only: the server pins one bank per user." },
-      "autoRecall": { "type": "boolean", "default": true },
-      "autoCapture": { "type": "boolean", "default": true },
-      "recallMinPromptLength": { "type": "number", "default": 12 }
+      "token": {
+        "type": "string",
+        "description": "Tenant MCP token (<tenant>.<hmac>), sent as a bearer. Or set NIGHTHAWK_MCP_TOKEN."
+      },
+      "agentId": {
+        "type": "string",
+        "default": "openclaw",
+        "description": "Sent as X-Agent-ID; memory records this agent as the speaker."
+      },
+      "bank": {
+        "type": "string",
+        "default": "nighthawk",
+        "description": "A label only: the server pins one bank per user."
+      },
+      "autoRecall": {
+        "type": "boolean",
+        "default": true
+      },
+      "autoCapture": {
+        "type": "boolean",
+        "default": true
+      },
+      "recallMinPromptLength": {
+        "type": "number",
+        "default": 12
+      }
     }
   }
 }

@@ -1,4 +1,4 @@
-import type { MemoryPluginConfig } from "./config.js";
+import { MEMORY_MCP_URL, type MemoryPluginConfig } from "./config.js";
 
 /** A minimal MCP streamable-HTTP client: initialize once, then tools/call. No binary, no SDK. */
 export class McpClient {
@@ -21,7 +21,7 @@ export class McpClient {
       "x-agent-id": this.cfg.agentId,
     };
     if (this.session) headers["mcp-session-id"] = this.session;
-    const res = await this.fetchImpl(this.cfg.url, { method: "POST", headers, body: JSON.stringify(body), signal: AbortSignal.timeout(25_000) });
+    const res = await this.fetchImpl(MEMORY_MCP_URL, { method: "POST", headers, body: JSON.stringify(body), signal: AbortSignal.timeout(25_000) });
     if (!res.ok) throw new Error(`memory MCP ${res.status}: ${(await res.text()).slice(0, 200)}`);
     return res;
   }

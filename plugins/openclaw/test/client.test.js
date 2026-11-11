@@ -7,7 +7,7 @@ import { createRecallHook } from "../recall.ts";
 import { parseConfig } from "../config.ts";
 
 for (const k of ["NIGHTHAWK_MCP_URL", "NIGHTHAWK_AGENT_ID", "NIGHTHAWK_BANK"]) delete process.env[k];
-const cfg = parseConfig({ token: "tenant.mac", url: "http://memory.test/mcp" });
+const cfg = parseConfig({ token: "tenant.mac" });
 const logger = { info() {}, warn() {} };
 
 /** A fake MCP server: records every request, answers initialize (with a session id), tools/call as JSON or SSE. */
@@ -33,6 +33,7 @@ describe("McpClient", () => {
     const client = new McpClient(cfg, fetchImpl);
     await client.callTool("memory_recall", { bank_id: "nighthawk", query: "x" });
     await client.callTool("memory_recall", { bank_id: "nighthawk", query: "y" });
+    assert.equal(seen[0].url, "https://api.nighthawklabs.org/memory/mcp");
     assert.deepEqual(seen.map((s) => s.body.method), ["initialize", "notifications/initialized", "tools/call", "tools/call"]);
     const call = seen[3];
     assert.equal(call.headers.authorization, "Bearer tenant.mac");
