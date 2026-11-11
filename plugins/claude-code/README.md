@@ -9,7 +9,7 @@ commands, two subagents, and the memory hooks.
 | `hippocampus` MCP | The harness's long-term memory (agent-brain) at `https://api.nighthawklabs.org/memory/mcp`, through the router with the same native MCP OAuth as Reactor: `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. No API key in the client config. |
 | `hippocampus` skill | Tool-belt + memory layer instructions: search before guessing, exact schemas, the source table, memory-write rules. Loads automatically for personal-data and connected-service tasks. |
 | Hooks | Signal-only scripts: `SessionStart` tells the agent to recall (and to retain any slice the last session spooled); `SessionEnd` spools a compact slice of the session. The agent makes every MCP call itself over its OAuth connection — no key, no network call in the hooks. |
-| Commands | `/mission-control:remember`, `/mission-control:recall`, `/mission-control:forget` (confirms first), `/mission-control:tools`. |
+| Commands | `/mission-control:hippocampus:remember`, `/mission-control:hippocampus:recall`, `/mission-control:hippocampus:forget` (confirms first), `/mission-control:reactor:tools`. |
 | Agents | `hub-researcher` (read-only research across the hub), `memory-curator` (turns finished work into retained memory). |
 
 ## Install
@@ -61,7 +61,7 @@ over the OAuth connection Claude Code already holds.
 
 Retention is also skill-driven during a session: the skill tells the agent to
 call `memory_retain` when the user states a durable decision, preference,
-correction, or personal fact, and `/mission-control:remember` retains on demand.
+correction, or personal fact, and `/mission-control:hippocampus:remember` retains on demand.
 
 The spool is plain text on this machine, never uploaded; only the compacted
 slice the subagent retains is sent to the memory server.

@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "mission-control",
-      "version": "0.10.0",
+      "version": "0.10.1",
       "source": "./plugins/claude-code",
       "description": "Agent Harness tools and memory: connected services through the Hippocampus hub, long-term memory with automatic recall/retain hooks, commands, and subagents.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",

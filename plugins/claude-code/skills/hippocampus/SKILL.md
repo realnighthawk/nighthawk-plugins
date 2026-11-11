@@ -55,8 +55,8 @@ recall or reflect result in this conversation shows.
 
 ## Commands and agents
 
-- `/mission-control:remember <fact>`, `/mission-control:recall <topic>`,
-  `/mission-control:forget <topic>` (confirms first), `/mission-control:tools <capability>`.
+- `/mission-control:hippocampus:remember <fact>`, `/mission-control:hippocampus:recall <topic>`,
+  `/mission-control:hippocampus:forget <topic>` (confirms first), `/mission-control:reactor:tools <capability>`.
 - `hub-researcher` — read-only research across Reactor, delegated so raw tool
   output stays out of the main conversation.
 - `memory-curator` — turns a finished piece of work into retained memories.
