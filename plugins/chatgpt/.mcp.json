@@ -1,0 +1,6 @@
+{
+  "mcpServers": {
+    "hippocampus": { "url": "https://api.nighthawklabs.org/memory/mcp/chatgpt" },
+    "reactor": { "url": "https://api.nighthawklabs.org/hub/mcp" }
+  }
+}

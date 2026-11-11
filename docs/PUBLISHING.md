@@ -27,7 +27,7 @@ One listing per store holds both servers and both skills. Each store also takes 
 | Store | Folder | Submit as |
 |---|---|---|
 | Claude directory | `plugins/claude-app` | Plugin bundle from this public repo (`claude plugin validate plugins/claude-app` passes), plus each server as an MCP connector so the two listings pair. No hooks or commands, because command hooks are held for a reviewer until the org is Verified. |
-| ChatGPT | `plugins/chatgpt` | ZIP of the folder (`cd plugins/chatgpt && zip -r ../mission-control-chatgpt.zip .`) uploaded at Plugins, Upload new or existing plugin. Declares both MCP servers in `mcp.json` and ships both skills. |
+| ChatGPT | `plugins/chatgpt` | ZIP of the folder (`cd plugins/chatgpt && zip -r ../mission-control-chatgpt.zip .`) uploaded at Plugins, Upload new or existing plugin. Uses the Codex package layout the portal expects (`.codex-plugin/plugin.json`, `.mcp.json`, `skills/`, `assets/`); a root `plugin.json` is rejected. Declares both MCP servers and ships both skills. The portal docs say a plugin can declare several servers but only one can be connected, so check whether both are usable in one listing. |
 
 Still to do before submitting to ChatGPT, none of which is in the repo:
 - Verified publisher identity. `supportURL` and `termsOfServiceURL` are set in `plugins/chatgpt/plugin.json` (`/support` and `/terms` on mission-control.nighthawklabs.org).
