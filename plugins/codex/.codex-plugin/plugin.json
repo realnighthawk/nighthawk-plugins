@@ -1,6 +1,6 @@
 {
   "name": "mission-control",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Hippocampus long-term memory and the Reactor tool hub for Codex: recall before answering, retain what should outlive the session, find a connected tool before concluding one is missing.",
   "author": {
     "name": "Nighthawk Labs"
@@ -25,7 +25,7 @@
       "Write"
     ],
     "composerIcon": "./assets/icon.svg",
-    "logo": "./assets/icon.svg",
+    "logo": "./assets/icon.png",
     "brandColor": "#A9C985",
     "privacyPolicyURL": "https://mission-control.nighthawklabs.org/privacy"
   },

@@ -70,6 +70,10 @@ def ICON(name):
     return (ROOT / f"shared/assets/{name}.svg").read_text()
 
 
+def PNG():
+    return (ROOT / "shared/assets/mission-control.png").read_bytes()
+
+
 TARGETS = {
     "plugins/cursor/rules/hippocampus.mdc": lambda: rule(CLIENTS["cursor"]),
     "plugins/cursor/skills/hippocampus/SKILL.md": lambda: skill(CLIENTS["cursor"]),
@@ -88,6 +92,13 @@ TARGETS = {
     "plugins/claude-app/skills/reactor/SKILL.md": reactor_skill,
     "plugins/claude-app/skills/hippocampus/SKILL.md": lambda: skill("claude-app"),
     "plugins/claude-app/assets/icon.svg": lambda: ICON("mission-control"),
+    "assets/mission-control.png": PNG,
+    "plugins/claude-app/assets/icon.png": PNG,
+    "plugins/chatgpt/assets/logo.png": PNG,
+    "plugins/codex/assets/icon.png": PNG,
+    "plugins/cursor/assets/icon.png": PNG,
+    "plugins/claude-code/assets/icon.png": PNG,
+    "plugins/openclaw/assets/icon.png": PNG,
     "plugins/chatgpt/skills/reactor/SKILL.md": reactor_skill,
     "plugins/chatgpt/skills/hippocampus/SKILL.md": lambda: skill("chatgpt"),
     "plugins/openclaw/skills/hippocampus/SKILL.md": lambda: skill("openclaw"),
@@ -122,11 +133,11 @@ stale = []
 for path, render in TARGETS.items():
     out, want = ROOT / path, render()
     if "--check" in sys.argv:
-        if not out.exists() or out.read_text() != want:
+        if not out.exists() or (out.read_bytes() if isinstance(want, bytes) else out.read_text()) != want:
             stale.append(path)
     else:
         out.parent.mkdir(parents=True, exist_ok=True)
-        out.write_text(want)
+        out.write_bytes(want) if isinstance(want, bytes) else out.write_text(want)
 if wrong:
     print("inconsistent:", *wrong, sep="\n  ")
     sys.exit(1)
