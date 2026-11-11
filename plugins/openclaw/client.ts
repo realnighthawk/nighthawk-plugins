@@ -30,7 +30,7 @@ export class McpClient {
     this.ready ??= (async () => {
       const res = await this.post({
         jsonrpc: "2.0", id: ++this.id, method: "initialize",
-        params: { protocolVersion: "2025-03-26", capabilities: {}, clientInfo: { name: "nighthawk-openclaw", version: "0.2.0" } },
+        params: { protocolVersion: "2025-03-26", capabilities: {}, clientInfo: { name: "mission-control-openclaw", version: "0.2.0" } },
       });
       this.session = res.headers.get("mcp-session-id") ?? undefined;
       await parseRpc(res);

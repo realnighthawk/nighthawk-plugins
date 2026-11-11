@@ -1,12 +1,12 @@
-// Merge into ~/.openclaw/openclaw.json. Set NIGHTHAWK_MCP_TOKEN in the gateway's environment.
+// Merge into ~/.openclaw/openclaw.json. Set MISSION_CONTROL_MCP_TOKEN in the gateway's environment.
 {
   "plugins": {
-    "slots": { "memory": "nighthawk-memory" },
+    "slots": { "memory": "mission-control" },
     "entries": {
-      "nighthawk-memory": {
+      "mission-control": {
         "enabled": true,
         "config": {
-          "token": "${NIGHTHAWK_MCP_TOKEN}",
+          "token": "${MISSION_CONTROL_MCP_TOKEN}",
           "agentId": "openclaw",
           "autoRecall": true,
           "autoCapture": true

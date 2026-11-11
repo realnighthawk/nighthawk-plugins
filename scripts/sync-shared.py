@@ -56,11 +56,11 @@ def ICON(name):
 TARGETS = {
     "plugins/cursor/rules/hippocampus.mdc": lambda: rule(CLIENTS["cursor"]),
     "plugins/cursor/skills/hippocampus/SKILL.md": lambda: skill(CLIENTS["cursor"]),
-    "assets/nighthawk.svg": lambda: ICON("nighthawk"),
-    "plugins/claude-code/assets/icon.svg": lambda: ICON("nighthawk"),
-    "plugins/codex/assets/icon.svg": lambda: ICON("nighthawk"),
-    "plugins/cursor/assets/icon.svg": lambda: ICON("nighthawk"),
-    "plugins/openclaw/assets/icon.svg": lambda: ICON("nighthawk"),
+    "assets/mission-control.svg": lambda: ICON("mission-control"),
+    "plugins/claude-code/assets/icon.svg": lambda: ICON("mission-control"),
+    "plugins/codex/assets/icon.svg": lambda: ICON("mission-control"),
+    "plugins/cursor/assets/icon.svg": lambda: ICON("mission-control"),
+    "plugins/openclaw/assets/icon.svg": lambda: ICON("mission-control"),
     "plugins/codex/AGENTS.md": lambda: agents_md(CLIENTS["codex"]),
     "plugins/codex/skills/hippocampus/SKILL.md": lambda: skill(CLIENTS["codex"]),
 }

@@ -1,4 +1,4 @@
-# Nighthawk Memory — OpenClaw plugin
+# Mission Control — OpenClaw plugin
 
 OpenClaw plugin (`kind: "memory"`) for the Hippocampus memory MCP at `https://api.nighthawklabs.org/memory/mcp`. The endpoint is fixed in the code, as in the Claude Code plugin; there is no `url` setting. It talks to the server directly over HTTP; there is no helper binary.
 
@@ -13,7 +13,7 @@ Every request carries `X-Agent-ID: openclaw` (config `agentId`), so memory recor
 
 ## Credential
 
-A tenant MCP token, `<tenant>.<hmac>`, sent as `Authorization: Bearer`. Mint it from the router's `MCP_TOKEN_SECRET`, then set `NIGHTHAWK_MCP_TOKEN` in the gateway's environment. OpenClaw's plugin API has no OAuth flow for a plugin to use, so this plugin uses the static token. (The Cursor and Codex plugins sign in with OAuth.)
+A tenant MCP token, `<tenant>.<hmac>`, sent as `Authorization: Bearer`. Mint it from the router's `MCP_TOKEN_SECRET`, then set `MISSION_CONTROL_MCP_TOKEN` in the gateway's environment. OpenClaw's plugin API has no OAuth flow for a plugin to use, so this plugin uses the static token. (The Cursor and Codex plugins sign in with OAuth.)
 
 ## Install
 
@@ -21,7 +21,7 @@ A tenant MCP token, `<tenant>.<hmac>`, sent as `Authorization: Bearer`. Mint it 
 openclaw plugins install --link ./plugins/openclaw
 ```
 
-Merge `templates/openclaw.jsonc` into `~/.openclaw/openclaw.json`, set `NIGHTHAWK_MCP_TOKEN`, restart the gateway.
+Merge `templates/openclaw.jsonc` into `~/.openclaw/openclaw.json`, set `MISSION_CONTROL_MCP_TOKEN`, restart the gateway.
 
 ## Tests
 

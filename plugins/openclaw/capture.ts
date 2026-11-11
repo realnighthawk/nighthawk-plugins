@@ -21,7 +21,7 @@ export function createCaptureHook(api: PluginApi, cfg: MemoryPluginConfig, clien
     try {
       await client.callTool("memory_retain", { text, mention_time: new Date().toISOString() });
     } catch (err) {
-      api.logger.warn(`nighthawk-memory: retain failed: ${String(err)}`);
+      api.logger.warn(`mission-control: retain failed: ${String(err)}`);
     }
     return {};
   };

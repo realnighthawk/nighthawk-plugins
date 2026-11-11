@@ -22,7 +22,7 @@ export function createRecallHook(api: PluginApi, cfg: MemoryPluginConfig, client
       const block = formatRecallBlock(await client.callTool("memory_recall", { query }));
       return block ? { prependContext: block } : {};
     } catch (err) {
-      api.logger.warn(`nighthawk-memory: recall failed: ${String(err)}`);
+      api.logger.warn(`mission-control: recall failed: ${String(err)}`);
       return {};
     }
   };

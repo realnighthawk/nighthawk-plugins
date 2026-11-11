@@ -1,7 +1,7 @@
 {
-  "name": "nighthawk-memory",
+  "name": "mission-control",
   "version": "0.2.0",
-  "description": "Nighthawk Hippocampus memory for OpenClaw (MCP over HTTP + lifecycle hooks)",
+  "description": "Mission Control Hippocampus memory for OpenClaw (MCP over HTTP + lifecycle hooks)",
   "type": "module",
   "license": "MIT",
   "openclaw": {

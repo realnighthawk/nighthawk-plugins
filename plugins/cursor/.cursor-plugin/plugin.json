@@ -1,7 +1,7 @@
 {
-  "name": "nighthawk-memory",
-  "displayName": "Nighthawk Memory",
-  "version": "0.2.1",
+  "name": "mission-control",
+  "displayName": "Mission Control",
+  "version": "0.3.0",
   "description": "Long-term memory for Cursor through the Hippocampus MCP: recall before answering, retain what should outlive the session.",
   "author": {
     "name": "Nighthawk Labs"

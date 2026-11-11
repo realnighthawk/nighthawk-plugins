@@ -12,9 +12,9 @@ type OpenClawPluginApi = PluginApi & {
   on: (event: string, handler: (ctx: unknown) => Promise<unknown>) => void;
 };
 
-const nighthawkMemoryPlugin = {
-  id: "nighthawk-memory",
-  name: "Nighthawk Memory",
+const missionControlPlugin = {
+  id: "mission-control",
+  name: "Mission Control",
   description: "Hippocampus long-term memory with automatic recall and capture",
   kind: "memory" as const,
 
@@ -23,8 +23,8 @@ const nighthawkMemoryPlugin = {
     const client = new McpClient(cfg);
     if (cfg.autoRecall) api.on("before_prompt_build", createRecallHook(api, cfg, client) as never);
     if (cfg.autoCapture) api.on("agent_end", createCaptureHook(api, cfg, client) as never);
-    api.logger.info(`nighthawk-memory: agent ${cfg.agentId}, hooks: ${[cfg.autoRecall && "before_prompt_build", cfg.autoCapture && "agent_end"].filter(Boolean).join(", ") || "(none)"}`);
+    api.logger.info(`mission-control: agent ${cfg.agentId}, hooks: ${[cfg.autoRecall && "before_prompt_build", cfg.autoCapture && "agent_end"].filter(Boolean).join(", ") || "(none)"}`);
   },
 };
 
-export default nighthawkMemoryPlugin;
+export default missionControlPlugin;

@@ -2,14 +2,14 @@ import { describe, it } from "node:test";
 import assert from "node:assert/strict";
 import { parseConfig, MEMORY_MCP_URL } from "../config.ts";
 
-for (const k of ["NIGHTHAWK_MCP_URL", "NIGHTHAWK_AGENT_ID", "NIGHTHAWK_BANK"]) delete process.env[k];
+for (const k of ["MISSION_CONTROL_MCP_URL", "MISSION_CONTROL_AGENT_ID", "MISSION_CONTROL_BANK"]) delete process.env[k];
 
 describe("parseConfig", () => {
   it("requires a token", () => {
-    const saved = process.env.NIGHTHAWK_MCP_TOKEN;
-    delete process.env.NIGHTHAWK_MCP_TOKEN;
+    const saved = process.env.MISSION_CONTROL_MCP_TOKEN;
+    delete process.env.MISSION_CONTROL_MCP_TOKEN;
     assert.throws(() => parseConfig({}));
-    if (saved) process.env.NIGHTHAWK_MCP_TOKEN = saved;
+    if (saved) process.env.MISSION_CONTROL_MCP_TOKEN = saved;
   });
 
   it("defaults to one agent and one bank label; the endpoint is fixed", () => {

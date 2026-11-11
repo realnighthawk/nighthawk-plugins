@@ -1,7 +1,7 @@
 ---
 name: hub-researcher
 description: Research a question across the user's connected services — life goals and tasks, finance, maps, trips, wardrobe, FPL, Notion — through the Reactor hub, and return a compact answer with the evidence. Use when an answer needs several lookups or may span services, so the raw tool output stays out of the main conversation.
-tools: mcp__plugin_nighthawk_reactor__search_tools, mcp__plugin_nighthawk_reactor__call_tool, mcp__plugin_nighthawk_reactor__search_skills, mcp__plugin_nighthawk_reactor__get_skill
+tools: mcp__plugin_mission-control_reactor__search_tools, mcp__plugin_mission-control_reactor__call_tool, mcp__plugin_mission-control_reactor__search_skills, mcp__plugin_mission-control_reactor__get_skill
 model: inherit
 ---
 

@@ -2,7 +2,7 @@
 # SessionEnd: spool a compact slice of the finished session so the next
 # SessionStart can have the agent retain it through its own OAuth MCP
 # connection. No network, no credential. Fail-open.
-[ -n "${NIGHTHAWK_DISABLE_HOOKS:-}" ] && exit 0
+[ -n "${MISSION_CONTROL_DISABLE_HOOKS:-}" ] && exit 0
 
 event=$(cat)
 field() { printf '%s' "$event" | sed -n "s/.*\"$1\":[[:space:]]*\"\([^\"]*\)\".*/\1/p"; }
@@ -10,7 +10,7 @@ transcript=$(field transcript_path)
 session=$(field session_id)
 [ -n "$transcript" ] && [ -f "$transcript" ] || exit 0
 
-dir="${CLAUDE_PLUGIN_DATA:-$HOME/.cache/nighthawk}/retain-queue"
+dir="${CLAUDE_PLUGIN_DATA:-$HOME/.cache/mission-control}/retain-queue"
 mkdir -p "$dir" 2>/dev/null || exit 0
 out="$dir/$(printf '%s' "${session:-no-session}" | tr -c 'A-Za-z0-9_-' '_').txt"
 

@@ -7,11 +7,11 @@ description: Use the Hippocampus MCP as the user's living memory and the Reactor
 
 Two servers, one layer:
 
-- **Hippocampus** (`plugin:nighthawk:hippocampus`) — long-term memory:
+- **Hippocampus** (`plugin:mission-control:hippocampus`) — long-term memory:
   `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. The
   plugin's hooks recall relevant memory at session start and retain the session
   when it ends.
-- **Reactor** (`plugin:nighthawk:reactor`) — the tenant's connected-services
+- **Reactor** (`plugin:mission-control:reactor`) — the tenant's connected-services
   hub: four visible entry tools (`search_tools`, `call_tool`, `search_skills`,
   `get_skill`) with the user's entire connected ecosystem behind them — life
   goals and tasks, finance, maps, trips, wardrobe, FPL, Notion, the agents they
@@ -55,8 +55,8 @@ recall or reflect result in this conversation shows.
 
 ## Commands and agents
 
-- `/nighthawk:remember <fact>`, `/nighthawk:recall <topic>`,
-  `/nighthawk:forget <topic>` (confirms first), `/nighthawk:tools <capability>`.
+- `/mission-control:remember <fact>`, `/mission-control:recall <topic>`,
+  `/mission-control:forget <topic>` (confirms first), `/mission-control:tools <capability>`.
 - `hub-researcher` — read-only research across Reactor, delegated so raw tool
   output stays out of the main conversation.
 - `memory-curator` — turns a finished piece of work into retained memories.

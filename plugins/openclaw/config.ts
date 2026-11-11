@@ -11,11 +11,11 @@ export const MEMORY_MCP_URL = "https://api.nighthawklabs.org/memory/mcp";
 
 export function parseConfig(raw: Record<string, unknown> | undefined): MemoryPluginConfig {
   const c = raw ?? {};
-  const token = pickString(c.token, process.env.NIGHTHAWK_MCP_TOKEN);
+  const token = pickString(c.token, process.env.MISSION_CONTROL_MCP_TOKEN);
   if (!token) {
-    throw new Error("nighthawk-memory: plugins.entries.nighthawk-memory.config.token (or NIGHTHAWK_MCP_TOKEN) is required");
+    throw new Error("mission-control: plugins.entries.mission-control.config.token (or MISSION_CONTROL_MCP_TOKEN) is required");
   }
-  const agentId = pickString(c.agentId, process.env.NIGHTHAWK_AGENT_ID) ?? "openclaw";
+  const agentId = pickString(c.agentId, process.env.MISSION_CONTROL_AGENT_ID) ?? "openclaw";
   return {
     token,
     // One agent for this client. Memory records it as the speaker; it is not derived per session.

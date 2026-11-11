@@ -6,7 +6,7 @@ import { createCaptureHook } from "../capture.ts";
 import { createRecallHook } from "../recall.ts";
 import { parseConfig } from "../config.ts";
 
-for (const k of ["NIGHTHAWK_MCP_URL", "NIGHTHAWK_AGENT_ID", "NIGHTHAWK_BANK"]) delete process.env[k];
+for (const k of ["MISSION_CONTROL_MCP_URL", "MISSION_CONTROL_AGENT_ID", "MISSION_CONTROL_BANK"]) delete process.env[k];
 const cfg = parseConfig({ token: "tenant.mac" });
 const logger = { info() {}, warn() {} };
 

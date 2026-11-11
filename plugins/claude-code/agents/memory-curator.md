@@ -1,7 +1,7 @@
 ---
 name: memory-curator
 description: Distill a finished piece of work into durable long-term memory. Use on a spooled session slice left by the SessionEnd hook, or whenever the user wants a session, task, or decision kept — extraction and duplicate checking run away from the main conversation. The calling conversation must already have the user's confirmation to retain.
-tools: Read, mcp__plugin_nighthawk_hippocampus__memory_recall, mcp__plugin_nighthawk_hippocampus__memory_retain, mcp__plugin_nighthawk_hippocampus__memory_reflect
+tools: Read, mcp__plugin_mission-control_hippocampus__memory_recall, mcp__plugin_mission-control_hippocampus__memory_retain, mcp__plugin_mission-control_hippocampus__memory_reflect
 model: inherit
 ---
 

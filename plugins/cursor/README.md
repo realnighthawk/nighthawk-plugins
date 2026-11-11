@@ -1,4 +1,4 @@
-# Nighthawk Memory — Cursor plugin
+# Mission Control — Cursor plugin
 
 Long-term memory for Cursor through the Hippocampus MCP (`https://api.nighthawklabs.org/memory/mcp`).
 

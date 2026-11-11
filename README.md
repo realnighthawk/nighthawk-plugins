@@ -1,6 +1,6 @@
-<img src="assets/nighthawk.svg" width="96" align="right" alt="Nighthawk">
+<img src="assets/mission-control.svg" width="96" align="right" alt="Mission Control">
 
-# nighthawk-plugins
+# Mission Control plugins
 
 Public client plugins for [agent-brain](https://github.com/realnighthawk/agent-brain) and the Agent Harness.
 
@@ -8,8 +8,8 @@ Public client plugins for [agent-brain](https://github.com/realnighthawk/agent-b
 |--------|------|---------|
 | Cursor | [plugins/cursor/](plugins/cursor/README.md) | OAuth |
 | Codex | [plugins/codex/](plugins/codex/README.md) | OAuth (`codex mcp login hippocampus`) |
-| OpenClaw | [plugins/openclaw/](plugins/openclaw/README.md) | Tenant bearer token (`NIGHTHAWK_MCP_TOKEN`) |
-| Claude Code | [plugins/claude-code/](plugins/claude-code/README.md) | OAuth, `claude plugin install nighthawk@nighthawk-plugins --scope user` |
+| OpenClaw | [plugins/openclaw/](plugins/openclaw/README.md) | Tenant bearer token (`MISSION_CONTROL_MCP_TOKEN`) |
+| Claude Code | [plugins/claude-code/](plugins/claude-code/README.md) | OAuth, `claude plugin install mission-control@mission-control-plugins --scope user` |
 
 Each client sends its own `X-Agent-ID` (`cursor`, `codex`, `openclaw`, `claude-code`), so memory records who spoke. Memory is one bank per agent, named by that header; no call names a bank.
 

@@ -1,8 +1,8 @@
 {
-  "id": "nighthawk-memory",
+  "id": "mission-control",
   "version": "0.2.0",
   "kind": "memory",
-  "name": "Nighthawk Memory",
+  "name": "Mission Control",
   "description": "Hippocampus long-term memory over MCP: recall before each prompt, retain after each turn",
   "configSchema": {
     "type": "object",
@@ -10,7 +10,7 @@
     "properties": {
       "token": {
         "type": "string",
-        "description": "Tenant MCP token (<tenant>.<hmac>), sent as a bearer. Or set NIGHTHAWK_MCP_TOKEN."
+        "description": "Tenant MCP token (<tenant>.<hmac>), sent as a bearer. Or set MISSION_CONTROL_MCP_TOKEN."
       },
       "agentId": {
         "type": "string",

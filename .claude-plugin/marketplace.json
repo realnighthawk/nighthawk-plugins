@@ -1,15 +1,15 @@
 {
   "$schema": "https://anthropic.ai/claude-code/marketplace.schema.json",
-  "name": "nighthawk-plugins",
-  "description": "Nighthawk memory and tool plugins for Claude Code, Cursor, Codex, and OpenClaw.",
+  "name": "mission-control-plugins",
+  "description": "Mission Control memory and tool plugins for Claude Code, Cursor, Codex, and OpenClaw.",
   "owner": {
     "name": "Nighthawk Labs",
     "url": "https://github.com/realnighthawk/nighthawk-plugins"
   },
   "plugins": [
     {
-      "name": "nighthawk",
-      "version": "0.9.4",
+      "name": "mission-control",
+      "version": "0.10.0",
       "source": "./plugins/claude-code",
       "description": "Agent Harness tools and memory: connected services through the Hippocampus hub, long-term memory with automatic recall/retain hooks, commands, and subagents.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",

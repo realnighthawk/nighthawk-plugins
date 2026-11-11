@@ -1,4 +1,4 @@
-# Nighthawk Memory — Codex
+# Mission Control — Codex
 
 Long-term memory for Codex through the Hippocampus MCP, signed in with OAuth.
 
@@ -6,7 +6,7 @@ Long-term memory for Codex through the Hippocampus MCP, signed in with OAuth.
 
 ```sh
 codex plugin marketplace add realnighthawk/nighthawk-plugins   # leave sparse paths empty
-codex plugin add nighthawk-memory@nighthawk-plugins
+codex plugin add mission-control@mission-control-plugins
 codex mcp login hippocampus                                    # browser OAuth, no key stored
 ```
 

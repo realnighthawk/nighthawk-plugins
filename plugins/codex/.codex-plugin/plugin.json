@@ -1,6 +1,6 @@
 {
-  "name": "nighthawk-memory",
-  "version": "0.1.2",
+  "name": "mission-control",
+  "version": "0.2.0",
   "description": "Long-term memory for Codex through the Hippocampus MCP: recall before answering, retain what should outlive the session.",
   "author": {
     "name": "Nighthawk Labs"
@@ -15,7 +15,7 @@
   "skills": "./skills/",
   "mcpServers": "./.mcp.json",
   "interface": {
-    "displayName": "Nighthawk Memory",
+    "displayName": "Mission Control",
     "shortDescription": "Long-term memory across sessions",
     "category": "Productivity",
     "capabilities": [

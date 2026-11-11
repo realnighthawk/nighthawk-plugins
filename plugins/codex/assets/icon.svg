@@ -1,5 +1,5 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 320 320">
-  <title>Nighthawk</title>
+  <title>Mission Control</title>
   <defs>
     <radialGradient id="tile" cx="36%" cy="28%" r="90%">
       <stop offset="0" stop-color="#27332A"/><stop offset="0.55" stop-color="#151917"/><stop offset="1" stop-color="#0B0D0C"/>

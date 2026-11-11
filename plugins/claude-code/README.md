@@ -1,4 +1,4 @@
-# Nighthawk: Claude Code plugin
+# Mission Control: Claude Code plugin
 
 Connects Claude Code to the agent harness. Two MCP servers, one skill, four
 commands, two subagents, and the memory hooks.
@@ -9,25 +9,25 @@ commands, two subagents, and the memory hooks.
 | `hippocampus` MCP | The harness's long-term memory (agent-brain) at `https://api.nighthawklabs.org/memory/mcp`, through the router with the same native MCP OAuth as Reactor: `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. No API key in the client config. |
 | `hippocampus` skill | Tool-belt + memory layer instructions: search before guessing, exact schemas, the source table, memory-write rules. Loads automatically for personal-data and connected-service tasks. |
 | Hooks | Signal-only scripts: `SessionStart` tells the agent to recall (and to retain any slice the last session spooled); `SessionEnd` spools a compact slice of the session. The agent makes every MCP call itself over its OAuth connection — no key, no network call in the hooks. |
-| Commands | `/nighthawk:remember`, `/nighthawk:recall`, `/nighthawk:forget` (confirms first), `/nighthawk:tools`. |
+| Commands | `/mission-control:remember`, `/mission-control:recall`, `/mission-control:forget` (confirms first), `/mission-control:tools`. |
 | Agents | `hub-researcher` (read-only research across the hub), `memory-curator` (turns finished work into retained memory). |
 
 ## Install
 
 ```bash
 claude plugin marketplace add realnighthawk/nighthawk-plugins --scope user
-claude plugin install nighthawk@nighthawk-plugins --scope user
+claude plugin install mission-control@mission-control-plugins --scope user
 ```
 
-Then open `/mcp` and authenticate both `plugin:nighthawk:reactor` and
-`plugin:nighthawk:hippocampus` (one Clerk consent each, same account).
-Reactor's tools appear as `mcp__plugin_nighthawk_reactor__*`; the memory tools
-as `mcp__plugin_nighthawk_hippocampus__*`.
+Then open `/mcp` and authenticate both `plugin:mission-control:reactor` and
+`plugin:mission-control:hippocampus` (one Clerk consent each, same account).
+Reactor's tools appear as `mcp__plugin_mission-control_reactor__*`; the memory tools
+as `mcp__plugin_mission-control_hippocampus__*`.
 
 For SSH/headless sessions:
 
 ```bash
-claude mcp login plugin:nighthawk:hippocampus --no-browser
+claude mcp login plugin:mission-control:hippocampus --no-browser
 ```
 
 (`claude -p` and Agent SDK runs cannot complete OAuth; authenticate once in an
@@ -41,7 +41,7 @@ the router with OAuth like Reactor. Memory is one bank per agent, named by a fix
 | Variable | Meaning |
 |---|---|
 | (fixed) `X-Agent-ID: claude-code` | Sent on every call. Memory is one bank per agent: this header names the bank, so Claude Code's memory is its own, as in the Hindsight paper. |
-| `NIGHTHAWK_DISABLE_HOOKS` | Any value turns both signals into no-ops. |
+| `MISSION_CONTROL_DISABLE_HOOKS` | Any value turns both signals into no-ops. |
 
 ## Hooks
 
@@ -61,7 +61,7 @@ over the OAuth connection Claude Code already holds.
 
 Retention is also skill-driven during a session: the skill tells the agent to
 call `memory_retain` when the user states a durable decision, preference,
-correction, or personal fact, and `/nighthawk:remember` retains on demand.
+correction, or personal fact, and `/mission-control:remember` retains on demand.
 
 The spool is plain text on this machine, never uploaded; only the compacted
 slice the subagent retains is sent to the memory server.
@@ -84,7 +84,7 @@ Do not add an `Authorization` header or `headersHelper` for the `reactor` or
 ## Remove
 
 ```bash
-claude plugin uninstall nighthawk@nighthawk-plugins --scope user
+claude plugin uninstall mission-control@mission-control-plugins --scope user
 ```
 
 Uninstalling also removes the stored OAuth credentials for the endpoint.
