@@ -1,9 +1,17 @@
 {
   "name": "nighthawk",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "description": "Agent Harness: the tenant's connected tools and services, plus long-term memory with recall at session start and retain at session end.",
   "author": {
     "name": "Nighthawk Labs"
   },
-  "keywords": ["harness", "mcp", "agent", "tools", "memory", "context"]
+  "keywords": [
+    "harness",
+    "mcp",
+    "agent",
+    "tools",
+    "memory",
+    "context"
+  ],
+  "license": "MIT"
 }

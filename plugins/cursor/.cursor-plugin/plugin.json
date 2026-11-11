@@ -13,5 +13,6 @@
     "recall"
   ],
   "category": "developer-tools",
-  "logo": "assets/icon.svg"
+  "logo": "assets/icon.svg",
+  "license": "MIT"
 }

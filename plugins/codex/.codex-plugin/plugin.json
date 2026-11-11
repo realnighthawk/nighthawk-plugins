@@ -25,5 +25,6 @@
     "composerIcon": "./assets/icon.svg",
     "logo": "./assets/icon.svg",
     "brandColor": "#A9C985"
-  }
+  },
+  "license": "MIT"
 }
