@@ -1,6 +1,6 @@
 {
   "name": "mission-control-tools",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "The user's connected services (Reactor) for ChatGPT: search the hub for a tool before concluding a capability is missing.",
   "author": {
     "name": "Nighthawk Labs",
@@ -93,6 +93,9 @@
           ]
         },
         "demo_recording_url": "https://www.youtube.com/watch?v=sTE4JolPBT4"
+      },
+      "publication": {
+        "release_notes": "First release. ChatGPT can now use the services you've connected to Mission Control, such as maps, finance, trips and Notion. It finds the right tool for a request and calls it. You choose what's connected and can disconnect it anytime."
       }
     }
   }
