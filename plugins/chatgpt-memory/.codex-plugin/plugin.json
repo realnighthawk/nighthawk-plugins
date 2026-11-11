@@ -1,0 +1,98 @@
+{
+  "name": "mission-control-memory",
+  "version": "0.3.0",
+  "description": "Long-term memory (Hippocampus) for ChatGPT: recall before answering, retain what should outlive the conversation.",
+  "author": {
+    "name": "Nighthawk Labs",
+    "url": "https://mission-control.nighthawklabs.org"
+  },
+  "homepage": "https://mission-control.nighthawklabs.org",
+  "repository": "https://github.com/realnighthawk/nighthawk-plugins",
+  "license": "MIT",
+  "keywords": [
+    "memory",
+    "mcp",
+    "hippocampus",
+    "recall"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Mission Control Memory",
+    "shortDescription": "Long-term memory for ChatGPT",
+    "longDescription": "Mission Control Memory gives ChatGPT a long-term memory that survives between conversations. ChatGPT recalls what you decided or prefer before it answers, keeps decisions, preferences and corrections that should outlive the conversation, and forgets an entry only after you confirm exactly what will be removed. Memory is kept in your own Mission Control account, in a bank separate from your other agents.",
+    "capabilities": [
+      "Recall long-term memory",
+      "Retain decisions and preferences",
+      "Forget a confirmed entry"
+    ],
+    "defaultPrompt": [
+      "Remember that I prefer window seats on morning flights",
+      "What did we decide about the Lisbon trip?",
+      "What do you remember about my preferences?"
+    ],
+    "developerName": "Nighthawk Labs",
+    "category": "Productivity",
+    "websiteURL": "https://mission-control.nighthawklabs.org",
+    "supportURL": "https://mission-control.nighthawklabs.org/support",
+    "privacyPolicyURL": "https://mission-control.nighthawklabs.org/privacy",
+    "termsOfServiceURL": "https://mission-control.nighthawklabs.org/terms",
+    "brandColor": "#6F9253",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/logo.png"
+  },
+  "extensions": {
+    "com.openai": {
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Retain a stated preference",
+              "prompt": "Remember that I prefer window seats on morning flights.",
+              "tools_triggered": "memory_retain",
+              "expected_behavior": "ChatGPT calls memory_retain with one short, dated sentence about the user's seat preference and tells the user it was saved."
+            },
+            {
+              "description": "Recall a stored preference",
+              "prompt": "What do you remember about my seat preference when I fly?",
+              "tools_triggered": "memory_recall",
+              "expected_behavior": "ChatGPT calls memory_recall and answers that the user prefers window seats on morning flights, presented as recalled memory rather than something just said."
+            },
+            {
+              "description": "Use memory before a personalised answer",
+              "prompt": "Help me pack for a trip next week. Use what you already know about my preferences.",
+              "tools_triggered": "memory_recall",
+              "expected_behavior": "ChatGPT calls memory_recall first, then uses what it returns (for example the window-seat preference) in the packing advice, and says so if memory holds nothing relevant."
+            },
+            {
+              "description": "Summarise what is known about a person or project",
+              "prompt": "What do you know about the Lisbon trip? Summarise it.",
+              "tools_triggered": "memory_reflect",
+              "expected_behavior": "ChatGPT calls memory_reflect for the entity 'Lisbon trip' and summarises what memory holds, without claiming facts memory did not return."
+            },
+            {
+              "description": "Forget only after confirmation",
+              "prompt": "Forget what you have stored about my seat preference.",
+              "tools_triggered": "memory_recall, memory_forget",
+              "expected_behavior": "ChatGPT first shows the exact stored entry it would remove and asks for confirmation. Only after the user confirms does it call memory_forget; before that it deletes nothing."
+            }
+          ],
+          "negative": [
+            {
+              "description": "General knowledge needs no memory",
+              "prompt": "What is the capital of France?"
+            },
+            {
+              "description": "Creative writing needs no memory",
+              "prompt": "Write a four-line poem about autumn rain."
+            },
+            {
+              "description": "A coding question needs no memory",
+              "prompt": "Explain how binary search works in two sentences."
+            }
+          ]
+        }
+      }
+    }
+  }
+}

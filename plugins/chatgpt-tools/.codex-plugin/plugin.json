@@ -1,0 +1,98 @@
+{
+  "name": "mission-control-tools",
+  "version": "0.3.0",
+  "description": "The user's connected services (Reactor) for ChatGPT: search the hub for a tool before concluding a capability is missing.",
+  "author": {
+    "name": "Nighthawk Labs",
+    "url": "https://mission-control.nighthawklabs.org"
+  },
+  "homepage": "https://mission-control.nighthawklabs.org",
+  "repository": "https://github.com/realnighthawk/nighthawk-plugins",
+  "license": "MIT",
+  "keywords": [
+    "tools",
+    "mcp",
+    "reactor",
+    "hub"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Mission Control Tools",
+    "shortDescription": "Your connected services",
+    "longDescription": "Mission Control Tools lets ChatGPT reach the services you have connected to your Mission Control account, such as maps, finance, trips, tasks and Notion. ChatGPT searches your connected tools for what a request needs, shows what it found, and calls the matching tool, instead of telling you it cannot do something. You choose which services are connected, and you can disconnect any of them at any time.",
+    "capabilities": [
+      "Search connected tools",
+      "Call a connected service",
+      "Follow curated procedures"
+    ],
+    "defaultPrompt": [
+      "What can my connected services do for me?",
+      "Check my connected services for my spending this month",
+      "Get driving directions from home to the airport"
+    ],
+    "developerName": "Nighthawk Labs",
+    "category": "Productivity",
+    "websiteURL": "https://mission-control.nighthawklabs.org",
+    "supportURL": "https://mission-control.nighthawklabs.org/support",
+    "privacyPolicyURL": "https://mission-control.nighthawklabs.org/privacy",
+    "termsOfServiceURL": "https://mission-control.nighthawklabs.org/terms",
+    "brandColor": "#6F9253",
+    "composerIcon": "./assets/icon.png",
+    "logo": "./assets/logo.png"
+  },
+  "extensions": {
+    "com.openai": {
+      "review": {
+        "test_cases": {
+          "positive": [
+            {
+              "description": "Discover what tools exist",
+              "prompt": "What tools do I have connected for maps or directions?",
+              "tools_triggered": "search_tools",
+              "expected_behavior": "ChatGPT calls search_tools with a short capability query and lists the matching tools it found, naming the server and tool for each, without calling any of them."
+            },
+            {
+              "description": "Find and call a tool",
+              "prompt": "Get driving directions from my home to the airport using my connected services.",
+              "tools_triggered": "search_tools, call_tool",
+              "expected_behavior": "ChatGPT calls search_tools for a directions capability, then call_tool with the exact server, tool and arguments from the returned input_schema, and reports the route result."
+            },
+            {
+              "description": "Find a curated procedure",
+              "prompt": "Is there a curated procedure for planning a trip?",
+              "tools_triggered": "search_skills",
+              "expected_behavior": "ChatGPT calls search_skills and lists the matching procedures by name and description, or says plainly that none matched."
+            },
+            {
+              "description": "Load and follow a procedure",
+              "prompt": "Load the trip planning procedure and follow it for a weekend in Lisbon.",
+              "tools_triggered": "search_skills, get_skill",
+              "expected_behavior": "ChatGPT calls search_skills, then get_skill with the exact returned name, and follows the loaded procedure, calling further tools through call_tool only as the procedure directs."
+            },
+            {
+              "description": "Answer from a connected service",
+              "prompt": "Check my connected finance service and tell me what I spent on groceries this month.",
+              "tools_triggered": "search_tools, call_tool",
+              "expected_behavior": "ChatGPT searches for a finance capability, calls the matching tool, and reports the figure it returned, or says no finance service is connected if search finds none."
+            }
+          ],
+          "negative": [
+            {
+              "description": "General knowledge needs no tools",
+              "prompt": "What is 17 times 23?"
+            },
+            {
+              "description": "Translation needs no tools",
+              "prompt": "Translate 'good morning' into Spanish."
+            },
+            {
+              "description": "Small talk needs no tools",
+              "prompt": "Tell me a short joke about penguins."
+            }
+          ]
+        }
+      }
+    }
+  }
+}

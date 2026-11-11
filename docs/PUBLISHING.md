@@ -13,7 +13,7 @@ The plugins ship as files in this public repo. There are no binaries, packages o
 
 Both servers are connectors in both apps: Hippocampus (memory) and Reactor (the tool hub). Connectors send a URL and an OAuth token but no custom header, so each memory connector has its own URL and the router pins `X-Agent-ID` from the path. The hub needs no agent, so both apps share its URL.
 
-| Connector | Claude apps | ChatGPT | Agent / bank |
+| Connector | Claude apps | ChatGPT | `plugins/chatgpt-memory`, `plugins/chatgpt-tools` | Two plugins, "Mission Control Memory" and "Mission Control Tools", because review accepts test cases for one MCP server per plugin and only one server can be connected. ZIP each folder (`cd plugins/chatgpt-memory && zip -r ../mission-control-memory.zip .`) and upload at Plugins, Upload new or existing plugin. The layout is the Codex one the portal requires (`.codex-plugin/plugin.json`, `.mcp.json`, `skills/`, `assets/`); the five positive and three negative test cases are in the manifest under `extensions.com.openai.review.test_cases`. |
 |---|---|---|---|
 | Hippocampus | `https://api.nighthawklabs.org/memory/mcp/claude-app` | `https://api.nighthawklabs.org/memory/mcp/chatgpt` | `claude-app` / `chatgpt` |
 | Reactor | `https://api.nighthawklabs.org/hub/mcp` | `https://api.nighthawklabs.org/hub/mcp` | none |
@@ -29,7 +29,7 @@ One listing per store holds both servers and both skills. Each store also takes 
 | Claude directory | `plugins/claude-app` | Plugin bundle from this public repo (`claude plugin validate plugins/claude-app` passes), plus each server as an MCP connector so the two listings pair. No hooks or commands, because command hooks are held for a reviewer until the org is Verified. |
 | ChatGPT | `plugins/chatgpt` | ZIP of the folder (`cd plugins/chatgpt && zip -r ../mission-control-chatgpt.zip .`) uploaded at Plugins, Upload new or existing plugin. Uses the Codex package layout the portal expects (`.codex-plugin/plugin.json`, `.mcp.json`, `skills/`, `assets/`); a root `plugin.json` is rejected. Declares both MCP servers and ships both skills. The portal docs say a plugin can declare several servers but only one can be connected, so check whether both are usable in one listing. |
 
-Still to do before submitting to ChatGPT, none of which is in the repo:
+Still to do before submitting to ChatGPT, none of which is in the repo (the demo video URL goes in each manifest as `extensions.com.openai.review.demo_recording_url`):
 - Verified publisher identity. `supportURL` and `termsOfServiceURL` are set in `plugins/chatgpt/plugin.json` (`/support` and `/terms` on mission-control.nighthawklabs.org).
 - OAuth settings for each server on the portal's MCPs step, and domain verification: serve the portal's token as plain text at `https://api.nighthawklabs.org/.well-known/openai-apps-challenge`.
 - Five positive and three negative test cases, a reviewer video, release notes, and a test account.

@@ -93,14 +93,16 @@ TARGETS = {
     "plugins/claude-app/skills/hippocampus/SKILL.md": lambda: skill("claude-app"),
     "assets/mission-control.png": PNG,
     "plugins/claude-app/assets/icon.png": PNG,
-    "plugins/chatgpt/assets/logo.png": PNG,
-    "plugins/chatgpt/assets/icon.png": PNG,
+    "plugins/chatgpt-memory/assets/logo.png": PNG,
+    "plugins/chatgpt-memory/assets/icon.png": PNG,
+    "plugins/chatgpt-tools/assets/logo.png": PNG,
+    "plugins/chatgpt-tools/assets/icon.png": PNG,
     "plugins/codex/assets/icon.png": PNG,
     "plugins/cursor/assets/icon.png": PNG,
     "plugins/claude-code/assets/icon.png": PNG,
     "plugins/openclaw/assets/icon.png": PNG,
-    "plugins/chatgpt/skills/reactor/SKILL.md": reactor_skill,
-    "plugins/chatgpt/skills/hippocampus/SKILL.md": lambda: skill("chatgpt"),
+    "plugins/chatgpt-tools/skills/reactor/SKILL.md": reactor_skill,
+    "plugins/chatgpt-memory/skills/hippocampus/SKILL.md": lambda: skill("chatgpt"),
     "plugins/openclaw/skills/hippocampus/SKILL.md": lambda: skill("openclaw"),
 }
 
@@ -113,7 +115,7 @@ IDENTITY = {
     "plugins/openclaw/config.ts": "openclaw",
     "plugins/claude-code/.mcp.json": "claude-code",
     "plugins/claude-app/.mcp.json": "claude-app",
-    "plugins/chatgpt/.mcp.json": "chatgpt",
+    "plugins/chatgpt-memory/.mcp.json": "chatgpt",
 }
 wrong = []
 for path, agent in IDENTITY.items():
@@ -125,7 +127,7 @@ for path, agent in IDENTITY.items():
 
 HUB = "https://api.nighthawklabs.org/hub/mcp"
 # every client must register the hub, so Hippocampus and Reactor are available everywhere
-for path in ["plugins/cursor/mcp.json", "plugins/codex/.mcp.json", "plugins/codex/config.toml", "plugins/claude-code/.mcp.json", "plugins/openclaw/templates/openclaw.jsonc", "plugins/claude-app/.mcp.json", "plugins/chatgpt/.mcp.json"]:
+for path in ["plugins/cursor/mcp.json", "plugins/codex/.mcp.json", "plugins/codex/config.toml", "plugins/claude-code/.mcp.json", "plugins/openclaw/templates/openclaw.jsonc", "plugins/claude-app/.mcp.json", "plugins/chatgpt-tools/.mcp.json"]:
     if HUB not in (ROOT / path).read_text():
         wrong.append(f"{path}: reactor endpoint is not {HUB}")
 
