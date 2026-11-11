@@ -1,74 +1,20 @@
-# Publishing plugin artifacts
+# Publishing
 
-There is **no** npm package and **no** GitHub Packages (GHCR) publish for these plugins. Distribution works like this:
+The plugins ship as files in this public repo. Nothing is published to npm or GHCR.
 
-### Where files show up on GitHub
+| Plugin | How it reaches users |
+|---|---|
+| `nighthawk-claude-code` | Claude marketplace in `.claude-plugin/marketplace.json`; bump the version in both `plugin.json` and `marketplace.json`, or cached installs keep the old one |
+| `cursor` | Link or copy `plugins/cursor` into Cursor's local plugins folder |
+| `codex` | `sh plugins/codex/install.sh`, then `codex mcp login hippocampus` |
+| `openclaw` | `openclaw plugins install --link ./plugins/openclaw` |
+| `claude-code` (legacy) | Its hook binary, `agent-brain-hook`, is downloaded from the latest GitHub release |
 
-| Location | What you see | Used by install? |
-|----------|----------------|------------------|
-| **Actions → workflow run → Artifacts** | `mcp-call-binaries` zip from `upload-artifact` | No — CI/debug only, expires |
-| **Packages** (sidebar) | Nothing for this repo | No — workflow does not push here |
-| **Releases** (sidebar) | `mcp-call-*` binaries attached to tag `v*` | **Yes** — `scripts/fetch-mcp-call.sh` downloads from here |
+## Release
 
-If you only see **Artifacts** but not **Releases**, the run was probably **workflow_dispatch** (manual) or a branch push — release upload runs only when the workflow is triggered by a **`v*` tag push**.
-
-| Artifact | What it is | How it ships |
-|----------|------------|--------------|
-| **Plugin files** (hooks, templates) | Cursor / Claude / OpenClaw trees under `plugins/` | Public git repo + `curl \| bash` install scripts (`raw.githubusercontent.com/...`) |
-| **`mcp-call` binary** | Go CLI in `cmd/mcp-call` | **GitHub Release** assets on tag `v*` (see [.github/workflows/publish.yml](../.github/workflows/publish.yml)) |
-| **Cursor `/add-plugin`** | Marketplace listing | **Not published yet** — use `install.sh` until listed |
-
-## One-time: make the repo public
-
-Onboarding URLs in agent-brain / agent-web assume a **public** repo:
-
-`https://github.com/realnighthawk/nighthawk-plugins`
-
-If the repo is private, anonymous users get **404** on raw install scripts and release downloads. Settings → General → Change repository visibility → Public.
-
-## Publish `mcp-call` binaries
-
-1. Merge `main` with `.github/workflows/publish.yml` and `cmd/mcp-call/`.
-2. Tag and push (triggers the workflow):
-
-   ```bash
-   git tag -a v0.1.1 -m "mcp-call release"
-   git push origin v0.1.1
-   ```
-
-3. In GitHub: **Actions** → “Publish plugin artifacts” → confirm the run for the tag succeeded.
-4. In GitHub: **Releases** → open the tag → assets should include:
-   - `mcp-call-linux-amd64`, `mcp-call-linux-arm64`
-   - `mcp-call-darwin-amd64`, `mcp-call-darwin-arm64`
-   - `checksums.txt`
-
-5. Smoke-test download (replace arch as needed):
-
-   ```bash
-   curl -fsSL -o /tmp/mcp-call \
-     https://github.com/realnighthawk/nighthawk-plugins/releases/latest/download/mcp-call-darwin-arm64
-   chmod +x /tmp/mcp-call && /tmp/mcp-call --help 2>&1 | head -3
-   ```
-
-**Manual “Run workflow”** builds CI artifacts only; it does **not** create a Release. Always publish installable binaries with:
+Push a `v*` tag. The workflow in `.github/workflows/publish.yml` builds `agent-brain-hook` for linux/darwin amd64/arm64 plus `checksums.txt` and attaches them to the GitHub release for that tag.
 
 ```bash
-git tag -a v0.1.1 -m "mcp-call release"
-git push origin v0.1.1
+git tag -a v0.3.0 -m "v0.3.0"
+git push origin v0.3.0
 ```
-
-Then open **Releases** (not Packages), not the Actions artifact zip.
-
-## Re-publish the same version
-
-GitHub does not re-run tag workflows on the same tag name. Bump the patch version:
-
-```bash
-git tag -d v0.1.0 && git push origin :refs/tags/v0.1.0   # only if you need to replace
-git tag -a v0.1.1 -m "mcp-call release"
-git push origin v0.1.1
-```
-
-## Cursor marketplace (separate)
-
-`/add-plugin agent-brain` needs a Cursor marketplace submission for `plugins/cursor/.cursor-plugin/plugin.json`. That is independent of GitHub Releases.
