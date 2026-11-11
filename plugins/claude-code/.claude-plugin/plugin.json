@@ -1,9 +1,0 @@
-{
-  "name": "agent-brain",
-  "version": "0.2.0",
-  "description": "Long-term memory from the agent-brain MCP server: recall before prompts, retain finished parts of the session",
-  "author": {
-    "name": "AgentBrain"
-  },
-  "keywords": ["memory", "mcp", "agent-brain", "recall"]
-}

@@ -1,6 +1,6 @@
 # Publishing
 
-The plugins ship as files in this public repo. Nothing is published to npm or GHCR.
+The plugins ship as files in this public repo. There are no binaries, packages or images.
 
 | Plugin | How it reaches users |
 |---|---|
@@ -8,13 +8,12 @@ The plugins ship as files in this public repo. Nothing is published to npm or GH
 | `cursor` | Link or copy `plugins/cursor` into Cursor's local plugins folder |
 | `codex` | `sh plugins/codex/install.sh`, then `codex mcp login hippocampus` |
 | `openclaw` | `openclaw plugins install --link ./plugins/openclaw` |
-| `claude-code` (legacy) | Its hook binary, `agent-brain-hook`, is downloaded from the latest GitHub release |
 
 ## Release
 
-Push a `v*` tag. The workflow in `.github/workflows/publish.yml` builds `agent-brain-hook` for linux/darwin amd64/arm64 plus `checksums.txt` and attaches them to the GitHub release for that tag.
+Tag and create a GitHub release; there is no workflow:
 
 ```bash
-git tag -a v0.3.0 -m "v0.3.0"
-git push origin v0.3.0
+git tag -a v0.4.0 -m "v0.4.0" && git push origin v0.4.0
+gh release create v0.4.0 --generate-notes
 ```
