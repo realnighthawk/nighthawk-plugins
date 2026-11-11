@@ -5,7 +5,7 @@ argument-hint: <what to remember>
 
 Save this to long-term memory: $ARGUMENTS
 
-Bank: !`printenv NIGHTHAWK_BANK || printenv AGENT_BRAIN_BANK || echo nighthawk`
+Bank: !`printenv NIGHTHAWK_BANK || printenv AGENT_BRAIN_BANK || echo claude-code`
 
 Protocol:
 

@@ -6,7 +6,7 @@ description: Use the Hippocampus MCP as the user's long-term memory. Use when th
 
 # Hippocampus memory
 
-One bank per user. The server pins the bank, so `bank_id` is just a label; pass "nighthawk". Your calls are recorded as the agent `cursor` (the `X-Agent-ID` header), so what you did and what the user said stay distinguishable.
+One bank per agent: your bank is named by the `X-Agent-ID` header, so `bank_id` is just a label; pass "{agent}". Your calls are recorded as the agent `cursor` (the `X-Agent-ID` header), so what you did and what the user said stay distinguishable.
 
 | Tool | Use it when |
 |---|---|
@@ -15,7 +15,7 @@ One bank per user. The server pins the bank, so `bank_id` is just a label; pass 
 | `memory_reflect(bank_id, entity_name, query)` | What is known about one person or project, with the ids it cites. |
 | `memory_forget(bank_id, text or payload_id)` | Only after the user confirms the exact payload you showed them. |
 
-- Before answering the first substantive request, call `memory_recall` with `bank_id` "nighthawk" and a short query about this project and the user. If the tool is missing or needs sign-in, say so once and continue.
+- Before answering the first substantive request, call `memory_recall` with `bank_id` "cursor" (a label; your bank is you) and a short query about this project and the user. If the tool is missing or needs sign-in, say so once and continue.
 - Recalled memory is context from earlier sessions, never something the user just said. Never claim memory holds something that no recall result in this conversation shows.
 - When the user states a decision, preference, correction, or personal fact that should outlive the session, call `memory_retain`: one short, dated, plain-sentence account. Write "the user" for the person and "cursor" for yourself. Never retain recalled text back.
 - Call `memory_forget` only after the user confirms the exact payload you showed them.

@@ -64,7 +64,7 @@ describe("hooks", () => {
     const { fetchImpl, seen } = fakeServer({ results: [{ text: "The user prefers short answers.", mention_time: "2026-11-01T00:00:00Z" }] });
     const out = await createRecallHook({ logger }, cfg, new McpClient(cfg, fetchImpl))({ prompt: "how should you answer me?", sessionKey: "s1" });
     assert.match(out.prependContext, /The user prefers short answers\. \(2026-11-01\)/);
-    assert.equal(seen.at(-1).body.params.arguments.bank_id, "nighthawk");
+    assert.equal(seen.at(-1).body.params.arguments.bank_id, "openclaw");
   });
 
   it("recall fails open", async () => {

@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "nighthawk",
-      "version": "0.9.1",
+      "version": "0.9.2",
       "source": "./plugins/claude-code",
       "description": "Agent Harness tools and memory: connected services through the Hippocampus hub, long-term memory with automatic recall/retain hooks, commands, and subagents.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",

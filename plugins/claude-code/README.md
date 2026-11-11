@@ -41,8 +41,8 @@ the bank in their instructions:
 
 | Variable | Meaning |
 |---|---|
-| `NIGHTHAWK_BANK` (or `AGENT_BRAIN_BANK`) | Bank name; default `nighthawk`. One bank per user so every harness shares memory. |
-| (fixed) `X-Agent-ID: claude-code` | Sent to the memory server on every call: this harness is the agent `claude-code`, so its profile and opinions are its own while facts stay shared in the bank. Edit `.mcp.json` to change it. |
+| `NIGHTHAWK_BANK` (or `AGENT_BRAIN_BANK`) | A label only (default `claude-code`); the server ignores `bank_id`. |
+| (fixed) `X-Agent-ID: claude-code` | Sent on every call. Memory is one bank per agent: this header names the bank, so Claude Code's memory is its own, as in the Hindsight paper. |
 | `NIGHTHAWK_DISABLE_HOOKS` | Any value turns both signals into no-ops. |
 
 ## Hooks

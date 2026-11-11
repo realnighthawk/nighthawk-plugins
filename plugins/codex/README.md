@@ -7,4 +7,4 @@ sh plugins/codex/install.sh        # config.toml entry + AGENTS.md instructions
 codex mcp login hippocampus        # browser OAuth, no key stored
 ```
 
-`http_headers = { "X-Agent-ID" = "codex" }` makes memory record Codex as the speaker. The server pins one bank per user, so `bank_id` is only a label. Codex has no session hook that reliably reaches the agent, so recall is an instruction in `AGENTS.md`.
+`http_headers = { "X-Agent-ID" = "codex" }` makes memory record Codex as the speaker. Memory is one bank per agent, named by that header; `bank_id` is ignored. Codex has no session hook that reliably reaches the agent, so recall is an instruction in `AGENTS.md`.

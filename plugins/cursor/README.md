@@ -18,4 +18,4 @@ Cursor's `sessionStart` hook output is accepted, but injected context does not r
 
 ## One bank
 
-The server pins every call to one bank, so a `bank_id` sent by this plugin is only a label.
+Memory is one bank per agent: the `X-Agent-ID` header names the bank, so a `bank_id` sent by this plugin is only a label.

@@ -19,8 +19,7 @@
       },
       "bank": {
         "type": "string",
-        "default": "nighthawk",
-        "description": "A label only: the server pins one bank per user."
+        "description": "A label only: memory is one bank per agent, named by agentId."
       },
       "autoRecall": {
         "type": "boolean",

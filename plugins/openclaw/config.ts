@@ -16,12 +16,13 @@ export function parseConfig(raw: Record<string, unknown> | undefined): MemoryPlu
   if (!token) {
     throw new Error("nighthawk-memory: plugins.entries.nighthawk-memory.config.token (or NIGHTHAWK_MCP_TOKEN) is required");
   }
+  const agentId = pickString(c.agentId, process.env.NIGHTHAWK_AGENT_ID) ?? "openclaw";
   return {
     token,
     // One agent for this client. Memory records it as the speaker; it is not derived per session.
-    agentId: pickString(c.agentId, process.env.NIGHTHAWK_AGENT_ID) ?? "openclaw",
-    // The server pins the bank, so this is only a label the tools require.
-    bank: pickString(c.bank, process.env.NIGHTHAWK_BANK) ?? "nighthawk",
+    agentId,
+    // Memory is one bank per agent, named by X-Agent-ID; the server ignores bank_id, so this is only the label the tools require.
+    bank: pickString(c.bank, process.env.NIGHTHAWK_BANK) ?? agentId,
     autoRecall: bool(c.autoRecall, true),
     autoCapture: bool(c.autoCapture, true),
     recallMinPromptLength: num(c.recallMinPromptLength, 12),
