@@ -11,14 +11,14 @@ The plugins ship as files in this public repo. There are no binaries, packages o
 
 ## App connectors (Claude apps, ChatGPT)
 
-Only the memory server is published as a connector, never the hub. Connectors send a URL and an OAuth token but no custom header, so each has its own URL and the router pins `X-Agent-ID` from the path:
+Both servers are connectors in both apps: Hippocampus (memory) and Reactor (the tool hub). Connectors send a URL and an OAuth token but no custom header, so each memory connector has its own URL and the router pins `X-Agent-ID` from the path. The hub needs no agent, so both apps share its URL.
 
-| Client | Connector URL | Agent / bank |
-|---|---|---|
-| Claude apps | `https://api.nighthawklabs.org/memory/mcp/claude-app` | `claude-app` |
-| ChatGPT | `https://api.nighthawklabs.org/memory/mcp/chatgpt` | `chatgpt` |
+| Connector | Claude apps | ChatGPT | Agent / bank |
+|---|---|---|---|
+| Hippocampus | `https://api.nighthawklabs.org/memory/mcp/claude-app` | `https://api.nighthawklabs.org/memory/mcp/chatgpt` | `claude-app` / `chatgpt` |
+| Reactor | `https://api.nighthawklabs.org/hub/mcp` | `https://api.nighthawklabs.org/hub/mcp` | none |
 
-Add yourself in Claude: Settings, Connectors, Add custom connector. The OAuth redirect `https://claude.ai/api/mcp/auth_callback` (and ChatGPT's) must be allowed on the Clerk application. Directory submission is separate: Claude through the Claude.ai developer portal, ChatGPT through the plugin submission portal. Both need the privacy policy URL (`https://mission-control.nighthawklabs.org/privacy`), a logo (`assets/mission-control.svg`), and tool hints, which the memory server now declares.
+Add yourself in Claude: Settings, Connectors, Add custom connector, once per URL. The OAuth redirect `https://claude.ai/api/mcp/auth_callback` (and ChatGPT's) must be allowed on the Clerk application. Directory submission is separate and is one submission per server: Claude through the Claude.ai developer portal, ChatGPT through the plugin submission portal. Each needs the privacy policy URL (`https://mission-control.nighthawklabs.org/privacy`), a logo (`assets/mission-control.svg`), and tool hints, which both servers declare (memory in `agent-brain`, the hub in `infra/mcp-hub`). `call_tool` is declared destructive and open-world because it proxies arbitrary backend tools, so expect reviewers to ask about it.
 
 ## Release
 
