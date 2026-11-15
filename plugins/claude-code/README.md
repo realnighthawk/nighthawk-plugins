@@ -41,6 +41,7 @@ the router with OAuth like Reactor. Memory is one bank per agent, named by a fix
 | Variable | Meaning |
 |---|---|
 | `X-Agent-ID: ${MISSION_CONTROL_AGENT_ID:-claude-code}` | Sent on every call. It is `claude-code` unless the environment sets `MISSION_CONTROL_AGENT_ID`, which a host that runs Claude Code *as* a particular agent does, so that agent's memory is the same whichever harness drives it. Memory is one bank per agent: this header names the bank, so Claude Code's memory is its own, as in the Hindsight paper. |
+| `url`s: `${MISSION_CONTROL_HUB_URL:-…/hub/mcp}`, `${MISSION_CONTROL_MEMORY_URL:-…/memory/mcp}`; `X-API-Key: ${MISSION_CONTROL_MEMORY_KEY:-}` | The public endpoints, which sign you in over OAuth, unless the environment names others. A host that runs Claude Code inside the same private network as the hub and memory (an agent's sandbox) sets these to the in-cluster addresses, where there is no sign-in, and `MISSION_CONTROL_MEMORY_KEY` to the memory service key if it has one. Unset, the key header is empty and is ignored. |
 | `MISSION_CONTROL_DISABLE_HOOKS` | Any value turns both signals into no-ops. |
 
 ## Hooks

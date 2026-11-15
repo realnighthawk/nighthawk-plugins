@@ -2,7 +2,7 @@
   "mcpServers": {
     "reactor": {
       "type": "http",
-      "url": "https://api.nighthawklabs.org/hub/mcp",
+      "url": "${MISSION_CONTROL_HUB_URL:-https://api.nighthawklabs.org/hub/mcp}",
       "oauth": {
         "scopes": "openid profile email",
         "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
@@ -10,13 +10,14 @@
     },
     "hippocampus": {
       "type": "http",
-      "url": "https://api.nighthawklabs.org/memory/mcp",
+      "url": "${MISSION_CONTROL_MEMORY_URL:-https://api.nighthawklabs.org/memory/mcp}",
       "oauth": {
         "scopes": "openid profile email",
         "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
       },
       "headers": {
-        "X-Agent-ID": "${MISSION_CONTROL_AGENT_ID:-claude-code}"
+        "X-Agent-ID": "${MISSION_CONTROL_AGENT_ID:-claude-code}",
+        "X-API-Key": "${MISSION_CONTROL_MEMORY_KEY:-}"
       }
     }
   }
