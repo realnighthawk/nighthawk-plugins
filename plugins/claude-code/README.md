@@ -40,7 +40,7 @@ the router with OAuth like Reactor. Memory is one bank per agent, named by a fix
 
 | Variable | Meaning |
 |---|---|
-| (fixed) `X-Agent-ID: claude-code` | Sent on every call. Memory is one bank per agent: this header names the bank, so Claude Code's memory is its own, as in the Hindsight paper. |
+| `X-Agent-ID: ${MISSION_CONTROL_AGENT_ID:-claude-code}` | Sent on every call. It is `claude-code` unless the environment sets `MISSION_CONTROL_AGENT_ID`, which a host that runs Claude Code *as* a particular agent does, so that agent's memory is the same whichever harness drives it. Memory is one bank per agent: this header names the bank, so Claude Code's memory is its own, as in the Hindsight paper. |
 | `MISSION_CONTROL_DISABLE_HOOKS` | Any value turns both signals into no-ops. |
 
 ## Hooks

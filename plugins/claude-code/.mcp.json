@@ -16,7 +16,7 @@
         "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
       },
       "headers": {
-        "X-Agent-ID": "claude-code"
+        "X-Agent-ID": "${MISSION_CONTROL_AGENT_ID:-claude-code}"
       }
     }
   }
