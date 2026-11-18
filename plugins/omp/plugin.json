@@ -1,0 +1,20 @@
+{
+  "name": "mission-control",
+  "version": "0.11.0",
+  "description": "Agent Harness for oh-my-pi: the tenant's connected tools and services through the Reactor hub, plus long-term memory with recall and retain hooks.",
+  "author": {
+    "name": "Nighthawk Labs"
+  },
+  "keywords": [
+    "harness",
+    "mcp",
+    "agent",
+    "tools",
+    "memory",
+    "context"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
+  "repository": "https://github.com/realnighthawk/nighthawk-plugins.git",
+  "privacyPolicyUrl": "https://mission-control.nighthawklabs.org/privacy"
+}

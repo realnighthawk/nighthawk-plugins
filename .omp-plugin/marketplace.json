@@ -1,0 +1,24 @@
+{
+  "$schema": "https://anthropic.com/claude-code/marketplace.schema.json",
+  "name": "mission-control-plugins",
+  "description": "Mission Control memory and tool plugins for Claude Code, Cursor, Codex, OpenClaw, and oh-my-pi.",
+  "owner": {
+    "name": "Nighthawk Labs",
+    "url": "https://github.com/realnighthawk/nighthawk-plugins"
+  },
+  "metadata": {
+    "description": "The tenant's connected services and long-term memory for agent harnesses.",
+    "version": "0.11.0",
+    "pluginRoot": "./plugins"
+  },
+  "plugins": [
+    {
+      "name": "mission-control",
+      "version": "0.11.0",
+      "source": "./plugins/omp",
+      "description": "Agent Harness tools and memory for oh-my-pi: Reactor and Hippocampus over native MCP, the memory skills, and the session hooks.",
+      "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
+      "repository": "https://github.com/realnighthawk/nighthawk-plugins.git"
+    }
+  ]
+}

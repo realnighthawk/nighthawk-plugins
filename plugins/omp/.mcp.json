@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "reactor": {
+      "type": "http",
+      "url": "${MISSION_CONTROL_HUB_URL:-https://api.nighthawklabs.org/hub/mcp}"
+    },
+    "hippocampus": {
+      "type": "http",
+      "url": "${MISSION_CONTROL_MEMORY_URL:-https://api.nighthawklabs.org/memory/mcp}",
+      "headers": {
+        "X-Agent-ID": "${MISSION_CONTROL_AGENT_ID:-ohmypi}",
+        "X-API-Key": "${MISSION_CONTROL_MEMORY_KEY:-}"
+      }
+    }
+  }
+}
