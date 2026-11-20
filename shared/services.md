@@ -8,9 +8,10 @@
 | `fpl` | Fantasy Premier League data |
 | `fpl_intelligence` | FPL analysis, comparisons, and recommendations |
 | `reddit` | Reddit search and reading |
-| `auto_browser` | the shared signed-in browser |
+| `auto_browser` | the shared browser |
 
 - Call a server's tools directly. There is no hub to search and no entry tool to go through.
 - Never invent a server, tool, or argument: use the tools the server advertises and their own schemas.
 - `finance`, `maps`, `life`, and `retro` are scoped to the signed-in owner; `auto_browser` drives the shared browser session.
 - If a server is unavailable or unauthenticated, say so once and continue with what you have.
+- If a tool is missing, blocked, or a call fails, use the `browser` skill before reporting it; it cannot replace a write the engine owns.

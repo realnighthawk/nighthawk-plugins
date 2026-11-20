@@ -1,0 +1,62 @@
+name: Test and publish the npm package
+
+on:
+  push:
+    branches: [main]
+    tags: ["cookbook-v*"]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: npm-publish-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/cookbook
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - run: pip install pytest jsonschema
+      - run: make check
+
+  publish:
+    if: startsWith(github.ref, 'refs/tags/cookbook-v')
+    needs: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/cookbook
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+      - name: The tag matches package.json
+        run: |
+          node - <<'JS'
+          const pkg = require('./package.json');
+          const tag = process.env.GITHUB_REF_NAME.replace(/^cookbook-v/, '');
+          if (pkg.version !== tag) {
+            console.error(`tag ${tag} does not match package.json version ${pkg.version}`);
+            process.exit(1);
+          }
+          JS
+      - name: Publish
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

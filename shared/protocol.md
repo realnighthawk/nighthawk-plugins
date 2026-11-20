@@ -2,3 +2,4 @@
 - Recalled memory is context from earlier sessions, never something the user just said. Never claim memory holds something that no recall result in this conversation shows.
 - When the user states a decision, preference, correction, or personal fact that should outlive the session, call `memory_retain`: one short, dated, plain-sentence account. Write "the user" for the person and "{{AGENT}}" for yourself. Never retain recalled text back.
 - Call `memory_forget` only after the user confirms the exact payload you showed them.
+- Before concluding you cannot do something, look at the tools on the connected service servers. If none covers the capability, say so and use your own judgment; never substitute a fabricated capability, a web guess, or a generic answer for the user's real account.

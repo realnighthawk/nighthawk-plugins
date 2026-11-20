@@ -1,0 +1,4514 @@
+{
+ "operations": {
+  "activities_correct": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "occurred_at": {
+     "description": "the corrected RFC 3339 instant; leave empty to keep it",
+     "type": "string"
+    },
+    "text": {
+     "description": "the corrected text; leave empty to keep it",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id"
+   ],
+   "type": "object"
+  },
+  "activities_get": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  },
+  "activities_list": {
+   "additionalProperties": false,
+   "properties": {
+    "actor": {
+     "description": "person, agent or external",
+     "type": "string"
+    },
+    "after": {
+     "description": "RFC 3339; only activity at or after this time",
+     "type": "string"
+    },
+    "before": {
+     "description": "RFC 3339; only activity before this time",
+     "type": "string"
+    },
+    "kind": {
+     "description": "action, occurrence or measurement",
+     "type": "string"
+    },
+    "limit": {
+     "description": "1-200, default 50",
+     "type": "integer"
+    },
+    "offset": {
+     "description": "0-1000000, default 0",
+     "type": "integer"
+    },
+    "search": {
+     "description": "literal text to find",
+     "type": "string"
+    },
+    "state": {
+     "description": "active (default), deleted or all",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "activities_record": {
+   "additionalProperties": false,
+   "properties": {
+    "actor": {
+     "description": "who did it: person (default), agent or external",
+     "type": "string"
+    },
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "id": {
+     "description": "optional client-generated UUID so a later operation in the same batch can refer to it",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "kind": {
+     "description": "action (default), occurrence or measurement",
+     "type": "string"
+    },
+    "occurred_at": {
+     "description": "RFC 3339 instant it happened",
+     "type": "string"
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored the record",
+     "type": "string"
+    },
+    "source": {
+     "description": "person (default), agent or connector",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    },
+    "text": {
+     "description": "what happened, 1-2000 characters",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "actor",
+    "text",
+    "occurred_at"
+   ],
+   "type": "object"
+  },
+  "attention_get": {
+   "additionalProperties": false,
+   "type": "object"
+  },
+  "batch_apply": {
+   "additionalProperties": false,
+   "properties": {
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "operations": {
+     "description": "1-50 operations, run in this order; a later one may refer to a record an earlier one creates",
+     "items": {
+      "additionalProperties": false,
+      "properties": {
+       "input": {
+        "description": "that operation's own input; leave out idempotency_key, the batch sets it. Give each new record an id so later operations can refer to it"
+       },
+       "operation": {
+        "description": "a create operation: intentions_create, commitments_create, states_create, activities_record, links_set, tasks_create, calendar_events_create or views_create",
+        "type": "string"
+       }
+      },
+      "required": [
+       "operation",
+       "input"
+      ],
+      "type": "object"
+     },
+     "type": [
+      "null",
+      "array"
+     ]
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "operations"
+   ],
+   "type": "object"
+  },
+  "batch_dry_run": {
+   "additionalProperties": false,
+   "properties": {
+    "operations": {
+     "description": "1-50 operations, run in this order; a later one may refer to a record an earlier one creates",
+     "items": {
+      "additionalProperties": false,
+      "properties": {
+       "input": {
+        "description": "that operation's own input; leave out idempotency_key, the batch sets it. Give each new record an id so later operations can refer to it"
+       },
+       "operation": {
+        "description": "a create operation: intentions_create, commitments_create, states_create, activities_record, links_set, tasks_create, calendar_events_create or views_create",
+        "type": "string"
+       }
+      },
+      "required": [
+       "operation",
+       "input"
+      ],
+      "type": "object"
+     },
+     "type": [
+      "null",
+      "array"
+     ]
+    }
+   },
+   "required": [
+    "operations"
+   ],
+   "type": "object"
+  },
+  "batch_undo": {
+   "additionalProperties": false,
+   "properties": {
+    "batch_key": {
+     "description": "the idempotency_key the batch_apply was called with",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "batch_key"
+   ],
+   "type": "object"
+  },
+  "calendar_events_cancel": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "calendar_events_create": {
+   "additionalProperties": false,
+   "properties": {
+    "alert_before_minutes": {
+     "description": "tell the owner this many minutes before at (0 = at the time), up to 10080; requires at. Omit for no alert",
+     "type": [
+      "null",
+      "integer"
+     ]
+    },
+    "at": {
+     "description": "RFC 3339 instant: a task's deadline or cue, an event's start. An event requires it",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "id": {
+     "description": "optional client-generated UUID so a later operation in the same batch can refer to it",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "minutes": {
+     "description": "how long it takes, 1-1440",
+     "type": [
+      "null",
+      "integer"
+     ]
+    },
+    "notes": {
+     "description": "short detail, up to 2000 characters",
+     "type": "string"
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored it",
+     "type": "string"
+    },
+    "recurrence": {
+     "additionalProperties": false,
+     "description": "optional repeat; requires at",
+     "properties": {
+      "freq": {
+       "description": "daily, weekly or monthly",
+       "type": "string"
+      },
+      "interval": {
+       "description": "repeat every N days/weeks/months, 1-365, default 1",
+       "type": "integer"
+      },
+      "weekdays": {
+       "description": "weekly only: days of the week, 0 = Sunday to 6 = Saturday; empty repeats on the due date's weekday",
+       "items": {
+        "type": "integer"
+       },
+       "type": [
+        "null",
+        "array"
+       ]
+      }
+     },
+     "required": [
+      "freq"
+     ],
+     "type": [
+      "null",
+      "object"
+     ]
+    },
+    "subject": {
+     "description": "person (default), or agent for a record of your own, which the person's screens do not show; an agent's record with an alert wakes the conversation you create it from",
+     "type": "string"
+    },
+    "time_zone": {
+     "description": "IANA zone the person lives in; a repeat keeps this zone's wall-clock time. Default UTC",
+     "type": "string"
+    },
+    "title": {
+     "description": "1-200 characters",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "title"
+   ],
+   "type": "object"
+  },
+  "calendar_events_delete": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "calendar_events_get": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  },
+  "calendar_events_list": {
+   "additionalProperties": false,
+   "properties": {
+    "after": {
+     "description": "RFC 3339; only events at or after this time",
+     "type": "string"
+    },
+    "before": {
+     "description": "RFC 3339; only events before this time",
+     "type": "string"
+    },
+    "limit": {
+     "description": "1-200, default 50",
+     "type": "integer"
+    },
+    "offset": {
+     "description": "0-1000000, default 0",
+     "type": "integer"
+    },
+    "search": {
+     "description": "literal text to find",
+     "type": "string"
+    },
+    "state": {
+     "description": "active (default), deleted or all",
+     "type": "string"
+    },
+    "status": {
+     "description": "upcoming (default), past, cancelled or all",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "calendar_events_restore": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "calendar_events_snooze": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "until": {
+     "description": "RFC 3339 instant in the future the alert is deferred to",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version",
+    "until"
+   ],
+   "type": "object"
+  },
+  "calendar_events_uncancel": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "calendar_events_update": {
+   "additionalProperties": false,
+   "properties": {
+    "alert_before_minutes": {
+     "description": "tell the owner this many minutes before at (0 = at the time), up to 10080; requires at. Omit for no alert",
+     "type": [
+      "null",
+      "integer"
+     ]
+    },
+    "at": {
+     "description": "RFC 3339 instant: a task's deadline or cue, an event's start. An event requires it",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "minutes": {
+     "description": "how long it takes, 1-1440",
+     "type": [
+      "null",
+      "integer"
+     ]
+    },
+    "notes": {
+     "description": "short detail, up to 2000 characters",
+     "type": "string"
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored it",
+     "type": "string"
+    },
+    "recurrence": {
+     "additionalProperties": false,
+     "description": "optional repeat; requires at",
+     "properties": {
+      "freq": {
+       "description": "daily, weekly or monthly",
+       "type": "string"
+      },
+      "interval": {
+       "description": "repeat every N days/weeks/months, 1-365, default 1",
+       "type": "integer"
+      },
+      "weekdays": {
+       "description": "weekly only: days of the week, 0 = Sunday to 6 = Saturday; empty repeats on the due date's weekday",
+       "items": {
+        "type": "integer"
+       },
+       "type": [
+        "null",
+        "array"
+       ]
+      }
+     },
+     "required": [
+      "freq"
+     ],
+     "type": [
+      "null",
+      "object"
+     ]
+    },
+    "subject": {
+     "description": "person (default), or agent for a record of your own, which the person's screens do not show; an agent's record with an alert wakes the conversation you create it from",
+     "type": "string"
+    },
+    "time_zone": {
+     "description": "IANA zone the person lives in; a repeat keeps this zone's wall-clock time. Default UTC",
+     "type": "string"
+    },
+    "title": {
+     "description": "1-200 characters",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version",
+    "title"
+   ],
+   "type": "object"
+  },
+  "commitments_complete": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "note": {
+     "description": "why, in one line; recorded with the change",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "commitments_create": {
+   "additionalProperties": false,
+   "properties": {
+    "alert_before_minutes": {
+     "description": "tell the owner this many minutes before due_at (0 = at the time), up to 10080",
+     "type": [
+      "null",
+      "integer"
+     ]
+    },
+    "consequence": {
+     "description": "what happens if it is missed, up to 500 characters",
+     "type": "string"
+    },
+    "counterparty": {
+     "description": "who it is owed to, up to 200 characters",
+     "type": "string"
+    },
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "due_at": {
+     "description": "RFC 3339 instant it is due; give this or due_on, not both",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "due_on": {
+     "description": "YYYY-MM-DD local date it is due; give this or due_at, not both",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "id": {
+     "description": "optional client-generated UUID so a later operation in the same batch can refer to it",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "notes": {
+     "description": "short free text, up to 2000 characters",
+     "type": "string"
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored it",
+     "type": "string"
+    },
+    "recurrence": {
+     "additionalProperties": false,
+     "description": "optional repeat; requires due_at",
+     "properties": {
+      "freq": {
+       "description": "daily, weekly or monthly",
+       "type": "string"
+      },
+      "interval": {
+       "description": "repeat every N days/weeks/months, 1-365, default 1",
+       "type": "integer"
+      },
+      "weekdays": {
+       "description": "weekly only: days of the week, 0 = Sunday to 6 = Saturday; empty repeats on the due date's weekday",
+       "items": {
+        "type": "integer"
+       },
+       "type": [
+        "null",
+        "array"
+       ]
+      }
+     },
+     "required": [
+      "freq"
+     ],
+     "type": [
+      "null",
+      "object"
+     ]
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    },
+    "time_zone": {
+     "description": "IANA zone the person lives in; default UTC",
+     "type": "string"
+    },
+    "title": {
+     "description": "1-200 characters",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "title"
+   ],
+   "type": "object"
+  },
+  "commitments_delete": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "commitments_get": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  },
+  "commitments_list": {
+   "additionalProperties": false,
+   "properties": {
+    "limit": {
+     "description": "1-200, default 50",
+     "type": "integer"
+    },
+    "offset": {
+     "description": "0-1000000, default 0",
+     "type": "integer"
+    },
+    "search": {
+     "description": "literal text to find",
+     "type": "string"
+    },
+    "state": {
+     "description": "active (default), deleted or all",
+     "type": "string"
+    },
+    "status": {
+     "description": "open (default), met, missed, renegotiated, waived or all",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "commitments_miss": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "note": {
+     "description": "why, in one line; recorded with the change",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "commitments_renegotiate": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "note": {
+     "description": "why, in one line; recorded with the change",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "commitments_restore": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "commitments_update": {
+   "additionalProperties": false,
+   "properties": {
+    "alert_before_minutes": {
+     "description": "tell the owner this many minutes before due_at (0 = at the time), up to 10080",
+     "type": [
+      "null",
+      "integer"
+     ]
+    },
+    "consequence": {
+     "description": "what happens if it is missed, up to 500 characters",
+     "type": "string"
+    },
+    "counterparty": {
+     "description": "who it is owed to, up to 200 characters",
+     "type": "string"
+    },
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "due_at": {
+     "description": "RFC 3339 instant it is due; give this or due_on, not both",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "due_on": {
+     "description": "YYYY-MM-DD local date it is due; give this or due_at, not both",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "notes": {
+     "description": "short free text, up to 2000 characters",
+     "type": "string"
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored it",
+     "type": "string"
+    },
+    "recurrence": {
+     "additionalProperties": false,
+     "description": "optional repeat; requires due_at",
+     "properties": {
+      "freq": {
+       "description": "daily, weekly or monthly",
+       "type": "string"
+      },
+      "interval": {
+       "description": "repeat every N days/weeks/months, 1-365, default 1",
+       "type": "integer"
+      },
+      "weekdays": {
+       "description": "weekly only: days of the week, 0 = Sunday to 6 = Saturday; empty repeats on the due date's weekday",
+       "items": {
+        "type": "integer"
+       },
+       "type": [
+        "null",
+        "array"
+       ]
+      }
+     },
+     "required": [
+      "freq"
+     ],
+     "type": [
+      "null",
+      "object"
+     ]
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    },
+    "time_zone": {
+     "description": "IANA zone the person lives in; default UTC",
+     "type": "string"
+    },
+    "title": {
+     "description": "1-200 characters",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version",
+    "title"
+   ],
+   "type": "object"
+  },
+  "commitments_waive": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "note": {
+     "description": "why, in one line; recorded with the change",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "day_get": {
+   "additionalProperties": false,
+   "properties": {
+    "day": {
+     "description": "local date YYYY-MM-DD in the person's time zone; default today",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "decisions_create": {
+   "additionalProperties": false,
+   "properties": {
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "effect": {
+     "description": "for change: a batch plan (the same shape as batch_apply) applied when accept is chosen"
+    },
+    "expires_at": {
+     "description": "RFC 3339 instant it stops being open; optional",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "id": {
+     "description": "optional client-generated UUID so a later operation in the same batch can refer to it",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "kind": {
+     "description": "choice (default) or change",
+     "type": "string"
+    },
+    "options": {
+     "description": "2-10 options; a change needs an option with id accept",
+     "items": {
+      "additionalProperties": false,
+      "properties": {
+       "id": {
+        "description": "stable id used to resolve, such as accept, gym or outdoors, 1-40 characters",
+        "type": "string"
+       },
+       "label": {
+        "description": "what the person reads, 1-200 characters",
+        "type": "string"
+       }
+      },
+      "required": [
+       "id",
+       "label"
+      ],
+      "type": "object"
+     },
+     "type": [
+      "null",
+      "array"
+     ]
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored it",
+     "type": "string"
+    },
+    "question": {
+     "description": "the choice, 1-500 characters, in the person's words",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "question",
+    "options"
+   ],
+   "type": "object"
+  },
+  "decisions_defer": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "until": {
+     "description": "RFC 3339 instant it becomes open again; optional",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version",
+    "until"
+   ],
+   "type": "object"
+  },
+  "decisions_expire": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "decisions_get": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  },
+  "decisions_list": {
+   "additionalProperties": false,
+   "properties": {
+    "limit": {
+     "description": "1-200, default 50",
+     "type": "integer"
+    },
+    "offset": {
+     "description": "0-1000000, default 0",
+     "type": "integer"
+    },
+    "search": {
+     "description": "literal text to find",
+     "type": "string"
+    },
+    "state": {
+     "description": "active (default), deleted or all",
+     "type": "string"
+    },
+    "status": {
+     "description": "open (default), decided, deferred, expired or all",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "decisions_resolve": {
+   "additionalProperties": false,
+   "properties": {
+    "confirmation": {
+     "additionalProperties": false,
+     "description": "required for a change decision derived from memory: a person-sourced confirmation",
+     "properties": {
+      "ref": {
+       "description": "the client action id, or the agent turn the person answered in",
+       "type": "string"
+      },
+      "source": {
+       "description": "client or turn",
+       "type": "string"
+      }
+     },
+     "required": [
+      "source",
+      "ref"
+     ],
+     "type": [
+      "null",
+      "object"
+     ]
+    },
+    "decided_by": {
+     "description": "person (default) or agent",
+     "type": "string"
+    },
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "option": {
+     "description": "the id of the option chosen",
+     "type": "string"
+    },
+    "rationale": {
+     "description": "why, in the person's words, up to 2000 characters",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version",
+    "option"
+   ],
+   "type": "object"
+  },
+  "decisions_update": {
+   "additionalProperties": false,
+   "properties": {
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "effect": {
+     "description": "for change: a batch plan (the same shape as batch_apply) applied when accept is chosen"
+    },
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "expires_at": {
+     "description": "RFC 3339 instant it stops being open; optional",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "kind": {
+     "description": "choice (default) or change",
+     "type": "string"
+    },
+    "options": {
+     "description": "2-10 options; a change needs an option with id accept",
+     "items": {
+      "additionalProperties": false,
+      "properties": {
+       "id": {
+        "description": "stable id used to resolve, such as accept, gym or outdoors, 1-40 characters",
+        "type": "string"
+       },
+       "label": {
+        "description": "what the person reads, 1-200 characters",
+        "type": "string"
+       }
+      },
+      "required": [
+       "id",
+       "label"
+      ],
+      "type": "object"
+     },
+     "type": [
+      "null",
+      "array"
+     ]
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored it",
+     "type": "string"
+    },
+    "question": {
+     "description": "the choice, 1-500 characters, in the person's words",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version",
+    "question",
+    "options"
+   ],
+   "type": "object"
+  },
+  "events_ack": {
+   "additionalProperties": false,
+   "properties": {
+    "event_ids": {
+     "description": "The event ids that were handed over. Acks are idempotent.",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "null",
+      "array"
+     ]
+    }
+   },
+   "required": [
+    "event_ids"
+   ],
+   "type": "object"
+  },
+  "events_deliver": {
+   "additionalProperties": false,
+   "properties": {
+    "detail": {
+     "description": "what happened, in one sentence",
+     "type": "string"
+    },
+    "event_id": {
+     "description": "this occurrence, durable and deterministic so a re-delivery is recognised",
+     "type": "string"
+    },
+    "event_key": {
+     "description": "the class of notice, as the engine that raised it names it",
+     "type": "string"
+    },
+    "source": {
+     "description": "the connection that raised it",
+     "type": "string"
+    }
+   },
+   "required": [
+    "event_key",
+    "event_id",
+    "detail"
+   ],
+   "type": "object"
+  },
+  "events_pending": {
+   "additionalProperties": false,
+   "type": "object"
+  },
+  "history_list": {
+   "additionalProperties": false,
+   "properties": {
+    "entity_type": {
+     "description": "intention, task, event, commitment, decision, state, activity, view, measurement or settings",
+     "type": "string"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "limit": {
+     "description": "1-200, default 50",
+     "type": "integer"
+    },
+    "offset": {
+     "description": "0-1000000, default 0",
+     "type": "integer"
+    },
+    "search": {
+     "description": "literal text to find",
+     "type": "string"
+    },
+    "state": {
+     "description": "active (default), deleted or all",
+     "type": "string"
+    }
+   },
+   "required": [
+    "entity_type",
+    "id"
+   ],
+   "type": "object"
+  },
+  "intentions_archive": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "intentions_create": {
+   "additionalProperties": false,
+   "properties": {
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "ends_on": {
+     "description": "YYYY-MM-DD it finishes by; omit for open-ended",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "id": {
+     "description": "optional client-generated UUID so a later operation in the same batch can refer to it",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "kind": {
+     "description": "achieve (default), maintain or experience",
+     "type": "string"
+    },
+    "notes": {
+     "description": "short free text, up to 2000 characters",
+     "type": "string"
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored it",
+     "type": "string"
+    },
+    "status": {
+     "description": "active (default), satisfied or abandoned",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    },
+    "target": {
+     "additionalProperties": false,
+     "description": "optional number to reach",
+     "properties": {
+      "unit": {
+       "description": "what it counts, such as km or kg, 1-24 characters",
+       "type": "string"
+      },
+      "value": {
+       "description": "the number to reach, such as 10",
+       "type": "number"
+      }
+     },
+     "required": [
+      "value",
+      "unit"
+     ],
+     "type": [
+      "null",
+      "object"
+     ]
+    },
+    "title": {
+     "description": "1-200 characters, in the person's words",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "title"
+   ],
+   "type": "object"
+  },
+  "intentions_get": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  },
+  "intentions_list": {
+   "additionalProperties": false,
+   "properties": {
+    "limit": {
+     "description": "1-200, default 50",
+     "type": "integer"
+    },
+    "offset": {
+     "description": "0-1000000, default 0",
+     "type": "integer"
+    },
+    "search": {
+     "description": "literal text to find",
+     "type": "string"
+    },
+    "state": {
+     "description": "active (default), deleted or all",
+     "type": "string"
+    },
+    "status": {
+     "description": "active (default), satisfied, abandoned or all",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "intentions_restore": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "intentions_update": {
+   "additionalProperties": false,
+   "properties": {
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "ends_on": {
+     "description": "YYYY-MM-DD it finishes by; omit for open-ended",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "kind": {
+     "description": "achieve (default), maintain or experience",
+     "type": "string"
+    },
+    "notes": {
+     "description": "short free text, up to 2000 characters",
+     "type": "string"
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored it",
+     "type": "string"
+    },
+    "status": {
+     "description": "active (default), satisfied or abandoned",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    },
+    "target": {
+     "additionalProperties": false,
+     "description": "optional number to reach",
+     "properties": {
+      "unit": {
+       "description": "what it counts, such as km or kg, 1-24 characters",
+       "type": "string"
+      },
+      "value": {
+       "description": "the number to reach, such as 10",
+       "type": "number"
+      }
+     },
+     "required": [
+      "value",
+      "unit"
+     ],
+     "type": [
+      "null",
+      "object"
+     ]
+    },
+    "title": {
+     "description": "1-200 characters, in the person's words",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version",
+    "title"
+   ],
+   "type": "object"
+  },
+  "links_list": {
+   "additionalProperties": false,
+   "properties": {
+    "direction": {
+     "description": "from, to or both (default)",
+     "type": "string"
+    },
+    "id": {
+     "description": "the record's UUID",
+     "type": "string"
+    },
+    "kind": {
+     "description": "the record's kind",
+     "type": "string"
+    },
+    "relation": {
+     "description": "only this relation",
+     "type": "string"
+    }
+   },
+   "required": [
+    "kind",
+    "id"
+   ],
+   "type": "object"
+  },
+  "links_remove": {
+   "additionalProperties": false,
+   "properties": {
+    "from_id": {
+     "type": "string"
+    },
+    "from_kind": {
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "relation": {
+     "type": "string"
+    },
+    "to_id": {
+     "type": "string"
+    },
+    "to_kind": {
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "from_kind",
+    "from_id",
+    "relation",
+    "to_kind",
+    "to_id"
+   ],
+   "type": "object"
+  },
+  "links_set": {
+   "additionalProperties": false,
+   "properties": {
+    "from_id": {
+     "type": "string"
+    },
+    "from_kind": {
+     "description": "intention, commitment, decision, state, activity, task or event",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "relation": {
+     "description": "serves, fulfils, affects, constrains or evidences",
+     "type": "string"
+    },
+    "to_id": {
+     "type": "string"
+    },
+    "to_kind": {
+     "description": "intention, commitment, decision, state, activity, task or event",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "from_kind",
+    "from_id",
+    "relation",
+    "to_kind",
+    "to_id"
+   ],
+   "type": "object"
+  },
+  "measurements_delete": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "measurements_record": {
+   "additionalProperties": false,
+   "properties": {
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "measured_at": {
+     "description": "RFC 3339 observation time; default now; must not be in the future",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "metric_id": {
+     "type": "string"
+    },
+    "notes": {
+     "description": "optional context, up to 1000 characters",
+     "type": "string"
+    },
+    "subject_id": {
+     "type": "string"
+    },
+    "subject_kind": {
+     "description": "intention, task or event",
+     "type": "string"
+    },
+    "value": {
+     "type": "number"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "subject_kind",
+    "subject_id",
+    "metric_id",
+    "value"
+   ],
+   "type": "object"
+  },
+  "measurements_update": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "measured_at": {
+     "description": "RFC 3339 observation time; default now; must not be in the future",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "notes": {
+     "description": "optional context, up to 1000 characters",
+     "type": "string"
+    },
+    "value": {
+     "type": "number"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version",
+    "value"
+   ],
+   "type": "object"
+  },
+  "settings_get": {
+   "additionalProperties": false,
+   "type": "object"
+  },
+  "settings_set": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "type": "integer"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "time_zone": {
+     "description": "IANA zone such as Europe/London",
+     "type": "string"
+    },
+    "work_end": {
+     "description": "HH:MM",
+     "type": "string"
+    },
+    "work_start": {
+     "description": "HH:MM",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "expected_version",
+    "time_zone",
+    "work_start",
+    "work_end"
+   ],
+   "type": "object"
+  },
+  "states_create": {
+   "additionalProperties": false,
+   "properties": {
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "id": {
+     "description": "optional client-generated UUID so a later operation in the same batch can refer to it",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "kind": {
+     "description": "fact (default), preference, constraint or need",
+     "type": "string"
+    },
+    "notes": {
+     "description": "up to 2000 characters",
+     "type": "string"
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored it",
+     "type": "string"
+    },
+    "predicate": {
+     "description": "what is true of it, 1-200 characters",
+     "type": "string"
+    },
+    "source": {
+     "description": "person (default), agent or observation",
+     "type": "string"
+    },
+    "status": {
+     "description": "confirmed (default), retracted or superseded",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    },
+    "topic": {
+     "description": "what it is about, 1-200 characters",
+     "type": "string"
+    },
+    "valid_from": {
+     "description": "RFC 3339 instant it became true",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "valid_to": {
+     "description": "RFC 3339 instant it stopped being true",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "value": {
+     "description": "any JSON value"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "topic",
+    "predicate"
+   ],
+   "type": "object"
+  },
+  "states_delete": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "states_get": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  },
+  "states_list": {
+   "additionalProperties": false,
+   "properties": {
+    "kind": {
+     "description": "fact, preference, constraint, need or all",
+     "type": "string"
+    },
+    "limit": {
+     "description": "1-200, default 50",
+     "type": "integer"
+    },
+    "offset": {
+     "description": "0-1000000, default 0",
+     "type": "integer"
+    },
+    "search": {
+     "description": "literal text to find",
+     "type": "string"
+    },
+    "state": {
+     "description": "active (default), deleted or all",
+     "type": "string"
+    },
+    "status": {
+     "description": "confirmed (default), retracted, superseded or all",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    },
+    "topic": {
+     "description": "only states about this topic",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "states_restore": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "states_retract": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "states_update": {
+   "additionalProperties": false,
+   "properties": {
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "kind": {
+     "description": "fact (default), preference, constraint or need",
+     "type": "string"
+    },
+    "notes": {
+     "description": "up to 2000 characters",
+     "type": "string"
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored it",
+     "type": "string"
+    },
+    "predicate": {
+     "description": "what is true of it, 1-200 characters",
+     "type": "string"
+    },
+    "source": {
+     "description": "person (default), agent or observation",
+     "type": "string"
+    },
+    "status": {
+     "description": "confirmed (default), retracted or superseded",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    },
+    "topic": {
+     "description": "what it is about, 1-200 characters",
+     "type": "string"
+    },
+    "valid_from": {
+     "description": "RFC 3339 instant it became true",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "valid_to": {
+     "description": "RFC 3339 instant it stopped being true",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "value": {
+     "description": "any JSON value"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version",
+    "topic",
+    "predicate"
+   ],
+   "type": "object"
+  },
+  "tasks_complete": {
+   "additionalProperties": false,
+   "properties": {
+    "actor": {
+     "description": "person (default) or agent: who did it",
+     "type": "string"
+    },
+    "at": {
+     "description": "RFC 3339 occurrence being done, for a repeating task; default the one now due, else the next",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "done": {
+     "description": "default true; false reopens a task that was marked done (the named occurrence, for a repeating one)",
+     "type": [
+      "null",
+      "boolean"
+     ]
+    },
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "result": {
+     "description": "one line on what you found or did, up to 2000 characters",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "tasks_create": {
+   "additionalProperties": false,
+   "properties": {
+    "alert_before_minutes": {
+     "description": "tell the owner this many minutes before at (0 = at the time), up to 10080; requires at. Omit for no alert",
+     "type": [
+      "null",
+      "integer"
+     ]
+    },
+    "at": {
+     "description": "RFC 3339 instant: a task's deadline or cue, an event's start. An event requires it",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "id": {
+     "description": "optional client-generated UUID so a later operation in the same batch can refer to it",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "is_priority": {
+     "type": "boolean"
+    },
+    "minutes": {
+     "description": "how long it takes, 1-1440",
+     "type": [
+      "null",
+      "integer"
+     ]
+    },
+    "notes": {
+     "description": "short detail, up to 2000 characters",
+     "type": "string"
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored it",
+     "type": "string"
+    },
+    "recurrence": {
+     "additionalProperties": false,
+     "description": "optional repeat; requires at",
+     "properties": {
+      "freq": {
+       "description": "daily, weekly or monthly",
+       "type": "string"
+      },
+      "interval": {
+       "description": "repeat every N days/weeks/months, 1-365, default 1",
+       "type": "integer"
+      },
+      "weekdays": {
+       "description": "weekly only: days of the week, 0 = Sunday to 6 = Saturday; empty repeats on the due date's weekday",
+       "items": {
+        "type": "integer"
+       },
+       "type": [
+        "null",
+        "array"
+       ]
+      }
+     },
+     "required": [
+      "freq"
+     ],
+     "type": [
+      "null",
+      "object"
+     ]
+    },
+    "subject": {
+     "description": "person (default), or agent for a record of your own, which the person's screens do not show; an agent's record with an alert wakes the conversation you create it from",
+     "type": "string"
+    },
+    "time_zone": {
+     "description": "IANA zone the person lives in; a repeat keeps this zone's wall-clock time. Default UTC",
+     "type": "string"
+    },
+    "title": {
+     "description": "1-200 characters",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "title"
+   ],
+   "type": "object"
+  },
+  "tasks_delete": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "tasks_get": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  },
+  "tasks_history": {
+   "additionalProperties": false,
+   "properties": {
+    "days": {
+     "description": "how many recent days, ending today, 1-90, default 30",
+     "type": "integer"
+    },
+    "id": {
+     "description": "UUID of a repeating task",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  },
+  "tasks_list": {
+   "additionalProperties": false,
+   "properties": {
+    "after": {
+     "description": "RFC 3339; only tasks at or after this time",
+     "type": "string"
+    },
+    "before": {
+     "description": "RFC 3339; only tasks before this time",
+     "type": "string"
+    },
+    "limit": {
+     "description": "1-200, default 50",
+     "type": "integer"
+    },
+    "offset": {
+     "description": "0-1000000, default 0",
+     "type": "integer"
+    },
+    "search": {
+     "description": "literal text to find",
+     "type": "string"
+    },
+    "state": {
+     "description": "active (default), deleted or all",
+     "type": "string"
+    },
+    "status": {
+     "description": "open (default), done or all",
+     "type": "string"
+    },
+    "subject": {
+     "description": "person (default) or agent",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "tasks_restore": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "tasks_snooze": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "until": {
+     "description": "RFC 3339 instant in the future the alert is deferred to",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version",
+    "until"
+   ],
+   "type": "object"
+  },
+  "tasks_update": {
+   "additionalProperties": false,
+   "properties": {
+    "alert_before_minutes": {
+     "description": "tell the owner this many minutes before at (0 = at the time), up to 10080; requires at. Omit for no alert",
+     "type": [
+      "null",
+      "integer"
+     ]
+    },
+    "at": {
+     "description": "RFC 3339 instant: a task's deadline or cue, an event's start. An event requires it",
+     "type": [
+      "null",
+      "string"
+     ]
+    },
+    "derived_from": {
+     "description": "when an agent promoted a memory candidate: {bank_id, record_id, snapshot}"
+    },
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "is_priority": {
+     "type": "boolean"
+    },
+    "minutes": {
+     "description": "how long it takes, 1-1440",
+     "type": [
+      "null",
+      "integer"
+     ]
+    },
+    "notes": {
+     "description": "short detail, up to 2000 characters",
+     "type": "string"
+    },
+    "origin": {
+     "description": "person (default) or agent: who authored it",
+     "type": "string"
+    },
+    "recurrence": {
+     "additionalProperties": false,
+     "description": "optional repeat; requires at",
+     "properties": {
+      "freq": {
+       "description": "daily, weekly or monthly",
+       "type": "string"
+      },
+      "interval": {
+       "description": "repeat every N days/weeks/months, 1-365, default 1",
+       "type": "integer"
+      },
+      "weekdays": {
+       "description": "weekly only: days of the week, 0 = Sunday to 6 = Saturday; empty repeats on the due date's weekday",
+       "items": {
+        "type": "integer"
+       },
+       "type": [
+        "null",
+        "array"
+       ]
+      }
+     },
+     "required": [
+      "freq"
+     ],
+     "type": [
+      "null",
+      "object"
+     ]
+    },
+    "subject": {
+     "description": "person (default), or agent for a record of your own, which the person's screens do not show; an agent's record with an alert wakes the conversation you create it from",
+     "type": "string"
+    },
+    "time_zone": {
+     "description": "IANA zone the person lives in; a repeat keeps this zone's wall-clock time. Default UTC",
+     "type": "string"
+    },
+    "title": {
+     "description": "1-200 characters",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version",
+    "title"
+   ],
+   "type": "object"
+  },
+  "tracker_catalog_get": {
+   "additionalProperties": false,
+   "properties": {
+    "catalog_id": {
+     "description": "omit to list all supported client catalogs; otherwise request an exact id",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "views_create": {
+   "additionalProperties": false,
+   "properties": {
+    "catalog_id": {
+     "description": "exact versioned catalog id from tracker_catalog_get; names the app and platform that renders it",
+     "type": "string"
+    },
+    "id": {
+     "description": "optional client-generated UUID, so a plan can refer to the view before it exists",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "metrics": {
+     "description": "0-6 measurements the blocks refer to; observations are recorded separately, never generated here",
+     "items": {
+      "additionalProperties": false,
+      "properties": {
+       "id": {
+        "description": "stable lowercase identifier, 1-64 characters; never change its unit after recording data",
+        "type": "string"
+       },
+       "label": {
+        "description": "human-readable measurement name, 1-80 characters",
+        "type": "string"
+       },
+       "maximum": {
+        "type": [
+         "null",
+         "number"
+        ]
+       },
+       "minimum": {
+        "type": [
+         "null",
+         "number"
+        ]
+       },
+       "source": {
+        "additionalProperties": false,
+        "description": "a data provider's series the values come from, read live. Leave both source and task_id out when the person logs the values by hand",
+        "properties": {
+         "granularity": {
+          "description": "day, week or month: the resolution the client asks the provider for; omitted means day",
+          "type": "string"
+         },
+         "provider": {
+          "description": "the data engine that holds the series, a lowercase identifier such as health",
+          "type": "string"
+         },
+         "series": {
+          "description": "a series that provider lists in its catalog, a lowercase identifier such as body_weight",
+          "type": "string"
+         }
+        },
+        "required": [
+         "provider",
+         "series"
+        ],
+        "type": [
+         "null",
+         "object"
+        ]
+       },
+       "target": {
+        "description": "optional desired value; not a fabricated observation",
+        "type": [
+         "null",
+         "number"
+        ]
+       },
+       "task_id": {
+        "description": "a repeating task of this person whose done occurrences are the values (one per day done); instead of source",
+        "type": "string"
+       },
+       "unit": {
+        "description": "measurement unit, 1-24 characters, e.g. kg, km, books",
+        "type": "string"
+       }
+      },
+      "required": [
+       "id",
+       "label",
+       "unit"
+      ],
+      "type": "object"
+     },
+     "type": [
+      "null",
+      "array"
+     ]
+    },
+    "pages": {
+     "description": "1-4 pages; one page shows no tabs",
+     "items": {
+      "additionalProperties": false,
+      "properties": {
+       "id": {
+        "description": "stable lowercase identifier, unique within the view",
+        "type": "string"
+       },
+       "sections": {
+        "description": "1-6 sections in display order",
+        "items": {
+         "additionalProperties": false,
+         "properties": {
+          "blocks": {
+           "description": "1-8 blocks in display order",
+           "items": {
+            "additionalProperties": false,
+            "properties": {
+             "aggregate": {
+              "description": "series: how a group becomes one value: sum, mean or last",
+              "type": "string"
+             },
+             "band": {
+              "additionalProperties": false,
+              "description": "series: a shaded range (a target zone)",
+              "properties": {
+               "from": {
+                "description": "A calculation the client runs on live data: fn is a function from tracker_catalog_get, plus only the parameters that function takes. args hold more calculations (five levels at most).",
+                "properties": {
+                 "args": {
+                  "items": {
+                   "type": [
+                    "object"
+                   ]
+                  },
+                  "type": [
+                   "array"
+                  ]
+                 },
+                 "date": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "fn": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "metric": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "per": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "period": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "value": {
+                  "type": [
+                   "number"
+                  ]
+                 },
+                 "window": {
+                  "type": [
+                   "object"
+                  ]
+                 }
+                },
+                "required": [
+                 "fn"
+                ],
+                "type": [
+                 "object"
+                ]
+               },
+               "label": {
+                "description": "1-24 characters",
+                "type": "string"
+               },
+               "to": {
+                "description": "A calculation the client runs on live data: fn is a function from tracker_catalog_get, plus only the parameters that function takes. args hold more calculations (five levels at most).",
+                "properties": {
+                 "args": {
+                  "items": {
+                   "type": [
+                    "object"
+                   ]
+                  },
+                  "type": [
+                   "array"
+                  ]
+                 },
+                 "date": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "fn": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "metric": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "per": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "period": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "value": {
+                  "type": [
+                   "number"
+                  ]
+                 },
+                 "window": {
+                  "type": [
+                   "object"
+                  ]
+                 }
+                },
+                "required": [
+                 "fn"
+                ],
+                "type": [
+                 "object"
+                ]
+               }
+              },
+              "required": [
+               "from",
+               "to",
+               "label"
+              ],
+              "type": [
+               "null",
+               "object"
+              ]
+             },
+             "body": {
+              "description": "text: plain words, up to 280 characters",
+              "type": "string"
+             },
+             "bucket": {
+              "description": "series: group values by day, week or month",
+              "type": "string"
+             },
+             "decimals": {
+              "description": "0-3",
+              "type": [
+               "null",
+               "integer"
+              ]
+             },
+             "emphasis": {
+              "description": "hero, normal or compact: how much room the client gives it",
+              "type": "string"
+             },
+             "format": {
+              "description": "number, money, percent, date or days",
+              "type": "string"
+             },
+             "id": {
+              "description": "stable lowercase identifier, unique within the view",
+              "type": "string"
+             },
+             "kind": {
+              "description": "sentence, bar, series, grid, steps, timeline, tasks, events, log, text or link",
+              "type": "string"
+             },
+             "layout": {
+              "description": "grid: week_row or month_grid",
+              "type": "string"
+             },
+             "lines": {
+              "description": "series: up to three horizontal reference lines (a limit, a target)",
+              "items": {
+               "additionalProperties": false,
+               "properties": {
+                "at": {
+                 "description": "where the marker sits: a number for bar and series, a date for timeline",
+                 "properties": {
+                  "args": {
+                   "items": {
+                    "type": [
+                     "object"
+                    ]
+                   },
+                   "type": [
+                    "array"
+                   ]
+                  },
+                  "date": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "fn": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "metric": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "per": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "period": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "value": {
+                   "type": [
+                    "number"
+                   ]
+                  },
+                  "window": {
+                   "type": [
+                    "object"
+                   ]
+                  }
+                 },
+                 "required": [
+                  "fn"
+                 ],
+                 "type": [
+                  "object"
+                 ]
+                },
+                "label": {
+                 "description": "1-24 characters",
+                 "type": "string"
+                }
+               },
+               "required": [
+                "at",
+                "label"
+               ],
+               "type": "object"
+              },
+              "type": [
+               "null",
+               "array"
+              ]
+             },
+             "markers": {
+              "description": "bar: up to three marks on the scale; timeline: 1-4 dated marks",
+              "items": {
+               "additionalProperties": false,
+               "properties": {
+                "at": {
+                 "description": "where the marker sits: a number for bar and series, a date for timeline",
+                 "properties": {
+                  "args": {
+                   "items": {
+                    "type": [
+                     "object"
+                    ]
+                   },
+                   "type": [
+                    "array"
+                   ]
+                  },
+                  "date": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "fn": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "metric": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "per": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "period": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "value": {
+                   "type": [
+                    "number"
+                   ]
+                  },
+                  "window": {
+                   "type": [
+                    "object"
+                   ]
+                  }
+                 },
+                 "required": [
+                  "fn"
+                 ],
+                 "type": [
+                  "object"
+                 ]
+                },
+                "label": {
+                 "description": "1-24 characters",
+                 "type": "string"
+                }
+               },
+               "required": [
+                "at",
+                "label"
+               ],
+               "type": "object"
+              },
+              "type": [
+               "null",
+               "array"
+              ]
+             },
+             "metric": {
+              "description": "series, grid, log: the metric the block draws or records",
+              "type": "string"
+             },
+             "of": {
+              "description": "bar: the full scale (a limit or a target)",
+              "properties": {
+               "args": {
+                "items": {
+                 "type": [
+                  "object"
+                 ]
+                },
+                "type": [
+                 "array"
+                ]
+               },
+               "date": {
+                "type": [
+                 "string"
+                ]
+               },
+               "fn": {
+                "type": [
+                 "string"
+                ]
+               },
+               "metric": {
+                "type": [
+                 "string"
+                ]
+               },
+               "per": {
+                "type": [
+                 "string"
+                ]
+               },
+               "period": {
+                "type": [
+                 "string"
+                ]
+               },
+               "value": {
+                "type": [
+                 "number"
+                ]
+               },
+               "window": {
+                "type": [
+                 "object"
+                ]
+               }
+              },
+              "required": [
+               "fn"
+              ],
+              "type": [
+               "null",
+               "object"
+              ]
+             },
+             "points": {
+              "description": "text: up to five short points, each up to 120 characters",
+              "items": {
+               "type": "string"
+              },
+              "type": [
+               "null",
+               "array"
+              ]
+             },
+             "projection": {
+              "description": "bar: where the value is heading, drawn as a lighter extension",
+              "properties": {
+               "args": {
+                "items": {
+                 "type": [
+                  "object"
+                 ]
+                },
+                "type": [
+                 "array"
+                ]
+               },
+               "date": {
+                "type": [
+                 "string"
+                ]
+               },
+               "fn": {
+                "type": [
+                 "string"
+                ]
+               },
+               "metric": {
+                "type": [
+                 "string"
+                ]
+               },
+               "per": {
+                "type": [
+                 "string"
+                ]
+               },
+               "period": {
+                "type": [
+                 "string"
+                ]
+               },
+               "value": {
+                "type": [
+                 "number"
+                ]
+               },
+               "window": {
+                "type": [
+                 "object"
+                ]
+               }
+              },
+              "required": [
+               "fn"
+              ],
+              "type": [
+               "null",
+               "object"
+              ]
+             },
+             "slots": {
+              "additionalProperties": {
+               "additionalProperties": false,
+               "properties": {
+                "calc": {
+                 "description": "A calculation the client runs on live data: fn is a function from tracker_catalog_get, plus only the parameters that function takes. args hold more calculations (five levels at most).",
+                 "properties": {
+                  "args": {
+                   "items": {
+                    "type": [
+                     "object"
+                    ]
+                   },
+                   "type": [
+                    "array"
+                   ]
+                  },
+                  "date": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "fn": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "metric": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "per": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "period": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "value": {
+                   "type": [
+                    "number"
+                   ]
+                  },
+                  "window": {
+                   "type": [
+                    "object"
+                   ]
+                  }
+                 },
+                 "required": [
+                  "fn"
+                 ],
+                 "type": [
+                  "object"
+                 ]
+                },
+                "decimals": {
+                 "description": "0-3 digits after the point; omitted lets the client choose",
+                 "type": [
+                  "null",
+                  "integer"
+                 ]
+                },
+                "format": {
+                 "description": "number, money, percent, date or days",
+                 "type": "string"
+                },
+                "unit": {
+                 "description": "a unit to print after a number (kg, km), or the currency for money (USD); at most 24 characters",
+                 "type": "string"
+                }
+               },
+               "required": [
+                "calc",
+                "format"
+               ],
+               "type": "object"
+              },
+              "description": "sentence: for each {name}, the calculation that fills it and how to print it",
+              "type": "object"
+             },
+             "style": {
+              "description": "series: line, bars or dots",
+              "type": "string"
+             },
+             "text": {
+              "description": "sentence: the words, with {name} where a number goes, up to 160 characters",
+              "type": "string"
+             },
+             "thresholds": {
+              "description": "steps: 2-8 numbers, smallest first, drawn as a ladder the value climbs",
+              "items": {
+               "type": "number"
+              },
+              "type": [
+               "null",
+               "array"
+              ]
+             },
+             "title": {
+              "description": "optional short heading, up to 80 characters",
+              "type": "string"
+             },
+             "trend_to": {
+              "description": "series: draw the current rate as a dashed line until it reaches this value",
+              "properties": {
+               "args": {
+                "items": {
+                 "type": [
+                  "object"
+                 ]
+                },
+                "type": [
+                 "array"
+                ]
+               },
+               "date": {
+                "type": [
+                 "string"
+                ]
+               },
+               "fn": {
+                "type": [
+                 "string"
+                ]
+               },
+               "metric": {
+                "type": [
+                 "string"
+                ]
+               },
+               "per": {
+                "type": [
+                 "string"
+                ]
+               },
+               "period": {
+                "type": [
+                 "string"
+                ]
+               },
+               "value": {
+                "type": [
+                 "number"
+                ]
+               },
+               "window": {
+                "type": [
+                 "object"
+                ]
+               }
+              },
+              "required": [
+               "fn"
+              ],
+              "type": [
+               "null",
+               "object"
+              ]
+             },
+             "unit": {
+              "description": "a unit or currency to print, up to 24 characters",
+              "type": "string"
+             },
+             "url": {
+              "description": "link: an http or https address to open",
+              "type": "string"
+             },
+             "value": {
+              "description": "bar: how far along; steps with thresholds: the number compared with them",
+              "properties": {
+               "args": {
+                "items": {
+                 "type": [
+                  "object"
+                 ]
+                },
+                "type": [
+                 "array"
+                ]
+               },
+               "date": {
+                "type": [
+                 "string"
+                ]
+               },
+               "fn": {
+                "type": [
+                 "string"
+                ]
+               },
+               "metric": {
+                "type": [
+                 "string"
+                ]
+               },
+               "per": {
+                "type": [
+                 "string"
+                ]
+               },
+               "period": {
+                "type": [
+                 "string"
+                ]
+               },
+               "value": {
+                "type": [
+                 "number"
+                ]
+               },
+               "window": {
+                "type": [
+                 "object"
+                ]
+               }
+              },
+              "required": [
+               "fn"
+              ],
+              "type": [
+               "null",
+               "object"
+              ]
+             },
+             "weeks": {
+              "description": "grid: how many weeks, 1-12",
+              "type": "integer"
+             },
+             "window": {
+              "additionalProperties": false,
+              "description": "series: the part of the data to show",
+              "properties": {
+               "days": {
+                "description": "the last N days, 1-366",
+                "type": "integer"
+               },
+               "period": {
+                "description": "week or month: the current calendar week or month",
+                "type": "string"
+               }
+              },
+              "type": [
+               "null",
+               "object"
+              ]
+             }
+            },
+            "required": [
+             "id",
+             "kind"
+            ],
+            "type": "object"
+           },
+           "type": [
+            "null",
+            "array"
+           ]
+          },
+          "id": {
+           "description": "stable lowercase identifier, unique within the view",
+           "type": "string"
+          },
+          "intro": {
+           "description": "optional one or two plain sentences that say why it matters or how to read it, up to 240 characters; never a figure",
+           "type": "string"
+          },
+          "title": {
+           "description": "what this part of the intention is about, 1-60 characters",
+           "type": "string"
+          }
+         },
+         "required": [
+          "id",
+          "title",
+          "blocks"
+         ],
+         "type": "object"
+        },
+        "type": [
+         "null",
+         "array"
+        ]
+       },
+       "title": {
+        "description": "tab name, 1-24 characters; required when the view has more than one page",
+        "type": "string"
+       }
+      },
+      "required": [
+       "id",
+       "sections"
+      ],
+      "type": "object"
+     },
+     "type": [
+      "null",
+      "array"
+     ]
+    },
+    "subject_id": {
+     "description": "UUID of that record; in a batch it may be a record an earlier step creates",
+     "type": "string"
+    },
+    "subject_kind": {
+     "description": "what the view is of: intention, task or event",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "subject_kind",
+    "subject_id",
+    "catalog_id",
+    "metrics",
+    "pages"
+   ],
+   "type": "object"
+  },
+  "views_delete": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "views_get": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  },
+  "views_list": {
+   "additionalProperties": false,
+   "properties": {
+    "catalog_id": {
+     "description": "only the view for this client catalog",
+     "type": "string"
+    },
+    "subject_id": {
+     "type": "string"
+    },
+    "subject_kind": {
+     "description": "intention, task or event",
+     "type": "string"
+    }
+   },
+   "required": [
+    "subject_kind",
+    "subject_id"
+   ],
+   "type": "object"
+  },
+  "views_state": {
+   "additionalProperties": false,
+   "properties": {
+    "catalog_id": {
+     "description": "exact catalog supported by the requesting client",
+     "type": "string"
+    },
+    "subject_id": {
+     "type": "string"
+    },
+    "subject_kind": {
+     "description": "intention, task or event",
+     "type": "string"
+    }
+   },
+   "required": [
+    "subject_kind",
+    "subject_id",
+    "catalog_id"
+   ],
+   "type": "object"
+  },
+  "views_update": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "metrics": {
+     "description": "the whole list, replacing the current one",
+     "items": {
+      "additionalProperties": false,
+      "properties": {
+       "id": {
+        "description": "stable lowercase identifier, 1-64 characters; never change its unit after recording data",
+        "type": "string"
+       },
+       "label": {
+        "description": "human-readable measurement name, 1-80 characters",
+        "type": "string"
+       },
+       "maximum": {
+        "type": [
+         "null",
+         "number"
+        ]
+       },
+       "minimum": {
+        "type": [
+         "null",
+         "number"
+        ]
+       },
+       "source": {
+        "additionalProperties": false,
+        "description": "a data provider's series the values come from, read live. Leave both source and task_id out when the person logs the values by hand",
+        "properties": {
+         "granularity": {
+          "description": "day, week or month: the resolution the client asks the provider for; omitted means day",
+          "type": "string"
+         },
+         "provider": {
+          "description": "the data engine that holds the series, a lowercase identifier such as health",
+          "type": "string"
+         },
+         "series": {
+          "description": "a series that provider lists in its catalog, a lowercase identifier such as body_weight",
+          "type": "string"
+         }
+        },
+        "required": [
+         "provider",
+         "series"
+        ],
+        "type": [
+         "null",
+         "object"
+        ]
+       },
+       "target": {
+        "description": "optional desired value; not a fabricated observation",
+        "type": [
+         "null",
+         "number"
+        ]
+       },
+       "task_id": {
+        "description": "a repeating task of this person whose done occurrences are the values (one per day done); instead of source",
+        "type": "string"
+       },
+       "unit": {
+        "description": "measurement unit, 1-24 characters, e.g. kg, km, books",
+        "type": "string"
+       }
+      },
+      "required": [
+       "id",
+       "label",
+       "unit"
+      ],
+      "type": "object"
+     },
+     "type": [
+      "null",
+      "array"
+     ]
+    },
+    "pages": {
+     "description": "the whole structure, replacing the current one",
+     "items": {
+      "additionalProperties": false,
+      "properties": {
+       "id": {
+        "description": "stable lowercase identifier, unique within the view",
+        "type": "string"
+       },
+       "sections": {
+        "description": "1-6 sections in display order",
+        "items": {
+         "additionalProperties": false,
+         "properties": {
+          "blocks": {
+           "description": "1-8 blocks in display order",
+           "items": {
+            "additionalProperties": false,
+            "properties": {
+             "aggregate": {
+              "description": "series: how a group becomes one value: sum, mean or last",
+              "type": "string"
+             },
+             "band": {
+              "additionalProperties": false,
+              "description": "series: a shaded range (a target zone)",
+              "properties": {
+               "from": {
+                "description": "A calculation the client runs on live data: fn is a function from tracker_catalog_get, plus only the parameters that function takes. args hold more calculations (five levels at most).",
+                "properties": {
+                 "args": {
+                  "items": {
+                   "type": [
+                    "object"
+                   ]
+                  },
+                  "type": [
+                   "array"
+                  ]
+                 },
+                 "date": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "fn": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "metric": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "per": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "period": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "value": {
+                  "type": [
+                   "number"
+                  ]
+                 },
+                 "window": {
+                  "type": [
+                   "object"
+                  ]
+                 }
+                },
+                "required": [
+                 "fn"
+                ],
+                "type": [
+                 "object"
+                ]
+               },
+               "label": {
+                "description": "1-24 characters",
+                "type": "string"
+               },
+               "to": {
+                "description": "A calculation the client runs on live data: fn is a function from tracker_catalog_get, plus only the parameters that function takes. args hold more calculations (five levels at most).",
+                "properties": {
+                 "args": {
+                  "items": {
+                   "type": [
+                    "object"
+                   ]
+                  },
+                  "type": [
+                   "array"
+                  ]
+                 },
+                 "date": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "fn": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "metric": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "per": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "period": {
+                  "type": [
+                   "string"
+                  ]
+                 },
+                 "value": {
+                  "type": [
+                   "number"
+                  ]
+                 },
+                 "window": {
+                  "type": [
+                   "object"
+                  ]
+                 }
+                },
+                "required": [
+                 "fn"
+                ],
+                "type": [
+                 "object"
+                ]
+               }
+              },
+              "required": [
+               "from",
+               "to",
+               "label"
+              ],
+              "type": [
+               "null",
+               "object"
+              ]
+             },
+             "body": {
+              "description": "text: plain words, up to 280 characters",
+              "type": "string"
+             },
+             "bucket": {
+              "description": "series: group values by day, week or month",
+              "type": "string"
+             },
+             "decimals": {
+              "description": "0-3",
+              "type": [
+               "null",
+               "integer"
+              ]
+             },
+             "emphasis": {
+              "description": "hero, normal or compact: how much room the client gives it",
+              "type": "string"
+             },
+             "format": {
+              "description": "number, money, percent, date or days",
+              "type": "string"
+             },
+             "id": {
+              "description": "stable lowercase identifier, unique within the view",
+              "type": "string"
+             },
+             "kind": {
+              "description": "sentence, bar, series, grid, steps, timeline, tasks, events, log, text or link",
+              "type": "string"
+             },
+             "layout": {
+              "description": "grid: week_row or month_grid",
+              "type": "string"
+             },
+             "lines": {
+              "description": "series: up to three horizontal reference lines (a limit, a target)",
+              "items": {
+               "additionalProperties": false,
+               "properties": {
+                "at": {
+                 "description": "where the marker sits: a number for bar and series, a date for timeline",
+                 "properties": {
+                  "args": {
+                   "items": {
+                    "type": [
+                     "object"
+                    ]
+                   },
+                   "type": [
+                    "array"
+                   ]
+                  },
+                  "date": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "fn": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "metric": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "per": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "period": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "value": {
+                   "type": [
+                    "number"
+                   ]
+                  },
+                  "window": {
+                   "type": [
+                    "object"
+                   ]
+                  }
+                 },
+                 "required": [
+                  "fn"
+                 ],
+                 "type": [
+                  "object"
+                 ]
+                },
+                "label": {
+                 "description": "1-24 characters",
+                 "type": "string"
+                }
+               },
+               "required": [
+                "at",
+                "label"
+               ],
+               "type": "object"
+              },
+              "type": [
+               "null",
+               "array"
+              ]
+             },
+             "markers": {
+              "description": "bar: up to three marks on the scale; timeline: 1-4 dated marks",
+              "items": {
+               "additionalProperties": false,
+               "properties": {
+                "at": {
+                 "description": "where the marker sits: a number for bar and series, a date for timeline",
+                 "properties": {
+                  "args": {
+                   "items": {
+                    "type": [
+                     "object"
+                    ]
+                   },
+                   "type": [
+                    "array"
+                   ]
+                  },
+                  "date": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "fn": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "metric": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "per": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "period": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "value": {
+                   "type": [
+                    "number"
+                   ]
+                  },
+                  "window": {
+                   "type": [
+                    "object"
+                   ]
+                  }
+                 },
+                 "required": [
+                  "fn"
+                 ],
+                 "type": [
+                  "object"
+                 ]
+                },
+                "label": {
+                 "description": "1-24 characters",
+                 "type": "string"
+                }
+               },
+               "required": [
+                "at",
+                "label"
+               ],
+               "type": "object"
+              },
+              "type": [
+               "null",
+               "array"
+              ]
+             },
+             "metric": {
+              "description": "series, grid, log: the metric the block draws or records",
+              "type": "string"
+             },
+             "of": {
+              "description": "bar: the full scale (a limit or a target)",
+              "properties": {
+               "args": {
+                "items": {
+                 "type": [
+                  "object"
+                 ]
+                },
+                "type": [
+                 "array"
+                ]
+               },
+               "date": {
+                "type": [
+                 "string"
+                ]
+               },
+               "fn": {
+                "type": [
+                 "string"
+                ]
+               },
+               "metric": {
+                "type": [
+                 "string"
+                ]
+               },
+               "per": {
+                "type": [
+                 "string"
+                ]
+               },
+               "period": {
+                "type": [
+                 "string"
+                ]
+               },
+               "value": {
+                "type": [
+                 "number"
+                ]
+               },
+               "window": {
+                "type": [
+                 "object"
+                ]
+               }
+              },
+              "required": [
+               "fn"
+              ],
+              "type": [
+               "null",
+               "object"
+              ]
+             },
+             "points": {
+              "description": "text: up to five short points, each up to 120 characters",
+              "items": {
+               "type": "string"
+              },
+              "type": [
+               "null",
+               "array"
+              ]
+             },
+             "projection": {
+              "description": "bar: where the value is heading, drawn as a lighter extension",
+              "properties": {
+               "args": {
+                "items": {
+                 "type": [
+                  "object"
+                 ]
+                },
+                "type": [
+                 "array"
+                ]
+               },
+               "date": {
+                "type": [
+                 "string"
+                ]
+               },
+               "fn": {
+                "type": [
+                 "string"
+                ]
+               },
+               "metric": {
+                "type": [
+                 "string"
+                ]
+               },
+               "per": {
+                "type": [
+                 "string"
+                ]
+               },
+               "period": {
+                "type": [
+                 "string"
+                ]
+               },
+               "value": {
+                "type": [
+                 "number"
+                ]
+               },
+               "window": {
+                "type": [
+                 "object"
+                ]
+               }
+              },
+              "required": [
+               "fn"
+              ],
+              "type": [
+               "null",
+               "object"
+              ]
+             },
+             "slots": {
+              "additionalProperties": {
+               "additionalProperties": false,
+               "properties": {
+                "calc": {
+                 "description": "A calculation the client runs on live data: fn is a function from tracker_catalog_get, plus only the parameters that function takes. args hold more calculations (five levels at most).",
+                 "properties": {
+                  "args": {
+                   "items": {
+                    "type": [
+                     "object"
+                    ]
+                   },
+                   "type": [
+                    "array"
+                   ]
+                  },
+                  "date": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "fn": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "metric": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "per": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "period": {
+                   "type": [
+                    "string"
+                   ]
+                  },
+                  "value": {
+                   "type": [
+                    "number"
+                   ]
+                  },
+                  "window": {
+                   "type": [
+                    "object"
+                   ]
+                  }
+                 },
+                 "required": [
+                  "fn"
+                 ],
+                 "type": [
+                  "object"
+                 ]
+                },
+                "decimals": {
+                 "description": "0-3 digits after the point; omitted lets the client choose",
+                 "type": [
+                  "null",
+                  "integer"
+                 ]
+                },
+                "format": {
+                 "description": "number, money, percent, date or days",
+                 "type": "string"
+                },
+                "unit": {
+                 "description": "a unit to print after a number (kg, km), or the currency for money (USD); at most 24 characters",
+                 "type": "string"
+                }
+               },
+               "required": [
+                "calc",
+                "format"
+               ],
+               "type": "object"
+              },
+              "description": "sentence: for each {name}, the calculation that fills it and how to print it",
+              "type": "object"
+             },
+             "style": {
+              "description": "series: line, bars or dots",
+              "type": "string"
+             },
+             "text": {
+              "description": "sentence: the words, with {name} where a number goes, up to 160 characters",
+              "type": "string"
+             },
+             "thresholds": {
+              "description": "steps: 2-8 numbers, smallest first, drawn as a ladder the value climbs",
+              "items": {
+               "type": "number"
+              },
+              "type": [
+               "null",
+               "array"
+              ]
+             },
+             "title": {
+              "description": "optional short heading, up to 80 characters",
+              "type": "string"
+             },
+             "trend_to": {
+              "description": "series: draw the current rate as a dashed line until it reaches this value",
+              "properties": {
+               "args": {
+                "items": {
+                 "type": [
+                  "object"
+                 ]
+                },
+                "type": [
+                 "array"
+                ]
+               },
+               "date": {
+                "type": [
+                 "string"
+                ]
+               },
+               "fn": {
+                "type": [
+                 "string"
+                ]
+               },
+               "metric": {
+                "type": [
+                 "string"
+                ]
+               },
+               "per": {
+                "type": [
+                 "string"
+                ]
+               },
+               "period": {
+                "type": [
+                 "string"
+                ]
+               },
+               "value": {
+                "type": [
+                 "number"
+                ]
+               },
+               "window": {
+                "type": [
+                 "object"
+                ]
+               }
+              },
+              "required": [
+               "fn"
+              ],
+              "type": [
+               "null",
+               "object"
+              ]
+             },
+             "unit": {
+              "description": "a unit or currency to print, up to 24 characters",
+              "type": "string"
+             },
+             "url": {
+              "description": "link: an http or https address to open",
+              "type": "string"
+             },
+             "value": {
+              "description": "bar: how far along; steps with thresholds: the number compared with them",
+              "properties": {
+               "args": {
+                "items": {
+                 "type": [
+                  "object"
+                 ]
+                },
+                "type": [
+                 "array"
+                ]
+               },
+               "date": {
+                "type": [
+                 "string"
+                ]
+               },
+               "fn": {
+                "type": [
+                 "string"
+                ]
+               },
+               "metric": {
+                "type": [
+                 "string"
+                ]
+               },
+               "per": {
+                "type": [
+                 "string"
+                ]
+               },
+               "period": {
+                "type": [
+                 "string"
+                ]
+               },
+               "value": {
+                "type": [
+                 "number"
+                ]
+               },
+               "window": {
+                "type": [
+                 "object"
+                ]
+               }
+              },
+              "required": [
+               "fn"
+              ],
+              "type": [
+               "null",
+               "object"
+              ]
+             },
+             "weeks": {
+              "description": "grid: how many weeks, 1-12",
+              "type": "integer"
+             },
+             "window": {
+              "additionalProperties": false,
+              "description": "series: the part of the data to show",
+              "properties": {
+               "days": {
+                "description": "the last N days, 1-366",
+                "type": "integer"
+               },
+               "period": {
+                "description": "week or month: the current calendar week or month",
+                "type": "string"
+               }
+              },
+              "type": [
+               "null",
+               "object"
+              ]
+             }
+            },
+            "required": [
+             "id",
+             "kind"
+            ],
+            "type": "object"
+           },
+           "type": [
+            "null",
+            "array"
+           ]
+          },
+          "id": {
+           "description": "stable lowercase identifier, unique within the view",
+           "type": "string"
+          },
+          "intro": {
+           "description": "optional one or two plain sentences that say why it matters or how to read it, up to 240 characters; never a figure",
+           "type": "string"
+          },
+          "title": {
+           "description": "what this part of the intention is about, 1-60 characters",
+           "type": "string"
+          }
+         },
+         "required": [
+          "id",
+          "title",
+          "blocks"
+         ],
+         "type": "object"
+        },
+        "type": [
+         "null",
+         "array"
+        ]
+       },
+       "title": {
+        "description": "tab name, 1-24 characters; required when the view has more than one page",
+        "type": "string"
+       }
+      },
+      "required": [
+       "id",
+       "sections"
+      ],
+      "type": "object"
+     },
+     "type": [
+      "null",
+      "array"
+     ]
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version",
+    "metrics",
+    "pages"
+   ],
+   "type": "object"
+  },
+  "watches_create": {
+   "additionalProperties": false,
+   "properties": {
+    "event_key": {
+     "description": "the event to watch, exactly as the engine that raises it names it",
+     "type": "string"
+    },
+    "expires_at": {
+     "description": "RFC 3339 instant after which the watch stops firing; optional",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "intention_id": {
+     "description": "UUID of the intention this watch serves; optional",
+     "type": "string"
+    },
+    "name": {
+     "description": "short, lowercase letters, digits and dashes, 1-60 characters; arming the same name again revises that watch",
+     "type": "string"
+    },
+    "objective": {
+     "description": "what you should do when you are woken, up to 2000 characters: the event says only what happened",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "name",
+    "event_key",
+    "objective"
+   ],
+   "type": "object"
+  },
+  "watches_delete": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
+  "watches_get": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  },
+  "watches_list": {
+   "additionalProperties": false,
+   "properties": {
+    "limit": {
+     "description": "1-200, default 50",
+     "type": "integer"
+    },
+    "offset": {
+     "description": "0-1000000, default 0",
+     "type": "integer"
+    },
+    "search": {
+     "description": "literal text to find",
+     "type": "string"
+    },
+    "state": {
+     "description": "active (default), deleted or all",
+     "type": "string"
+    }
+   },
+   "type": "object"
+  },
+  "watches_update": {
+   "additionalProperties": false,
+   "properties": {
+    "event_key": {
+     "description": "the event to watch instead; left out, it stays",
+     "type": "string"
+    },
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "expires_at": {
+     "description": "RFC 3339 instant after which the watch stops firing; left out, it stays",
+     "type": "string"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    },
+    "objective": {
+     "description": "what to do when woken, instead; left out, it stays",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  }
+ },
+ "source": "life-engine 30a7e24"
+}

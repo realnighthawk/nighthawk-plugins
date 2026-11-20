@@ -1,0 +1,34 @@
+{
+  "name": "@nighthawklabs/cookbook",
+  "version": "0.2.0",
+  "description": "Portable Agent Skills in the Claude Agent Skills format, with direct MCP tools and Python helpers.",
+  "type": "module",
+  "bin": {
+    "nighthawk-cookbook": "bin/install.mjs"
+  },
+  "files": [
+    "bin/",
+    "skills/*/SKILL.md",
+    "skills/*/references/**",
+    "skills/*/scripts/*.py",
+    "skills/*/assets/**",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/realnighthawk/nighthawk-plugins.git",
+    "directory": "packages/cookbook"
+  },
+  "homepage": "https://github.com/realnighthawk/nighthawk-plugins/tree/main/packages/cookbook",
+  "publishConfig": {
+    "access": "public"
+  },
+  "scripts": {
+    "prepack": "node bin/stage-skills.mjs",
+    "test": "python3 -m pytest -q"
+  }
+}

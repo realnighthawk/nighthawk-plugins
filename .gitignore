@@ -1,7 +1,10 @@
 # Created by venv; see https://docs.python.org/3/library/venv.html
 /lib/
 /bin/
-# The Agent Harness cookbook repo: its own git repo, developed in this home.
-/cookbook/
-# Temporary bridge for a running session; remove after restarting in cookbook/.
-/skills
+
+__pycache__/
+.pytest_cache/
+node_modules/
+*.tgz
+.DS_Store
+/packages/cookbook/skills/

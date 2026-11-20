@@ -1,0 +1,165 @@
+{
+ "_about": "Labelled requests for checking how a router picks skills (embedding match, a trained classifier, anything). `expect` is a skill name, or null when no skill should apply. Re-measure after any description change: on 2026-11-14 (before the third-person rewrite) the right skill ranked first for 16 of 16 positives. Scores of right matches (0.42-0.58) overlap those of non-matches (up to 0.46), so an absolute threshold cannot separate them; compare routers by top-1 accuracy and by false positives on the null cases.",
+ "cases": [
+  {
+   "request": "Help me plan a 10k by December",
+   "expect": "manage-goals"
+  },
+  {
+   "request": "I want to lose 5kg by March",
+   "expect": "manage-goals"
+  },
+  {
+   "request": "help me organise my move next month",
+   "expect": "manage-goals"
+  },
+  {
+   "request": "remind me to call Sam at 5",
+   "expect": "manage-goals"
+  },
+  {
+   "request": "set up a weekly habit to read for 30 minutes",
+   "expect": "manage-goals"
+  },
+  {
+   "request": "mark my passport task as done",
+   "expect": "manage-goals"
+  },
+  {
+   "request": "snooze my gym reminder until tomorrow",
+   "expect": "manage-goals"
+  },
+  {
+   "request": "I weighed 81.5 today",
+   "expect": "manage-goals"
+  },
+  {
+   "request": "I want to learn Spanish this year",
+   "expect": "manage-goals"
+  },
+  {
+   "request": "plan my Lisbon trip in December",
+   "expect": "travel-planner"
+  },
+  {
+   "request": "where should we stay in Porto",
+   "expect": "travel-planner"
+  },
+  {
+   "request": "add flights to my Japan trip",
+   "expect": "travel-planner"
+  },
+  {
+   "request": "find places to visit in Rome",
+   "expect": "travel-planner"
+  },
+  {
+   "request": "what should I pack for Iceland",
+   "expect": "travel-planner"
+  },
+  {
+   "request": "who should I captain this gameweek",
+   "expect": "fpl-gameweek-planner"
+  },
+  {
+   "request": "should I use my wildcard now",
+   "expect": "fpl-gameweek-planner"
+  },
+  {
+   "request": "what's the capital of France",
+   "expect": null
+  },
+  {
+   "request": "how is the weather today",
+   "expect": null
+  },
+  {
+   "request": "what is 15 percent of 80",
+   "expect": null
+  },
+  {
+   "request": "tell me a joke",
+   "expect": null
+  },
+  {
+   "request": "explain how a transformer model works",
+   "expect": null
+  },
+  {
+   "request": "summarise this article for me",
+   "expect": null
+  },
+  {
+   "request": "translate good morning into Italian",
+   "expect": null
+  },
+  {
+   "request": "what time is it in Tokyo",
+   "expect": null
+  },
+  {
+   "request": "write a haiku about autumn",
+   "expect": null
+  },
+  {
+   "request": "can you recommend a good book",
+   "expect": null
+  },
+  {
+   "request": "Check my LinkedIn messages and tell me who wrote to me",
+   "expect": "browser"
+  },
+  {
+   "request": "log me in to LinkedIn so you can read my inbox",
+   "expect": "browser"
+  },
+  {
+   "request": "I'm getting a CAPTCHA, can you let me take over the browser",
+   "expect": "browser"
+  },
+  {
+   "request": "save my Google login so I don't have to sign in again",
+   "expect": "browser"
+  },
+  {
+   "request": "open my LinkedIn profile and summarise what it says about me",
+   "expect": "browser"
+  },
+  {
+   "request": "why do I keep getting logged out of the browser",
+   "expect": "browser"
+  },
+  {
+   "request": "the reddit server is down, can you read the subreddit in the browser",
+   "expect": "browser"
+  },
+  {
+   "request": "there is no FPL tool connected, try the site in my browser",
+   "expect": "browser"
+  },
+  {
+   "request": "the travel API is blocked, use the browser to read the page",
+   "expect": "browser"
+  },
+  {
+   "request": "what's the weather like in Lisbon next week",
+   "expect": null
+  },
+  {
+   "request": "plan my trip to Porto in March",
+   "expect": "travel-planner"
+  },
+  {
+   "request": "build a dashboard for my running goal",
+   "expect": "view-builder"
+  },
+  {
+   "request": "make a view of my progress",
+   "expect": "view-builder"
+  },
+  {
+   "request": "draw a pie chart of my spending",
+   "expect": null
+  }
+ ]
+}

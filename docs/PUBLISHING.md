@@ -1,44 +1,50 @@
 # Publishing
 
-The plugins ship as files in this public repo. There are no binaries, packages or images.
+The plugins ship as files in this public repo. There are no binaries or images. The portable skills are also published
+on npm as `@nighthawklabs/cookbook` from `packages/cookbook`.
 
 | Plugin | How it reaches users |
 |---|---|
-| `claude-code` | Claude marketplace in `.claude-plugin/marketplace.json`; bump the version in both `plugin.json` and `marketplace.json`, or cached installs keep the old one |
-| `cursor` | Link or copy `plugins/cursor` into Cursor's local plugins folder |
-| `codex` | `codex plugin marketplace add realnighthawk/nighthawk-plugins`, then `codex plugin add mission-control@mission-control-plugins` and `codex mcp login hippocampus`; or `sh plugins/codex/install.sh` |
-| `openclaw` | `openclaw plugins install --link ./plugins/openclaw` |
+| `mission-control` (Claude Code, oh-my-pi) | Claude marketplace in `.claude-plugin/marketplace.json`; oh-my-pi marketplace in `.omp-plugin/marketplace.json`; both source `./plugins/mission-control`. Bump the version in `.claude-plugin/plugin.json`, `plugin.json` and both marketplace entries, or cached installs keep the old one |
+| `claude-app` | Claude app connector, memory only |
+| `chatgpt-memory` | ChatGPT app connector, memory only |
 
 ## App connectors (Claude apps, ChatGPT)
 
-Both servers are connectors in both apps: Hippocampus (memory) and Reactor (the tool hub). Connectors send a URL and an OAuth token but no custom header, so each memory connector has its own URL and the router pins `X-Agent-ID` from the path. The hub needs no agent, so both apps share its URL.
+Both apps carry Hippocampus memory only; the tenant's service servers are not reachable from the hosted connectors. Connectors send a URL and an OAuth token but no custom header, so each memory connector has its own URL and the router pins `X-Agent-ID` from the path.
 
-| Connector | Claude apps | ChatGPT | `plugins/chatgpt-memory`, `plugins/chatgpt-tools` | Two plugins, "Mission Control Memory" and "Mission Control Tools", because review accepts test cases for one MCP server per plugin and only one server can be connected. ZIP each folder (`cd plugins/chatgpt-memory && zip -r ../mission-control-memory.zip .`) and upload at Plugins, Upload new or existing plugin. The layout is the Codex one the portal requires (`.codex-plugin/plugin.json`, `.mcp.json`, `skills/`, `assets/`); the five positive and three negative test cases are in the manifest under `extensions.com.openai.review.test_cases`. |
-|---|---|---|---|
-| Hippocampus | `https://api.nighthawklabs.org/memory/mcp/claude-app` | `https://api.nighthawklabs.org/memory/mcp/chatgpt` | `claude-app` / `chatgpt` |
-| Reactor | `https://api.nighthawklabs.org/hub/mcp` | `https://api.nighthawklabs.org/hub/mcp` | none |
+| Connector | Claude apps | ChatGPT |
+|---|---|---|
+| Hippocampus | `https://api.nighthawklabs.org/memory/mcp/claude-app` | `https://api.nighthawklabs.org/memory/mcp/chatgpt` |
 
-Add yourself in Claude: Settings, Connectors, Add custom connector, once per URL. The OAuth redirect `https://claude.ai/api/mcp/auth_callback` (and ChatGPT's) must be allowed on the Clerk application. Directory submission is separate and is one submission per server: Claude through the Claude.ai developer portal, ChatGPT through the plugin submission portal. Each needs the privacy policy URL (`https://mission-control.nighthawklabs.org/privacy`), a logo (`assets/mission-control.svg`), and tool hints, which both servers declare (memory in `agent-brain`, the hub in `infra/mcp-hub`). `call_tool` is declared destructive and open-world because it proxies arbitrary backend tools, so expect reviewers to ask about it.
+Add yourself in Claude: Settings, Connectors, Add custom connector. The OAuth redirect `https://claude.ai/api/mcp/auth_callback` (and ChatGPT's) must be allowed on the Clerk application. Directory submission is separate: Claude through the Claude.ai developer portal, ChatGPT through the plugin submission portal. Each needs the privacy policy URL (`https://mission-control.nighthawklabs.org/privacy`) and a logo (`assets/mission-control.svg`).
 
-## Store listings: one "Mission Control" in each store
+For ChatGPT, upload `plugins/chatgpt-memory` as a ZIP (`cd plugins/chatgpt-memory && zip -r ../mission-control-memory.zip .`). The layout is the OpenAI plugin layout the portal requires (`.codex-plugin/plugin.json`, `.mcp.json`, `skills/`, `assets/`); the five positive and three negative test cases are in the manifest under `extensions.com.openai.review.test_cases`.
 
-One listing per store holds both servers and both skills. Each store also takes the two servers as separate connectors, which is why the listing points at the same URLs.
+## Store listings: one "Mission Control Memory" in each store
 
 | Store | Folder | Submit as |
 |---|---|---|
-| Claude directory | `plugins/claude-app` | Plugin bundle from this public repo (`claude plugin validate plugins/claude-app` passes), plus each server as an MCP connector so the two listings pair. No hooks or commands, because command hooks are held for a reviewer until the org is Verified. |
-| ChatGPT | `plugins/chatgpt` | ZIP of the folder (`cd plugins/chatgpt && zip -r ../mission-control-chatgpt.zip .`) uploaded at Plugins, Upload new or existing plugin. Uses the Codex package layout the portal expects (`.codex-plugin/plugin.json`, `.mcp.json`, `skills/`, `assets/`); a root `plugin.json` is rejected. Declares both MCP servers and ships both skills. The portal docs say a plugin can declare several servers but only one can be connected, so check whether both are usable in one listing. |
+| Claude directory | `plugins/claude-app` | Plugin bundle from this public repo (`claude plugin validate plugins/claude-app` passes), plus the memory server as an MCP connector. No hooks or commands, because command hooks are held for a reviewer until the org is Verified. |
+| ChatGPT | `plugins/chatgpt-memory` | ZIP of the folder (`cd plugins/chatgpt-memory && zip -r ../mission-control-memory.zip .`) uploaded at Plugins, Upload new or existing plugin. Uses the OpenAI plugin layout the portal expects (`.codex-plugin/plugin.json`, `.mcp.json`, `skills/`, `assets/`); a root `plugin.json` is rejected. |
 
 Still to do before submitting to ChatGPT, none of which is in the repo (the demo video URL goes in each manifest as `extensions.com.openai.review.demo_recording_url`):
-- Verified publisher identity. `supportURL` and `termsOfServiceURL` are set in `plugins/chatgpt/plugin.json` (`/support` and `/terms` on mission-control.nighthawklabs.org).
+- Verified publisher identity. `supportURL` and `termsOfServiceURL` are set in `plugins/chatgpt-memory/plugin.json` (`/support` and `/terms` on mission-control.nighthawklabs.org).
 - OAuth settings for each server on the portal's MCPs step, and domain verification: serve the portal's token as plain text at `https://api.nighthawklabs.org/.well-known/openai-apps-challenge`.
 - Five positive and three negative test cases, a reviewer video, release notes, and a test account.
 
 ## Release
 
-Tag and create a GitHub release; there is no workflow:
+Plugins and the skills package have separate tags in one repository.
 
 ```bash
-git tag -a v0.4.0 -m "v0.4.0" && git push origin v0.4.0
-gh release create v0.4.0 --generate-notes
+# plugins: tag the release
+git tag -a v0.13.0 -m "v0.13.0" && git push origin v0.13.0
+gh release create v0.13.0 --generate-notes
+
+# skills package: the tag must match packages/cookbook/package.json
+git tag cookbook-v0.2.0 && git push origin cookbook-v0.2.0
 ```
+
+`.github/workflows/npm-publish.yml` publishes `@nighthawklabs/cookbook` on the `cookbook-v*` tag; plugin tags do not
+publish npm.
