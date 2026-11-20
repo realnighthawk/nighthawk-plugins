@@ -1,7 +1,0 @@
-{
-  "mcpServers": {
-    "reactor": {
-      "url": "https://api.nighthawklabs.org/hub/mcp"
-    }
-  }
-}

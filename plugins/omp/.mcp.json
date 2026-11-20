@@ -1,8 +1,55 @@
 {
   "mcpServers": {
-    "reactor": {
+    "finance": {
       "type": "http",
-      "url": "${MISSION_CONTROL_HUB_URL:-https://api.nighthawklabs.org/hub/mcp}"
+      "url": "${MISSION_CONTROL_FINANCE_URL:-http://127.0.0.1:8091/mcp}",
+      "headers": {
+        "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}"
+      }
+    },
+    "maps": {
+      "type": "http",
+      "url": "${MISSION_CONTROL_MAPS_URL:-http://127.0.0.1:8090/mcp}",
+      "headers": {
+        "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}"
+      }
+    },
+    "life": {
+      "type": "http",
+      "url": "${MISSION_CONTROL_LIFE_URL:-http://127.0.0.1:8093/mcp}",
+      "headers": {
+        "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}"
+      }
+    },
+    "retro": {
+      "type": "http",
+      "url": "${MISSION_CONTROL_RETRO_URL:-http://127.0.0.1:8092/mcp}",
+      "headers": {
+        "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}"
+      }
+    },
+    "health": {
+      "type": "http",
+      "url": "${MISSION_CONTROL_HEALTH_URL:-http://127.0.0.1:8080/mcp}"
+    },
+    "fpl": {
+      "type": "http",
+      "url": "${MISSION_CONTROL_FPL_URL:-http://127.0.0.1:8000/mcp}"
+    },
+    "fpl_intelligence": {
+      "type": "http",
+      "url": "${MISSION_CONTROL_FPL_INTELLIGENCE_URL:-http://127.0.0.1:8001/mcp}"
+    },
+    "reddit": {
+      "type": "http",
+      "url": "${MISSION_CONTROL_REDDIT_URL:-http://127.0.0.1:3000/mcp}"
+    },
+    "auto_browser": {
+      "type": "http",
+      "url": "${MISSION_CONTROL_AUTO_BROWSER_URL:-http://127.0.0.1:8000/mcp}",
+      "headers": {
+        "Authorization": "Bearer ${MISSION_CONTROL_AUTO_BROWSER_TOKEN:-}"
+      }
     },
     "hippocampus": {
       "type": "http",

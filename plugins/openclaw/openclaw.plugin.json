@@ -1,9 +1,9 @@
 {
   "id": "mission-control",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "kind": "memory",
   "name": "Mission Control",
-  "description": "Hippocampus long-term memory over MCP (recall before each prompt, retain after each turn) and the Reactor hub's skill",
+  "description": "Hippocampus long-term memory over MCP (recall before each prompt, retain after each turn).",
   "configSchema": {
     "type": "object",
     "additionalProperties": false,
@@ -32,7 +32,6 @@
     }
   },
   "skills": [
-    "skills/hippocampus",
-    "skills/reactor"
+    "skills/hippocampus"
   ]
 }
