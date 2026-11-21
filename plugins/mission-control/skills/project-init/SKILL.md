@@ -53,33 +53,37 @@ Purpose: <one sentence>
 Stack(s): <names and versions the project actually uses>
 Layout: <top-level directories and why>
 Commands: <install | run | test | lint | build>
-Verification: <exact command that proves the scaffold works>
+Verification: <tooling installs and manifests parse; no application behavior yet>
 Remote: <owner/repo | none>, <private/public>, <create now | later>
-Not now: CI, deployment, secrets
+Not now: application code, tests, CI, deployment, secrets
 ```
 
 If two stacks share a root, name which commands belong to which directory. If a choice is still unknown, mark it
 unknown instead of inventing it.
 
-## 4. Scaffold the smallest thing that runs
+## 4. Scaffold an empty project shell
 
-Create the directory and use the stack's own initializer where it exists. Details and file shapes:
+Create the directory, manifests and tooling. Do **not** create application source, routes, handlers, sample business
+logic, or tests; the coding tasks own those and their verification. Details and file shapes:
 [references/stacks.md](references/stacks.md).
 
-- Go: initialize the module, create one command package and one test.
-- Node/TypeScript: detect the package manager, create `package.json`, one source entry and one test.
-- Python: use `uv` when available, otherwise `pyproject.toml` with a virtual environment; create one module and one test.
-- Swift: use `swift package init` for a package or executable; do not generate an Xcode project unless asked.
-- Helm-only: create the chart skeleton and a README; there is no application scaffold to invent.
+- Go: initialize the module and the intended directories, but no `main` or test file.
+- Node/TypeScript: initialize the package manager and manifest, but no source entry or test.
+- Python: create `pyproject.toml` and the virtual environment/tooling, but no module or test.
+- Swift: create `Package.swift` and empty target directories, but no source or test.
+- Helm-only: create the chart skeleton and a README; there is no application source.
 - Multiple stacks: scaffold each in its own directory; do not merge package managers.
 
-Add only the files the project needs now:
+Add only repository shell and tooling:
 
 - `.gitignore` for the chosen stack and local tooling.
-- `README.md` with purpose, requirements, quickstart and verified commands.
+- `.editorconfig` when the stack has no formatter-owned config and the person did not object.
+- `README.md` with purpose, requirements, layout and the current command status.
 - `AGENTS.md` with the working context below.
-- Source entry and one meaningful test.
+- Empty source/test directories need a tracked placeholder such as `.gitkeep`; do not add fake code.
 - No CI, no deployment manifests, no secrets, no generated sample domains.
+
+Do not write a test that asserts nothing, a placeholder `main`, or a “hello world” route just to claim verification.
 
 ### README.md
 
@@ -87,8 +91,9 @@ Keep it short and executable. It must contain:
 
 - what the project is and who it is for;
 - prerequisites with versions that matter;
-- install, run, test, lint and build commands that you have run;
-- the directory layout;
+- install command that you have run;
+- run, test, lint and build marked **not configured until the application code exists**;
+- the directory layout and the empty source/test directories;
 - the planned deployment target, marked as **not configured** until `project-cd` adds it.
 
 ### AGENTS.md
@@ -107,24 +112,24 @@ Write it for the next agent, not for a marketing page:
 
 ## Commands
 - Install: <verified command>
-- Run: <verified command>
-- Test: <verified command>
-- Lint: <verified command or "not configured">
-- Build: <verified command>
+- Run: not configured until application code exists
+- Test: not configured until application code exists
+- Lint: not configured until application code exists
+- Build: not configured until application code exists
 
 ## Conventions
-<only invariants the code cannot enforce>
+<only invariants the shell/tooling establishes; no invented app behavior>
 
 ## Delivery
 Container + Helm planned; not configured. CI and CD are separate skills.
 ```
 
-Update the commands whenever a later skill changes them.
+The coding tasks update these commands when they add behavior. Do not mark a command configured before it runs.
 
-## 5. Verify the scaffold
+## 5. Verify the shell and tooling
 
-Run the documented install, test, lint and build commands. If a command does not exist, write “not configured” instead
-of a fake command.
+Run only the commands that exist: dependency installation and manifest/config parsing. Do not run an application build,
+test suite or lint over no source and call it verification.
 
 Then inspect the repository before committing:
 
@@ -183,10 +188,11 @@ If creation fails after the local commit, leave the local repository intact and 
 
 State:
 
-- the path, stack and verified commands;
+- the path, stack, tooling install command and what was verified;
+- that no application code or tests exist yet;
 - the initial commit hash;
 - the repository URL, or exactly why no remote was created;
-- what is deliberately absent: CI, deployment, secrets;
-- the next skill: `project-ci` when the project is ready for checks.
+- what is deliberately absent: code, tests, CI, deployment, secrets;
+- the next step: a coding task, then `project-ci` once there are runnable checks.
 
 Do not claim a command passed unless you ran it. Do not report a remote that was not created.

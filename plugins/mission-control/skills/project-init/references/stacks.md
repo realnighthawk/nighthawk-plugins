@@ -1,7 +1,10 @@
-# Project scaffolds by stack
+# Project shells by stack
 
-Use the stack's own initializer when available. Keep one runnable entry point and one meaningful test. Do not add a
-framework or database before the brief needs it.
+A project shell has a package manifest, directory layout and tooling, with **no application source or tests**. The coding
+tasks add source and tests, then update `AGENTS.md` and verify them.
+
+Use the package manager already present in the repository. Do not add a second lockfile format, framework, linter or test
+runner just to make the shell look complete.
 
 ## Contents
 
@@ -12,131 +15,116 @@ framework or database before the brief needs it.
 - Helm-only
 - Multi-stack repository
 
-## Go
+## Common shell
 
-Module path is normally the future repository path, `github.com/<owner>/<slug>`; ask if the owner is not fixed.
+```text
+<slug>/
+  .editorconfig
+  .gitignore
+  README.md
+  AGENTS.md
+```
+
+Track empty directories with `.gitkeep`; never add a placeholder `main`, route, handler or test.
+
+## Go
 
 ```bash
 mkdir -p <slug>/cmd/<name> <slug>/internal
 cd <slug>
 go mod init github.com/<owner>/<slug>
+touch cmd/<name>/.gitkeep internal/.gitkeep
 ```
 
-Create:
+Create `.gitignore` with `/bin/`, `*.test`, coverage output and local environment files.
 
-- `cmd/<name>/main.go` with a minimal `main` that can be run.
-- `internal/<name>/<name>.go` only when there is behavior worth isolating; a single `main` is enough for a small tool.
-- `internal/<name>/<name>_test.go` with a test that asserts real behavior, not a tautology.
-- `.gitignore` containing at least `/bin/`, `*.test`, and local coverage output.
-
-Verify:
+Verify only the module and formatting tool:
 
 ```bash
-gofmt -w .
-go vet ./...
-go test ./...
-go build ./...
+go env GOMOD
+gofmt -l .
 ```
 
-Use `go.work` only for a genuine multi-module repository; do not add it to a single module.
+Do not create `main.go` or a test file. The coding task owns the first command package and its tests.
 
 ## Node and TypeScript
 
-Use the package manager already present in the repository, then this order when bootstrapping: `pnpm`, `npm`, `yarn`,
-`bun`. Do not install a second lockfile format.
+Use the package manager already present, then this order when bootstrapping: `pnpm`, `npm`, `yarn`, `bun`.
 
 ```bash
-mkdir <slug>
+mkdir -p <slug>/src <slug>/test
 cd <slug>
-npm init -y
+<pm> init
+touch src/.gitkeep test/.gitkeep
 ```
 
-Create `src/index.ts` (or `src/index.js` when the brief does not need TypeScript), one test, `tsconfig.json` when using
-TypeScript, and `.gitignore` with `node_modules/`, `dist/`, coverage and local `.env*` files except an example.
+Set `private: true` for an application, the real package name, the package manager field, and no fake scripts. Tooling
+configuration may be added when the coding task chooses a framework or test runner; do not install a framework in init.
 
-Set real scripts in `package.json`; do not leave the default test stub:
-
-```json
-{
-  "scripts": {
-    "build": "tsc -p tsconfig.json",
-    "test": "<the test runner>",
-    "lint": "<the linter>",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
-  }
-}
-```
-
-Use the package manager's own commands (`pnpm add`, `npm install`, ...). Verify:
-
-```bash
-<pm> install
-<pm> run lint
-<pm> run typecheck
-<pm> run test
-<pm> run build
-```
-
-If a script is not configured, omit it and write “not configured” in `AGENTS.md`; do not add a passing placeholder.
-
-## Python
-
-Prefer `uv` when it is installed; otherwise use the standard library and `venv`.
-
-```bash
-mkdir <slug>
-cd <slug>
-uv init --package --name <package>
-```
-
-Create `src/<package>/__init__.py`, one test under `tests/`, and `.gitignore` for `.venv/`, `__pycache__/`, build output
-and local `.env` files. Put runtime and development dependencies in `pyproject.toml`.
-
-Without `uv`, create `pyproject.toml`, a local virtual environment and the same source/test shape:
-
-```bash
-python3 -m venv .venv
-. .venv/bin/activate
-python -m pip install -e .
-```
-
-Verify with the tools actually declared:
-
-```bash
-uv run pytest
-uv run ruff check .
-uv run python -m <package>
-```
-
-Do not claim a linter, type checker or test framework that is not installed and configured.
-
-## Swift
-
-Use SwiftPM for a package or executable. Generate an Xcode project only when the brief explicitly asks for an app target.
-
-```bash
-mkdir <slug>
-cd <slug>
-swift package init --type executable
-```
-
-Create a test target with `swift package init --type executable`'s generated test support, or add one if the template
-omits it. `.gitignore` must contain `.build/`, `.swiftpm/`, derived data and local Xcode user state.
+`.gitignore` must contain `node_modules/`, build output, coverage and local `.env*` files except an example.
 
 Verify:
 
 ```bash
-swift build
-swift test
+<pm> install
+node -e 'JSON.parse(require("fs").readFileSync("package.json", "utf8"))'
 ```
+
+Do not add a `hello world` entry, a test stub or a passing placeholder script.
+
+## Python
+
+Prefer `uv` when installed; otherwise use a local virtual environment and `pyproject.toml`.
+
+```bash
+mkdir -p <slug>/src <slug>/tests
+cd <slug>
+uv init --bare
+touch src/.gitkeep tests/.gitkeep
+```
+
+`uv init --bare` creates the manifest/workspace shell without a package source file. Declare the supported Python
+version and the build backend. Add linter/test dependencies only when the coding task chooses them.
+
+`.gitignore` must contain `.venv/`, `__pycache__/`, build output and local `.env` files.
+
+Verify:
+
+```bash
+uv sync
+uv run python -c 'import tomllib, pathlib; tomllib.loads(pathlib.Path("pyproject.toml").read_text())'
+```
+
+Without `uv`, create the same manifest and a local `.venv`; install only declared tooling, not an invented framework.
+
+## Swift
+
+Create the package manifest and empty target directories manually; do not let `swift package init` write sample source
+or tests.
+
+```bash
+mkdir -p <slug>/Sources/<name> <slug>/Tests/<name>Tests
+cd <slug>
+touch Sources/<name>/.gitkeep Tests/<name>Tests/.gitkeep
+```
+
+Create `Package.swift` with the real package name, platforms, products, targets and test target. Keep the targets
+empty. `.gitignore` must contain `.build/`, `.swiftpm/`, derived data and local Xcode user state.
+
+Verify only that the manifest parses:
+
+```bash
+swift package dump-package >/dev/null
+```
+
+Do not run `swift build` or `swift test` over empty targets and call that application verification.
 
 For an iOS app, ask for the bundle identifier, deployment target and signing strategy before generating an Xcode project;
 do not invent a team or bundle id.
 
 ## Helm-only
 
-A chart repository has no application runtime. Start from `helm create` only when a starter chart is wanted; otherwise
-create the minimal structure:
+A chart repository has no application runtime. Create the minimal structure:
 
 ```text
 <slug>/
@@ -146,8 +134,10 @@ create the minimal structure:
   README.md
 ```
 
-Set a real chart name, version, appVersion and description. Add one template that renders, and verify with
-`helm lint .` and `helm template <release> .`. Do not add a deployment workflow here; `project-cd` owns it.
+Set a real chart name, version, appVersion and description. Add one template only if it is meaningful; an empty chart
+skeleton is acceptable for init. Verify with `helm lint .` and `helm template <release> .`.
+
+Do not add a deployment workflow here; `project-cd` owns it.
 
 ## Multi-stack repository
 
@@ -163,9 +153,9 @@ Use one directory per independently runnable component:
   AGENTS.md
 ```
 
-- Each component keeps its own package manager, lockfile, tests and commands.
-- The root has only cross-component scripts, documentation and repository-wide ignores.
+- Each component keeps its own package manager, lockfile and empty source/test directories.
+- The root has only cross-component documentation and repository-wide ignores.
 - Do not add a root package manifest just to make one command look uniform; add a Makefile only when the person wants a
   root task runner.
-- Record every component's commands separately in `AGENTS.md`.
-- CI comes later and runs a matrix over the components that actually exist.
+- Record every component's install command and the fact that run/test/lint/build are not configured in `AGENTS.md`.
+- CI comes after the coding tasks create runnable checks.

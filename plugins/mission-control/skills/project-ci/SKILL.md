@@ -24,6 +24,8 @@ rg --files -g 'pyproject.toml' -g 'uv.lock' -g 'requirements*.txt' -g 'Package.s
 - There is exactly one package manager per component; use its lockfile.
 - An existing workflow is read in full. Improve it unless it is unrelated; never silently replace another workflow.
 - A command written in `AGENTS.md` is a claim until you run it. Fix the claim or the command.
+- A shell with no application code or tests has nothing to check. Stop and report **no runnable checks yet**; do not create
+  a workflow that echoes success or runs `true`.
 
 ## 2. Make the CI plan
 
