@@ -14,7 +14,7 @@ the npm package is for agents without a plugin marketplace.
 | `manage-goals` | Creates and changes goals, tasks, events, reminders and measurements in the Life engine |
 | `browser` | Drives the real browser; the next best option when a tool is missing or the site needs a login |
 | `travel-planner` | Plans a trip in TREK with maps research, itinerary checks, budget and packing |
-| `view-builder` | Builds or updates a view for a goal, task or event |
+| `view-builder` | Builds, revises, opens or removes Life Engine artifacts and views |
 
 ## Layout
 

@@ -158,6 +158,14 @@
    "expect": "view-builder"
   },
   {
+   "request": "remove the trail access review from my Library",
+   "expect": "view-builder"
+  },
+  {
+   "request": "open the race plan you saved",
+   "expect": "view-builder"
+  },
+  {
    "request": "draw a pie chart of my spending",
    "expect": null
   }
