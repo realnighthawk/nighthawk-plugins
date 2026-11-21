@@ -3393,6 +3393,41 @@
    ],
    "type": "object"
   },
+  "library_get": {
+   "additionalProperties": false,
+   "properties": {
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    }
+   },
+   "required": [
+    "id"
+   ],
+   "type": "object"
+  },
+  "library_list": {
+   "additionalProperties": false,
+   "properties": {
+    "agent_id": {
+     "description": "only items created by this agent ID",
+     "type": "string"
+    },
+    "kind": {
+     "description": "artifact, view, or omitted for both",
+     "type": "string"
+    },
+    "limit": {
+     "description": "1-200, default 50",
+     "type": "integer"
+    },
+    "offset": {
+     "description": "0-1000000, default 0",
+     "type": "integer"
+    }
+   },
+   "type": "object"
+  },
   "links_list": {
    "additionalProperties": false,
    "properties": {
@@ -5169,6 +5204,16 @@
     "subject_kind": {
      "description": "what the view is of: intention, task or event",
      "type": "string"
+    },
+    "tags": {
+     "description": "optional topical tags; trimmed, lowercased and deduplicated",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "null",
+      "array"
+     ]
     }
    },
    "required": [
@@ -6132,6 +6177,16 @@
       "null",
       "array"
      ]
+    },
+    "tags": {
+     "description": "replace the tags; omit to keep them or send [] to clear them",
+     "items": {
+      "type": "string"
+     },
+     "type": [
+      "null",
+      "array"
+     ]
     }
    },
    "required": [
@@ -6273,5 +6328,5 @@
    "type": "object"
   }
  },
- "source": "life-engine 9459ccd"
+ "source": "life-engine 6543977"
 }

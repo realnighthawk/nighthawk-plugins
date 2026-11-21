@@ -20,10 +20,12 @@ create a goal or task just to hold a draft. Do not promise private asset uploads
 
 When the tool accepts `tags`, add a few specific topics that will help the person find the artifact in Library. The engine
 records creator attribution from the calling agent context; never invent an agent ID or a duplicate Library entry. Use
-`life:artifacts_list` when available to find existing work, then `life:artifacts_get` to read its current manifest.
+`life:library_list` when available to find existing work, then `life:library_get` to read its current manifest. Both list
+and open standalone artifacts and subject-linked views through one index.
 
-In Mission Control web or Apple chat, link the artifact title to the URI `life-artifact://ARTIFACT_ID`. Web opens the Library item;
-the agent’s own chat also lists artifacts attributed to that agent. On clients without a viewer, give the title and ID.
+In Mission Control web or Apple chat, link the item title to the URI `life-artifact://ITEM_ID`. The same URI opens a
+standalone artifact or a view. Web and Apple resolve it through `life:library_get`; the agent’s own chat also lists items
+attributed to that agent. On clients without a viewer, give the title and ID.
 
 For a revision, read the current artifact and send its full manifest with stable page, section, and block IDs to
 `life:artifacts_update`. Use the version last read as `expected_version`; omit `tags` to preserve them when supported.
@@ -65,4 +67,7 @@ at most six slots.
 
 Use a subject-linked view for a goal, task or event, not for an unrelated draft. One live view per subject per catalog:
 read `life:views_state` first. If a view exists, use `life:views_update` with `expected_version` and keep metrics with
-recorded values in the same unit. Otherwise use `life:views_create`. Read the saved state back, then say where to see it.
+recorded values in the same unit. Otherwise use `life:views_create`. Add a few specific `tags` so the view is findable in
+Library; `life:views_update` can replace them. The engine records creator attribution from the calling agent context, so
+never invent an agent ID. Read the saved state back, then say where to see it. A view appears in Library alongside standalone
+artifacts and opens from the same `life-artifact://VIEW_ID` link.
