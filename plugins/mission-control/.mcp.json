@@ -18,7 +18,8 @@
       "type": "http",
       "url": "${MISSION_CONTROL_LIFE_URL:-http://127.0.0.1:8093/mcp}",
       "headers": {
-        "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}"
+        "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}",
+        "X-Agent-ID": "${MISSION_CONTROL_AGENT_ID:-}"
       }
     },
     "retro": {
