@@ -70,7 +70,7 @@ def test_uninstall_dry_run_changes_nothing(tmp_path):
 def test_list_names_every_skill():
     out = install(Path("/nonexistent"), "--list")
     assert out.returncode == 0, out.stderr
-    assert set(out.stdout.split()) == {"fpl-gameweek-planner", "manage-goals", "browser", "travel-planner", "view-builder"}
+    assert set(out.stdout.split()) == {"fpl-gameweek-planner", "manage-goals", "browser", "travel-planner", "view-builder", "project-init", "project-ci", "project-cd"}
 
 
 def test_the_package_ships_only_skills():

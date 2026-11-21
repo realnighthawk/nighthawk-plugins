@@ -2,7 +2,7 @@
 /**
  * Stage the portable skills from the plugin into the npm package.
  *
- * The plugin is the source of truth. This copies its five portable skills into `packages/cookbook/skills` so the tarball
+ * The plugin is the source of truth. This copies its portable skills into `packages/cookbook/skills` so the tarball
  * is self-contained. It runs at `prepack` and at the start of `make check`; the staged directory is gitignored.
  */
 import { cpSync, existsSync, mkdirSync, readdirSync, rmSync } from 'node:fs';

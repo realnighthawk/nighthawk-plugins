@@ -168,6 +168,18 @@
   {
    "request": "draw a pie chart of my spending",
    "expect": null
+  },
+  {
+   "request": "start a new Go service called billing-api and create the repo",
+   "expect": "project-init"
+  },
+  {
+   "request": "add GitHub Actions CI to this repository",
+   "expect": "project-ci"
+  },
+  {
+   "request": "add a Helm chart and tag-driven deployment to this repo",
+   "expect": "project-cd"
   }
  ]
 }

@@ -1,7 +1,7 @@
 {
   "name": "mission-control",
   "version": "0.13.0",
-  "description": "Agent Harness for oh-my-pi: the tenant's connected MCP services directly, five Agent Skills, plus long-term memory with recall and retain hooks.",
+  "description": "Agent Harness for oh-my-pi: the tenant's connected MCP services directly, eight Agent Skills, plus long-term memory with recall and retain hooks.",
   "author": {
     "name": "Nighthawk Labs"
   },

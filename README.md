@@ -13,14 +13,14 @@ Public client plugins for [agent-brain](https://github.com/realnighthawk/agent-b
 
 Every client gets Hippocampus (memory). The consolidated Mission Control plugin (Claude Code and oh-my-pi) also
 registers the tenant's service servers directly — finance, maps, life, retro, health, FPL, FPL intelligence, Reddit and
-the browser — and ships the five Agent Skills below. The hosted apps (Claude, ChatGPT) are memory-only. The
+the browser — and ships the Agent Skills below. The hosted apps (Claude, ChatGPT) are memory-only. The
 host sets `MISSION_CONTROL_AGENT_ID` (`claude-code` or `ohmypi`) for the consolidated plugin; the hosted apps send their
 fixed ids (`claude-app`, `chatgpt`). Memory is one bank per agent, named by that header; no call names a bank.
 
 ## Skills
 
-The plugin ships five portable Agent Skills, written to the Claude Agent Skills format. `plugins/mission-control/skills`
-is the source; `packages/cookbook` stages those five into the npm tarball at pack time, so there is no second copy in
+The plugin ships portable Agent Skills, written to the Claude Agent Skills format. `plugins/mission-control/skills`
+is the source; `packages/cookbook` stages those skills into the npm tarball at pack time, so there is no second copy in
 the repository.
 
 | Skill | What it does |
@@ -30,6 +30,9 @@ the repository.
 | `browser` | Drives the real browser; the next best option when a tool is missing or the site needs a login |
 | `travel-planner` | Plans a trip in TREK with maps research, itinerary checks, budget and packing |
 | `view-builder` | Builds, revises, opens or removes Life Engine artifacts and views |
+| `project-init` | Plans and scaffolds a project and its git repository |
+| `project-ci` | Adds GitHub Actions checks for the project’s stacks |
+| `project-cd` | Adds container and Helm release/deployment |
 
 `@nighthawklabs/cookbook` publishes the same skills for agents without a plugin marketplace:
 
@@ -45,7 +48,7 @@ npx @nighthawklabs/cookbook --uninstall
 ```
 plugins/mission-control/  the service-bearing plugin: both manifests, one .mcp.json, skills, hooks, commands, agents
 plugins/<client>/         the memory-only client plugins
-packages/cookbook/        npm wrapper: install.mjs, lint, tests; stages the five skills at pack time
+packages/cookbook/        npm wrapper: install.mjs, lint, tests; stages the skills at pack time
 shared/                   the memory protocol, rendered into each client
 scripts/sync-shared.py    regenerate the client memory text and verify identity/endpoints
 ```
@@ -60,7 +63,7 @@ python3 scripts/sync-shared.py           # regenerate the memory text
 python3 scripts/sync-shared.py --check
 ```
 
-The npm package has no committed skills: `packages/cookbook/bin/stage-skills.mjs` copies the five portable skills from
+The npm package has no committed skills: `packages/cookbook/bin/stage-skills.mjs` copies the portable skills from
 `plugins/mission-control/skills` into the tarball at `prepack` (and before `make check`).
 
 ## Tests
