@@ -1,6 +1,6 @@
 ---
 name: view-builder
-description: Builds or updates a view for a goal, task or event, and surfaces a result with it: composes the manifest from the view kit, wires live blocks to the Life APIs, puts static values in the manifest, and creates or updates the view. Use whenever a goal, task or event is created, a result is produced that the person will want to see again, or the person asks to build or update a view, surface a result, or make a dashboard. Not for rendering arbitrary files, markdown, images or tables; the view kit cannot draw those.
+description: Builds or updates a Life Engine view for a goal, task or event. Use when the person wants a reusable result, plan, report, or dashboard. Compose native ViewKit blocks for live data and Markdown where the catalog and client support it. Not for rendering arbitrary files.
 ---
 
 # Building a view
@@ -12,10 +12,17 @@ seeing again (a plan, report, booking, analysis — not a scratch file). Skip it
 Call the `life` server's tools directly, using the names and schemas it advertises. If no Life tools are connected, say
 so and create nothing.
 
+For a standalone document or slide deck, use `life:artifacts_create` when available. Set `mode` to `document` or `deck`;
+each ViewKit page is one slide in `deck` mode. Do not create a task just to hold an artifact. Read `life:artifacts_get`
+before revising, send the full manifest with stable page, section and block IDs to `life:artifacts_update`, and use the
+version last read as `expected_version`. Reuse the same idempotency key for a retry of the same write. In Mission Control
+Apple chat, return `[artifact title](life-artifact://ARTIFACT_ID)`. On other clients, return the title and ID unless the
+client supplies its own link format. For standalone artifacts intended for Apple chat, use Markdown, text and link blocks.
+
 ## Strictly the kit
 
 Call `life:tracker_catalog_get` (no arguments) before composing; use its exact `catalog_id` and only its blocks, functions and
-formats. Never invent a block or markup. The client renders the manifest; you do not render it.
+formats. Never invent a block. The client renders the manifest; do not generate HTML or scripts.
 
 ## Wire the data
 
@@ -23,19 +30,18 @@ formats. Never invent a block or markup. The client renders the manifest; you do
   event. Goal progress is the `tasks` block, not a metric.
 - **A repeating task's history.** A metric with `task_id`; the values are its done occurrences, one per day.
 - **A connected provider.** A metric with `source` (provider + series); read that provider's catalog first.
-- **Static data in the manifest.** `const`/`date` in a calculation for one value, a target or a threshold; `text` for words
-  (no figures, up to five short points); `link` for an artifact (absolute http/https only). The kit has no literal series or
-  table: for those, record measurements or use a provider; otherwise a `text` summary + `link` is the honest surface.
+- **Authored content.** Use `markdown` for prose, lists, code and static tables only when the catalog advertises it and the
+  destination client supports it. Otherwise use `text` for a short summary and `link` for an existing artifact.
+- **Live or derived numbers.** Bind to metrics and calculations. Use `const`/`date` for fixed targets and thresholds.
 - **Numbers a person logs.** `life:measurements_record` with a fresh `idempotency_key`, `subject_kind`, `subject_id`,
   `metric_id` and the `value`; the metric has neither `source` nor `task_id`.
-- **Never invent a figure.** Put numbers in metrics and calculations, not in prose.
+- **Never invent a figure.** Use Markdown tables for sourced or user-provided facts, not snapshots of live metrics.
 
 ## Compose
 
-Lead with a hero `sentence` whose numbers come from calculations. Choose blocks by the shape of the data: `bar` for a
-scale, `series` for change over time, `grid` for days, `steps` for thresholds, `timeline` for dates, `tasks`/`events` for
-the subject's records, `log` for a value the person records, `text` for static words, `link` for an artifact. Organise
-pages of titled sections; one page unless the subject has genuinely separate concerns.
+Lead with a hero `sentence` for a dashboard, or Markdown for a prose-first result. Use `bar` for a scale, `series` for change
+over time, `grid` for days, `steps` for thresholds, `timeline` for dates, `tasks`/`events` for the subject's records, and
+`log` for a value the person records. Organise pages of titled sections; one page unless the subject has separate concerns.
 
 Limits: 0-6 metrics, 1-4 pages, 1-6 sections, 1-8 blocks each (16 in all), a calculation nests five levels, a sentence has
 at most six slots.
