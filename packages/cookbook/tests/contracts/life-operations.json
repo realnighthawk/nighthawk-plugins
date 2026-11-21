@@ -947,6 +947,29 @@
    ],
    "type": "object"
   },
+  "artifacts_delete": {
+   "additionalProperties": false,
+   "properties": {
+    "expected_version": {
+     "description": "the version you last read; a stale version is rejected",
+     "type": "integer"
+    },
+    "id": {
+     "description": "record UUID",
+     "type": "string"
+    },
+    "idempotency_key": {
+     "description": "1-128 characters, unique per intended write; resend the same key to retry safely",
+     "type": "string"
+    }
+   },
+   "required": [
+    "idempotency_key",
+    "id",
+    "expected_version"
+   ],
+   "type": "object"
+  },
   "artifacts_get": {
    "additionalProperties": false,
    "properties": {
@@ -6328,5 +6351,5 @@
    "type": "object"
   }
  },
- "source": "life-engine 6543977"
+ "source": "life-engine 47ee846"
 }
