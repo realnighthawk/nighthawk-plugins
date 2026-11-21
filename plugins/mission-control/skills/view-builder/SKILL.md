@@ -22,7 +22,7 @@ When the tool accepts `tags`, add a few specific topics that will help the perso
 records creator attribution from the calling agent context; never invent an agent ID or a duplicate Library entry. Use
 `life:artifacts_list` when available to find existing work, then `life:artifacts_get` to read its current manifest.
 
-Return `[artifact title](life-artifact://ARTIFACT_ID)` in Mission Control web or Apple chat. Web opens the Library item;
+In Mission Control web or Apple chat, link the artifact title to the URI `life-artifact://ARTIFACT_ID`. Web opens the Library item;
 the agent’s own chat also lists artifacts attributed to that agent. On clients without a viewer, give the title and ID.
 
 For a revision, read the current artifact and send its full manifest with stable page, section, and block IDs to
