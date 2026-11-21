@@ -1,6 +1,6 @@
 {
   "name": "@nighthawklabs/cookbook",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Portable Agent Skills in the Claude Agent Skills format, with direct MCP tools and Python helpers.",
   "type": "module",
   "bin": {
