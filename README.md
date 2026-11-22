@@ -32,6 +32,10 @@ the repository.
 | `view-builder` | Builds, revises, opens or removes Life Engine artifacts: documents, decks, and trackers or lists backed by an app |
 | `workspace` | Where projects live (`/workspace`), what persists, what the sandbox can reach, and how to report back |
 
+The `travel` plugin registers [TREK MCP](https://trek.nighthawklabs.org/mcp) directly. After installing or updating
+`travel@mission-control-plugins`, authorize TREK from `/mcp` in Claude Code or oh-my-pi. Maps and Life still come
+from Mission Control. Managed sandboxes must allow HTTPS egress to `trek.nighthawklabs.org` for MCP and OAuth.
+
 `@nighthawklabs/cookbook` publishes the same skills for agents without a plugin marketplace:
 
 ```bash

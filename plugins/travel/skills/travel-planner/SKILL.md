@@ -194,8 +194,8 @@ and they ask you to do it there. Do not promise them from the MCP surface.
 ## 6. If something is unavailable
 
 Atlas, Collab, Vacay and Journey are addons: if a tool is missing or a call is out of scope, name the addon or scope that is
-needed and carry on with the rest. TREK's OAuth connection belongs to the person; if it fails to authorize, tell them to
-reconnect it through the service. Do not silently drop the request.
+needed and carry on with the rest. If TREK authorization fails, ask the person to reconnect TREK from the client's
+`/mcp` menu. Do not silently drop the request.
 
 Missing maps or TREK tools: the `browser` skill, when available, is the fallback for what the person can
 see on the web - research a place, read a TREK page, use a web-UI-only feature they asked for. It does not replace a TREK

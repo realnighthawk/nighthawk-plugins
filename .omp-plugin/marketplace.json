@@ -22,7 +22,7 @@
     },
     {
       "name": "travel",
-      "version": "0.1.0",
+      "version": "0.2.0",
       "source": "./plugins/travel",
       "description": "Trip planning in TREK with maps research, itinerary checks, budget and packing.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
