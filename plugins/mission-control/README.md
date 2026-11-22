@@ -58,13 +58,13 @@ the id:
 
 ## Hooks
 
-Claude Code's hooks are `hooks/hooks.json` plus `scripts/session-*.sh`; oh-my-pi's is `hooks/pre/memory.ts`. Both are
-signal-only: no network call, no credential, no download. Every MCP interaction is the agent's own.
+Local OMP's `hooks/pre/memory.ts` asks the agent to recall on the first turn through `mission-control:shared`.
+It uses OMP's existing sign-in; the hook does not open a separate memory connection. It also hands any
+queued slices to the agent for retention through that connection, removing a slice only after successful retention.
 
-- **Start** injects the memory instruction: call `memory_recall` before the first answer; if the previous session
-  spooled a slice, delegate each slice to `memory-curator`, then delete the file.
-- **End** spools a compact slice of the session (user and assistant text only, tool output dropped, last 120 KB) to the
-  plugin data directory. The next start retires it. At most 10 slices are kept.
+Managed OMP with `MISSION_CONTROL_MEMORY_URL` or `MISSION_CONTROL_MEMORY_KEY` set continues to warm
+memory directly. OMP spools at most ten conversation slices at shutdown. Claude Code uses its own
+`hooks/hooks.json` and `scripts/session-*.sh` to signal recall and spool slices.
 
 Retention is also skill-driven: call `memory_retain` when the user states a durable decision, preference, correction or
 personal fact, and `/mission-control:hippocampus:remember` retains on demand.
@@ -75,7 +75,7 @@ memory plugins recall and retain twice against the same memory.
 ## Server prerequisites
 
 The public router must publish the MCP OAuth discovery documents and the oh-my-pi public client metadata
-at `https://api.nighthawklabs.org/oauth/omp-client.json`. Clerk must admit that client and grant `openid`,
+at `https://api.nighthawklabs.org/oauth/mission-control-client.json`. Clerk must admit that client and grant `openid`,
 `profile`, `email`, and `offline_access`. If Clerk requires pre-registration, explicitly allow the metadata
 URL under **OAuth applications** in the Clerk dashboard; do not enable unrestricted dynamic registration.
 The oh-my-pi callback listens on `http://127.0.0.1:3334/callback`.
