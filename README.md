@@ -19,7 +19,7 @@ fixed ids (`claude-app`, `chatgpt`). Memory is one bank per agent, named by that
 
 ## Skills
 
-The plugin ships portable Agent Skills, written to the Claude Agent Skills format. `plugins/mission-control/skills`
+The plugins ship portable Agent Skills, written to the Claude Agent Skills format. `plugins/*/skills`
 is the source; `packages/cookbook` stages those skills into the npm tarball at pack time, so there is no second copy in
 the repository.
 
@@ -30,9 +30,7 @@ the repository.
 | `browser` | Drives the real browser; the next best option when a tool is missing or the site needs a login |
 | `travel-planner` | Plans a trip in TREK with maps research, itinerary checks, budget and packing |
 | `view-builder` | Builds, revises, opens or removes Life Engine artifacts and views |
-| `project-init` | Plans and scaffolds a project and its git repository |
-| `project-ci` | Adds GitHub Actions checks for the project’s stacks |
-| `project-cd` | Adds container and Helm release/deployment |
+| `workspace` | Where projects live (`/workspace`), what persists, what the sandbox can reach, and how to report back |
 
 `@nighthawklabs/cookbook` publishes the same skills for agents without a plugin marketplace:
 
@@ -46,7 +44,8 @@ npx @nighthawklabs/cookbook --uninstall
 ## Repository layout
 
 ```
-plugins/mission-control/  the service-bearing plugin: both manifests, one .mcp.json, skills, hooks, commands, agents
+plugins/mission-control/  the system plugin: both manifests, one .mcp.json, memory, browser and workspace skills, hooks, commands, agents
+plugins/{travel,fpl,goals}/  optional skill plugins, installed per agent
 plugins/<client>/         the memory-only client plugins
 packages/cookbook/        npm wrapper: install.mjs, lint, tests; stages the skills at pack time
 shared/                   the memory protocol, rendered into each client
@@ -64,7 +63,7 @@ python3 scripts/sync-shared.py --check
 ```
 
 The npm package has no committed skills: `packages/cookbook/bin/stage-skills.mjs` copies the portable skills from
-`plugins/mission-control/skills` into the tarball at `prepack` (and before `make check`).
+`plugins/*/skills` into the tarball at `prepack` (and before `make check`).
 
 ## Tests
 

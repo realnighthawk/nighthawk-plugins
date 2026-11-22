@@ -1,13 +1,13 @@
 # Mission Control plugin
 
-One plugin for Claude Code and oh-my-pi. It registers the tenant's MCP servers directly, ships ten Agent Skills,
+One plugin for Claude Code and oh-my-pi. It registers the tenant's MCP servers directly, ships four Agent Skills,
 and adds long-term memory with recall and retain hooks. The same directory carries both client manifests.
 
 | Piece | What it does |
 |---|---|
 | Service MCP servers | `finance`, `maps`, `life`, `retro`, `health`, `fpl`, `fpl_intelligence`, `reddit` and `auto_browser`, each registered directly. In a sandbox the addresses, owner subject and browser bearer come from `MISSION_CONTROL_*` variables; there is no hub. |
 | `hippocampus` MCP | The harness's long-term memory (agent-brain) at `https://api.nighthawklabs.org/memory/mcp`: `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. |
-| Skills | `hippocampus`, `services`, and eight portable Agent Skills: `fpl-gameweek-planner`, `manage-goals`, `browser`, `travel-planner`, `view-builder`, `project-init`, `project-ci`, `project-cd`. |
+| Skills | `hippocampus`, `services`, and two portable Agent Skills: `browser`, `workspace`. Task skills live in the optional plugins `travel`, `fpl` and `goals`. |
 | Hooks | Claude Code: `SessionStart` asks for recall and `SessionEnd` spools a slice. oh-my-pi: `before_agent_start` and `session_shutdown` do the same from `hooks/pre/memory.ts`. The agent makes every MCP call itself. |
 | Rules | `rules/browser.md`, always applied: use the deployed `auto_browser` MCP for browser work, and try it when a tool is missing or a call fails. |
 | Commands | Claude Code only: `/mission-control:hippocampus:remember`, `:recall`, `:forget` (confirms first). |

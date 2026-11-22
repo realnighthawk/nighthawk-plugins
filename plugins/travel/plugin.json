@@ -1,0 +1,10 @@
+{
+  "name": "travel",
+  "version": "0.1.0",
+  "description": "Trip planning in TREK with maps research, itinerary checks, budget and packing. Uses the tenant's service servers registered by the mission-control plugin.",
+  "author": {
+    "name": "Nighthawk Labs"
+  },
+  "license": "MIT",
+  "privacyPolicyUrl": "https://mission-control.nighthawklabs.org/privacy"
+}

@@ -1,0 +1,10 @@
+{
+  "name": "fpl",
+  "version": "0.1.0",
+  "description": "Fantasy Premier League gameweek planning: squad, transfers, XI, captain, chips and the league overlay. Uses the tenant's service servers registered by the mission-control plugin.",
+  "author": {
+    "name": "Nighthawk Labs"
+  },
+  "license": "MIT",
+  "privacyPolicyUrl": "https://mission-control.nighthawklabs.org/privacy"
+}

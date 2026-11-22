@@ -4,7 +4,7 @@ Eight portable Agent Skills, written to the [Claude Agent Skills format](https:/
 Any agent that reads a `SKILL.md` can use them.
 
 This is the npm package inside the [Mission Control plugin repository](https://github.com/realnighthawk/nighthawk-plugins).
-The source is `plugins/mission-control/skills`; `bin/stage-skills.mjs` copies the portable skills into this package
+The source is `plugins/*/skills`; `bin/stage-skills.mjs` copies the portable skills into this package
 at `prepack` (and before `make check`), so there is no second committed copy. The plugin install ships the same files;
 the npm package is for agents without a plugin marketplace.
 
@@ -15,9 +15,7 @@ the npm package is for agents without a plugin marketplace.
 | `browser` | Drives the real browser; the next best option when a tool is missing or the site needs a login |
 | `travel-planner` | Plans a trip in TREK with maps research, itinerary checks, budget and packing |
 | `view-builder` | Builds, revises, opens or removes Life Engine artifacts and views |
-| `project-init` | Plans and scaffolds a project, then creates the git repository |
-| `project-ci` | Adds GitHub Actions checks for the project’s stacks |
-| `project-cd` | Adds container and Helm release/deployment |
+| `workspace` | Where projects live (`/workspace`), what persists, what the sandbox can reach, and how to report back |
 
 ## Layout
 

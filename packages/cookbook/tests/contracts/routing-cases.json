@@ -170,16 +170,12 @@
    "expect": null
   },
   {
-   "request": "start a new Go service called billing-api and create the repo",
-   "expect": "project-init"
+   "request": "where should I put this project and will it still be there tomorrow",
+   "expect": "workspace"
   },
   {
-   "request": "add GitHub Actions CI to this repository",
-   "expect": "project-ci"
-  },
-  {
-   "request": "add a Helm chart and tag-driven deployment to this repo",
-   "expect": "project-cd"
+   "request": "clone the repo into the sandbox and tell me what network access I have",
+   "expect": "workspace"
   }
  ]
 }

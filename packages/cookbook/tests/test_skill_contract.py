@@ -24,7 +24,7 @@ def parts(path: Path):
 
 def test_the_shipped_set():
     assert {p.parent.name for p in SKILLS} == {
-        "fpl-gameweek-planner", "manage-goals", "browser", "travel-planner", "view-builder", "project-init", "project-ci", "project-cd",
+        "fpl-gameweek-planner", "manage-goals", "browser", "travel-planner", "view-builder", "workspace",
     }
 
 
