@@ -80,7 +80,7 @@ buys/sells, wildcard drafts and chip timing from articles (`exa:web_search_exa`,
 `reddit:browse_subreddit`, podcast/YouTube titles, and `fpl` facts. Output a table of **claims to
 test** (player/idea, source, direction) to `research.md`. Do not decide anything here.
 
-When a research tool is missing, blocked, or weaker than the site itself, use the `browser` skill when it is
+When a research tool is missing, blocked, or weaker than the site itself, use oh-my-pi's built-in browser when it is
 available: the FPL site, the subreddit, an article that returns 403, a video's transcript page. It is read-only unless
 the person asked for that exact action; never post, reply, follow or transfer from it.
 

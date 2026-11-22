@@ -106,42 +106,6 @@
    "expect": null
   },
   {
-   "request": "Check my LinkedIn messages and tell me who wrote to me",
-   "expect": "browser"
-  },
-  {
-   "request": "log me in to LinkedIn so you can read my inbox",
-   "expect": "browser"
-  },
-  {
-   "request": "I'm getting a CAPTCHA, can you let me take over the browser",
-   "expect": "browser"
-  },
-  {
-   "request": "save my Google login so I don't have to sign in again",
-   "expect": "browser"
-  },
-  {
-   "request": "open my LinkedIn profile and summarise what it says about me",
-   "expect": "browser"
-  },
-  {
-   "request": "why do I keep getting logged out of the browser",
-   "expect": "browser"
-  },
-  {
-   "request": "the reddit server is down, can you read the subreddit in the browser",
-   "expect": "browser"
-  },
-  {
-   "request": "there is no FPL tool connected, try the site in my browser",
-   "expect": "browser"
-  },
-  {
-   "request": "the travel API is blocked, use the browser to read the page",
-   "expect": "browser"
-  },
-  {
    "request": "what's the weather like in Lisbon next week",
    "expect": null
   },

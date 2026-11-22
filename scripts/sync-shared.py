@@ -42,7 +42,7 @@ def skill(agent):
 def services_skill():
     return (
         "---\nname: services\ndescription: Use the tenant's connected MCP servers directly (life, finance, maps, retro, health, FPL, "
-        "Reddit, the browser). Use when a task needs one of the user's own services or accounts.\n---\n"
+        "Reddit). Use when a task needs one of the user's own services or accounts.\n---\n"
         + NOTE + "\n# Connected services\n\nThe plugin registers one MCP server per service; call their tools directly.\n\n" + SERVICES
     )
 
@@ -90,7 +90,7 @@ if "MISSION_CONTROL_AGENT_ID" not in text:
     wrong.append(f"{DIRECT_MCP}: agent id is not MISSION_CONTROL_AGENT_ID")
 
 # Claude Code registers the fixed tenant backends directly.
-SERVERS = ["finance", "maps", "life", "retro", "health", "fpl", "fpl_intelligence", "reddit", "auto_browser"]
+SERVERS = ["finance", "maps", "life", "retro", "health", "fpl", "fpl_intelligence", "reddit"]
 for path in [DIRECT_MCP]:
     text = (ROOT / path).read_text()
     if "MISSION_CONTROL_HUB_URL" in text or '"reactor"' in text:

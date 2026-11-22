@@ -188,7 +188,7 @@ Use the tool names `trek` advertises. The areas are:
 | Weather/airports | TREK's own `get_weather`, `get_detailed_weather`, `search_airports` |
 
 The Journey journal, photo-book designer, file uploads, PDF export and cover images are web-UI features; TREK's MCP
-surface does not expose them. Point the person to the web UI, or use the `browser` skill when it is available
+surface does not expose them. Point the person to the web UI, or use the built-in browser when it is available
 and they ask you to do it there. Do not promise them from the MCP surface.
 
 ## 6. If something is unavailable
@@ -197,7 +197,7 @@ Atlas, Collab, Vacay and Journey are addons: if a tool is missing or a call is o
 needed and carry on with the rest. If TREK authorization fails, ask the person to reconnect TREK from the client's
 `/mcp` menu. Do not silently drop the request.
 
-Missing maps or TREK tools: the `browser` skill, when available, is the fallback for what the person can
+Missing maps or TREK tools: the built-in browser, when available, is the fallback for what the person can
 see on the web - research a place, read a TREK page, use a web-UI-only feature they asked for. It does not replace a TREK
 write: do not hand-enter an itinerary through the UI unless the person asked for that, and never keep a second copy.
 

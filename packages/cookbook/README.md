@@ -12,7 +12,6 @@ the npm package is for agents without a plugin marketplace.
 |---|---|
 | `fpl-gameweek-planner` | Plans a Fantasy Premier League gameweek: squad, transfers, XI, captain, chips, league overlay |
 | `manage-goals` | Creates and changes goals, tasks, events, reminders and measurements in the Life engine |
-| `browser` | Drives the real browser; the next best option when a tool is missing or the site needs a login |
 | `travel-planner` | Plans a trip in TREK with maps research, itinerary checks, budget and packing |
 | `view-builder` | Builds, revises, opens or removes Life Engine artifacts and views |
 | `workspace` | Where projects live (`/workspace`), what persists, what the sandbox can reach, and how to report back |
@@ -43,7 +42,7 @@ npx @nighthawklabs/cookbook --uninstall     # remove only what this package inst
 Or copy `skills/<name>/` into the skills directory your client reads. The installer copies the whole directory and
 writes a marker; it touches nothing outside `~/.agents/skills`.
 
-The skills call MCP servers by name — `life:`, `trek:`, `maps:`, `auto_browser:`, `fpl:`, `fpl_intelligence:`,
+The skills call MCP servers by name — `life:`, `trek:`, `maps:`, `fpl:`, `fpl_intelligence:`,
 `reddit:`, `exa:`. Connect the servers you have; a skill that needs a missing server says so and stops rather than
 inventing a result.
 

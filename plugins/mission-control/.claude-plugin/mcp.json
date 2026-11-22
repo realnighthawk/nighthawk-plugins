@@ -77,18 +77,6 @@
         "redirectUri": "http://127.0.0.1:3334/callback"
       }
     },
-    "auto_browser": {
-      "type": "http",
-      "url": "${MISSION_CONTROL_AUTO_BROWSER_URL:-https://api.nighthawklabs.org/browser/mcp}",
-      "oauth": {
-        "clientId": "https://api.nighthawklabs.org/oauth/omp-client.json",
-        "redirectUri": "http://127.0.0.1:3334/callback"
-      },
-      "headers": {
-        "Authorization": "Bearer ${MISSION_CONTROL_AUTO_BROWSER_TOKEN:-}",
-        "Host": "${MISSION_CONTROL_AUTO_BROWSER_HOST:-api.nighthawklabs.org}"
-      }
-    },
     "hippocampus": {
       "type": "http",
       "url": "${MISSION_CONTROL_MEMORY_URL:-https://api.nighthawklabs.org/memory/mcp}",

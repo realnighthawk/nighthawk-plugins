@@ -30,7 +30,7 @@ test -d /workspace && ls -la /workspace
   look for another route (tunnels, mirrors, other hosts).
 - **Credentials:** none beyond the harness's own login. Check `gh auth status` before assuming GitHub write access, and
   never write a token into the workspace, a remote URL or a commit.
-- **Browser:** for anything on a website, use the `browser` skill, not `curl`.
+- **Browser:** for anything on a website, use the built-in browser, not `curl`. It is attached to the person's workstation, which has the open web and their saved logins.
 
 ## Reporting back
 

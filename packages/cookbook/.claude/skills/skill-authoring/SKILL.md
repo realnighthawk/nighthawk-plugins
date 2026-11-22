@@ -96,11 +96,11 @@ python3 scripts/plan.py check plan.json --tz Europe/Lisbon
 
 ## 5. MCP tools
 
-- Always use fully qualified names: `life:tasks_list`, `trek:list_trips`, `auto-browser:browser.observe`,
+- Always use fully qualified names: `life:tasks_list`, `trek:list_trips`, `maps:search_places`,
   `fantasy-pl:get_player_information`.
 - Never guess a tool or an argument: name the server and tool, and let the client supply the schema.
 - If a server is not connected, the skill says so and stops; it does not invent a result or fall back to a web guess.
-- A skill may name another skill when that is the honest fallback (`signed-in-browser`, `view-builder`), but it does not
+- A skill may name another skill when that is the honest fallback (`view-builder`), but it does not
   assume the other skill is installed.
 
 ## 6. Verify

@@ -37,7 +37,7 @@ HARNESS_ONLY = (
 HARNESS_LINE = re.compile(r"(?m)^(?:preload|tools|always):")
 # MCP tools are fully qualified `server:tool`; a slash is the old hub form.
 MCP_SLASH = re.compile(
-    r"`(?:life|trek|maps|auto_browser|fpl|fpl_intelligence|reddit|exa|finance)/[A-Za-z][A-Za-z0-9_.]*`"
+    r"`(?:life|trek|maps|fpl|fpl_intelligence|reddit|exa|finance)/[A-Za-z][A-Za-z0-9_.]*`"
 )
 
 SECRET_PATTERNS = [

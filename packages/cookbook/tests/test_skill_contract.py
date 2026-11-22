@@ -12,7 +12,7 @@ HARNESS_ONLY = (
     "run_code", "skill_sdk", "tenant_worker", "discover_tools", "load_skills", "ask_user", "finish_task",
     "{baseDir}", "{{include", "nighthawk-skill", "reactor", "search_tools", "call_tool",
 )
-MCP_SLASH = re.compile(r"`(?:life|trek|maps|auto_browser|fpl|fpl_intelligence|reddit|exa|finance)/[A-Za-z][A-Za-z0-9_.]*`")
+MCP_SLASH = re.compile(r"`(?:life|trek|maps|fpl|fpl_intelligence|reddit|exa|finance)/[A-Za-z][A-Za-z0-9_.]*`")
 
 
 def parts(path: Path):
@@ -24,7 +24,7 @@ def parts(path: Path):
 
 def test_the_shipped_set():
     assert {p.parent.name for p in SKILLS} == {
-        "fpl-gameweek-planner", "manage-goals", "browser", "travel-planner", "view-builder", "workspace",
+        "fpl-gameweek-planner", "manage-goals", "travel-planner", "view-builder", "workspace",
     }
 
 
