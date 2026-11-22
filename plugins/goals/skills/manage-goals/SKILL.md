@@ -12,10 +12,10 @@ goal tracking is not connected and create nothing. The browser is not a substitu
 
 ## When the engine is the right place
 
-The Life engine is the person's own system of record: goals, tasks, events, recurring items, views, watches and reminders.
-When a request involves something to track, repeat, schedule or watch, use the engine. A passing remark needs nothing
-recorded. A new goal, task or event, or a result the person will want to see again, should get a view associated with it:
-use the `view-builder` skill when it is available; skip it when a view would add nothing.
+The Life engine is the person's own system of record: goals, tasks, events, recurring items, watches, reminders and the
+artifacts that show them. When a request involves something to track, repeat, schedule or watch, use the engine. A passing
+remark needs nothing recorded. A result the person will want to look at again (a plan, a report, a tracker) can be shown as
+an artifact: use the `view-builder` skill when it is available; skip it when an artifact would add nothing.
 
 ### Work of your own, later or on a repeat
 
@@ -149,9 +149,10 @@ from the report that set it up.
 
 ## 6. Progress
 
-When they tell you a measurement ("I'm 81.5 today"), record it with `life:measurements_record` (a fresh
-`idempotency_key`, `subject_kind`, `subject_id`, `metric_id`, and the `value` they gave; a goal's `subject_kind` is
-`intention`). Only record what they said.
+When they tell you a measurement ("I'm 81.5 today"), record what they said with `life:activities_record` (a fresh
+`idempotency_key`, `kind: "measurement"`, `text` in their words, `occurred_at` now) and tie it to the goal with
+`life:links_set` (`from_kind: "activity"`, `relation: "evidences"`, `to_kind: "intention"`). If a tracker artifact's app
+takes logged values, `view-builder` says how to use it. Only record what they said.
 
 ## 7. Tell the person
 

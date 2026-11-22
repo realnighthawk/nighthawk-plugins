@@ -21,7 +21,7 @@ SKILLS = ROOT / "skills"
 CONTRACT = json.loads((ROOT / "tests" / "contracts" / "life-operations.json").read_text())
 OPERATIONS = CONTRACT["operations"]
 # Names the engine used to have. A skill that still says one of these is out of date, even if the word looks harmless.
-RETIRED_PREFIXES = {"goals"}
+RETIRED_PREFIXES = {"goals", "views", "library", "measurements", "tracker_catalog"}
 # `tasks`, `calendar_events`, ... : everything before the last underscore of an operation name
 PREFIXES = {name.rsplit("_", 1)[0] for name in OPERATIONS} | RETIRED_PREFIXES
 # A tool name is one of those prefixes plus a verb the engine's operations end in (or one it used to), so a field like `day_start` is not one.

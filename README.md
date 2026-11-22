@@ -26,10 +26,10 @@ the repository.
 | Skill | What it does |
 |---|---|
 | `fpl-gameweek-planner` | Plans a Fantasy Premier League gameweek: squad, transfers, XI, captain, chips, league overlay |
-| `manage-goals` | Creates and changes goals, tasks, events, reminders and measurements in the Life engine |
+| `manage-goals` | Creates and changes goals, tasks, events and reminders in the Life engine |
 | `browser` | Drives the real browser; the next best option when a tool is missing or the site needs a login |
 | `travel-planner` | Plans a trip in TREK with maps research, itinerary checks, budget and packing |
-| `view-builder` | Builds, revises, opens or removes Life Engine artifacts and views |
+| `view-builder` | Builds, revises, opens or removes Life Engine artifacts: documents, decks, and trackers or lists backed by an app |
 | `workspace` | Where projects live (`/workspace`), what persists, what the sandbox can reach, and how to report back |
 
 `@nighthawklabs/cookbook` publishes the same skills for agents without a plugin marketplace:

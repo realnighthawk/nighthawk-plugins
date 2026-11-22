@@ -63,7 +63,7 @@ def test_a_plan_with_nothing_to_do_is_refused():
 
 # What the Life engine accepts in a batch (life-engine/internal/engine/batch.go, `batchable`): creates only.
 BATCHABLE = {"intentions_create", "commitments_create", "states_create", "activities_record", "links_set", "tasks_create",
-             "calendar_events_create", "views_create"}
+             "calendar_events_create"}
 
 
 def test_the_batch_has_ids_links_and_utc_instants():
