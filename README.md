@@ -7,15 +7,13 @@ Public client plugins for [agent-brain](https://github.com/realnighthawk/agent-b
 | Client | Path | Sign-in |
 |--------|------|---------|
 | Claude Code | [plugins/mission-control/](plugins/mission-control/README.md) | OAuth, `claude plugin install mission-control@mission-control-plugins --scope user` |
-| oh-my-pi | [plugins/mission-control/](plugins/mission-control/README.md) | None in a platform sandbox (private network); OAuth outside. `omp plugin install mission-control@mission-control-plugins --scope user` |
+| oh-my-pi | [plugins/mission-control/](plugins/mission-control/README.md) | One OAuth sign-in for the public MCP; managed sandboxes use a pinned private setup |
 | Claude app | [plugins/claude-app/](plugins/claude-app/README.md) | OAuth (memory only) |
 | ChatGPT | [plugins/chatgpt-memory/](plugins/chatgpt-memory/README.md) | OAuth (memory only) |
 
-Every client gets Hippocampus (memory). The consolidated Mission Control plugin (Claude Code and oh-my-pi) also
-registers the tenant's service servers directly — finance, maps, life, retro, health, FPL, FPL intelligence, Reddit and
-the browser — and ships the Agent Skills below. The hosted apps (Claude, ChatGPT) are memory-only. The
-host sets `MISSION_CONTROL_AGENT_ID` (`claude-code` or `ohmypi`) for the consolidated plugin; the hosted apps send their
-fixed ids (`claude-app`, `chatgpt`). Memory is one bank per agent, named by that header; no call names a bank.
+Every client gets Hippocampus (memory). Mission Control also provides Finance, Maps, Life, Retro, Health,
+FPL, FPL Intelligence, Reddit, and Auto Browser. OMP reaches them through one public MCP connection.
+Claude Code and pinned managed sandboxes use direct connections. The hosted apps are memory-only.
 
 ## Skills
 
@@ -48,7 +46,7 @@ npx @nighthawklabs/cookbook --uninstall
 ## Repository layout
 
 ```
-plugins/mission-control/  the system plugin: both manifests, one .mcp.json, memory, browser and workspace skills, hooks, commands, agents
+plugins/mission-control/  Mission Control manifests, shared and direct MCP configs, skills, hooks, commands, agents
 plugins/{travel,fpl,goals}/  optional skill plugins, installed per agent
 plugins/<client>/         the memory-only client plugins
 packages/cookbook/        npm wrapper: install.mjs, lint, tests; stages the skills at pack time

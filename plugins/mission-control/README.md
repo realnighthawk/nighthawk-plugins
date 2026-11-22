@@ -35,19 +35,14 @@ omp plugin marketplace add realnighthawk/nighthawk-plugins
 omp plugin install mission-control@mission-control-plugins --scope user
 ```
 
-Marketplace installs are read from the catalogue. Inside a platform sandbox the service addresses and the memory
-address come from `MISSION_CONTROL_<SERVICE>_URL` / `MISSION_CONTROL_MEMORY_URL` and need no sign-in; the agent identity
-is `MISSION_CONTROL_AGENT_ID`. Outside a sandbox the memory endpoint needs OAuth and the host must still set
-`MISSION_CONTROL_AGENT_ID` to `claude-code` or `ohmypi` so each harness keeps its own memory bank.
+OMP installs one `mission-control:shared` server at `https://api.nighthawklabs.org/mcp`.
+Run `/mcp reauth mission-control:shared` once for all services. Existing OMP credentials for
+the same URL carry over from a manually added `mission-control` entry, which can be removed.
 
-Outside a sandbox, oh-my-pi defaults to the public router for all Mission Control MCPs. Run `/mcp list`,
-then `/mcp reauth mission-control:<server>` to authorize the ones you need. The shared browser is
-`mission-control:auto_browser`; its public MCP endpoint is `/browser/mcp`, separate from the live desktop.
-The browser's private bearer token stays in the tenant pod and is not needed on the workstation.
-
-The plugin is declarative: `.claude-plugin/plugin.json` (Claude Code), `plugin.json` (oh-my-pi), `.mcp.json`, `skills/`,
-`hooks/`, `commands/`, `agents/`. `omp` expands `${VAR}` and `${VAR:-default}` in `.mcp.json`, so the same file works in
-a sandbox and outside it.
+Claude Code uses the direct server configuration referenced by `.claude-plugin/plugin.json`.
+Managed sandboxes running the pinned plugin revision keep their private connections and must
+retain that pin until their OMP provisioning supports the shared connection. The browser's
+private bearer remains in the tenant pod.
 
 ## Identity and memory
 

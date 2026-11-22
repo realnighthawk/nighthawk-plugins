@@ -83,14 +83,15 @@ for path, agent in IDENTITY.items():
     if agent not in text:
         wrong.append(f"{path}: agent id is not {agent}")
 
-# The consolidated plugin serves more than one harness, so the host supplies the agent id.
-text = (ROOT / "plugins/mission-control/.mcp.json").read_text()
+# Claude Code still connects directly and gets its agent identity from the host.
+DIRECT_MCP = "plugins/mission-control/.claude-plugin/mcp.json"
+text = (ROOT / DIRECT_MCP).read_text()
 if "MISSION_CONTROL_AGENT_ID" not in text:
-    wrong.append("plugins/mission-control/.mcp.json: agent id is not MISSION_CONTROL_AGENT_ID")
+    wrong.append(f"{DIRECT_MCP}: agent id is not MISSION_CONTROL_AGENT_ID")
 
-# The sandbox clients register the fixed tenant backends directly; there is no hub.
+# Claude Code registers the fixed tenant backends directly.
 SERVERS = ["finance", "maps", "life", "retro", "health", "fpl", "fpl_intelligence", "reddit", "auto_browser"]
-for path in ["plugins/mission-control/.mcp.json"]:
+for path in [DIRECT_MCP]:
     text = (ROOT / path).read_text()
     if "MISSION_CONTROL_HUB_URL" in text or '"reactor"' in text:
         wrong.append(f"{path}: still points at the hub")
