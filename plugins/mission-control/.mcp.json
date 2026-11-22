@@ -2,21 +2,33 @@
   "mcpServers": {
     "finance": {
       "type": "http",
-      "url": "${MISSION_CONTROL_FINANCE_URL:-http://127.0.0.1:8091/mcp}",
+      "url": "${MISSION_CONTROL_FINANCE_URL:-https://api.nighthawklabs.org/finance/mcp}",
+      "oauth": {
+        "scopes": "openid profile email",
+        "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
+      },
       "headers": {
         "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}"
       }
     },
     "maps": {
       "type": "http",
-      "url": "${MISSION_CONTROL_MAPS_URL:-http://127.0.0.1:8090/mcp}",
+      "url": "${MISSION_CONTROL_MAPS_URL:-https://api.nighthawklabs.org/maps/mcp}",
+      "oauth": {
+        "scopes": "openid profile email",
+        "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
+      },
       "headers": {
         "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}"
       }
     },
     "life": {
       "type": "http",
-      "url": "${MISSION_CONTROL_LIFE_URL:-http://127.0.0.1:8093/mcp}",
+      "url": "${MISSION_CONTROL_LIFE_URL:-https://api.nighthawklabs.org/life/mcp}",
+      "oauth": {
+        "scopes": "openid profile email",
+        "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
+      },
       "headers": {
         "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}",
         "X-Agent-ID": "${MISSION_CONTROL_AGENT_ID:-}"
@@ -24,7 +36,11 @@
     },
     "retro": {
       "type": "http",
-      "url": "${MISSION_CONTROL_RETRO_URL:-http://127.0.0.1:8092/mcp}",
+      "url": "${MISSION_CONTROL_RETRO_URL:-https://api.nighthawklabs.org/retro/mcp}",
+      "oauth": {
+        "scopes": "openid profile email",
+        "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
+      },
       "headers": {
         "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}"
       }

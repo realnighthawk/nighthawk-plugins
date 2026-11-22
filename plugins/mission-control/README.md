@@ -40,6 +40,11 @@ address come from `MISSION_CONTROL_<SERVICE>_URL` / `MISSION_CONTROL_MEMORY_URL`
 is `MISSION_CONTROL_AGENT_ID`. Outside a sandbox the memory endpoint needs OAuth and the host must still set
 `MISSION_CONTROL_AGENT_ID` to `claude-code` or `ohmypi` so each harness keeps its own memory bank.
 
+Outside a sandbox, Finance, Maps, Life and Retro default to the public router's `/<service>/mcp`
+routes and use Clerk OAuth; run `/mcp list` and authorize each service in oh-my-pi. Deploy the
+router's service MCP OAuth handlers before releasing this plugin configuration. Health, FPL,
+FPL Intelligence, Reddit and the shared browser still require private service endpoints.
+
 The plugin is declarative: `.claude-plugin/plugin.json` (Claude Code), `plugin.json` (oh-my-pi), `.mcp.json`, `skills/`,
 `hooks/`, `commands/`, `agents/`. `omp` expands `${VAR}` and `${VAR:-default}` in `.mcp.json`, so the same file works in
 a sandbox and outside it.
