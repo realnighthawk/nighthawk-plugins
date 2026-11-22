@@ -4,8 +4,8 @@
       "type": "http",
       "url": "${MISSION_CONTROL_FINANCE_URL:-https://api.nighthawklabs.org/finance/mcp}",
       "oauth": {
-        "scopes": "openid profile email",
-        "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
+        "clientId": "https://api.nighthawklabs.org/oauth/omp-client.json",
+        "redirectUri": "http://127.0.0.1:3334/callback"
       },
       "headers": {
         "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}"
@@ -15,8 +15,8 @@
       "type": "http",
       "url": "${MISSION_CONTROL_MAPS_URL:-https://api.nighthawklabs.org/maps/mcp}",
       "oauth": {
-        "scopes": "openid profile email",
-        "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
+        "clientId": "https://api.nighthawklabs.org/oauth/omp-client.json",
+        "redirectUri": "http://127.0.0.1:3334/callback"
       },
       "headers": {
         "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}"
@@ -26,8 +26,8 @@
       "type": "http",
       "url": "${MISSION_CONTROL_LIFE_URL:-https://api.nighthawklabs.org/life/mcp}",
       "oauth": {
-        "scopes": "openid profile email",
-        "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
+        "clientId": "https://api.nighthawklabs.org/oauth/omp-client.json",
+        "redirectUri": "http://127.0.0.1:3334/callback"
       },
       "headers": {
         "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}",
@@ -38,8 +38,8 @@
       "type": "http",
       "url": "${MISSION_CONTROL_RETRO_URL:-https://api.nighthawklabs.org/retro/mcp}",
       "oauth": {
-        "scopes": "openid profile email",
-        "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
+        "clientId": "https://api.nighthawklabs.org/oauth/omp-client.json",
+        "redirectUri": "http://127.0.0.1:3334/callback"
       },
       "headers": {
         "X-Nighthawk-Verified-User": "${MISSION_CONTROL_OWNER_SUB:-}"
@@ -47,34 +47,54 @@
     },
     "health": {
       "type": "http",
-      "url": "${MISSION_CONTROL_HEALTH_URL:-http://127.0.0.1:8080/mcp}"
+      "url": "${MISSION_CONTROL_HEALTH_URL:-https://api.nighthawklabs.org/health/mcp}",
+      "oauth": {
+        "clientId": "https://api.nighthawklabs.org/oauth/omp-client.json",
+        "redirectUri": "http://127.0.0.1:3334/callback"
+      }
     },
     "fpl": {
       "type": "http",
-      "url": "${MISSION_CONTROL_FPL_URL:-http://127.0.0.1:8000/mcp}"
+      "url": "${MISSION_CONTROL_FPL_URL:-https://api.nighthawklabs.org/fpl/mcp}",
+      "oauth": {
+        "clientId": "https://api.nighthawklabs.org/oauth/omp-client.json",
+        "redirectUri": "http://127.0.0.1:3334/callback"
+      }
     },
     "fpl_intelligence": {
       "type": "http",
-      "url": "${MISSION_CONTROL_FPL_INTELLIGENCE_URL:-http://127.0.0.1:8001/mcp}"
+      "url": "${MISSION_CONTROL_FPL_INTELLIGENCE_URL:-https://api.nighthawklabs.org/fpl-intelligence/mcp}",
+      "oauth": {
+        "clientId": "https://api.nighthawklabs.org/oauth/omp-client.json",
+        "redirectUri": "http://127.0.0.1:3334/callback"
+      }
     },
     "reddit": {
       "type": "http",
-      "url": "${MISSION_CONTROL_REDDIT_URL:-http://127.0.0.1:3000/mcp}"
+      "url": "${MISSION_CONTROL_REDDIT_URL:-https://api.nighthawklabs.org/reddit/mcp}",
+      "oauth": {
+        "clientId": "https://api.nighthawklabs.org/oauth/omp-client.json",
+        "redirectUri": "http://127.0.0.1:3334/callback"
+      }
     },
     "auto_browser": {
       "type": "http",
-      "url": "${MISSION_CONTROL_AUTO_BROWSER_URL:-http://127.0.0.1:8000/mcp}",
+      "url": "${MISSION_CONTROL_AUTO_BROWSER_URL:-https://api.nighthawklabs.org/browser/mcp}",
+      "oauth": {
+        "clientId": "https://api.nighthawklabs.org/oauth/omp-client.json",
+        "redirectUri": "http://127.0.0.1:3334/callback"
+      },
       "headers": {
         "Authorization": "Bearer ${MISSION_CONTROL_AUTO_BROWSER_TOKEN:-}",
-        "Host": "${MISSION_CONTROL_AUTO_BROWSER_HOST:-auto-browser}"
+        "Host": "${MISSION_CONTROL_AUTO_BROWSER_HOST:-api.nighthawklabs.org}"
       }
     },
     "hippocampus": {
       "type": "http",
       "url": "${MISSION_CONTROL_MEMORY_URL:-https://api.nighthawklabs.org/memory/mcp}",
       "oauth": {
-        "scopes": "openid profile email",
-        "authServerMetadataUrl": "https://clerk.nighthawklabs.org/.well-known/oauth-authorization-server"
+        "clientId": "https://api.nighthawklabs.org/oauth/omp-client.json",
+        "redirectUri": "http://127.0.0.1:3334/callback"
       },
       "headers": {
         "X-Agent-ID": "${MISSION_CONTROL_AGENT_ID}",

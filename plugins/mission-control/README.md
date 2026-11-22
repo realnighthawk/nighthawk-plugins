@@ -40,10 +40,10 @@ address come from `MISSION_CONTROL_<SERVICE>_URL` / `MISSION_CONTROL_MEMORY_URL`
 is `MISSION_CONTROL_AGENT_ID`. Outside a sandbox the memory endpoint needs OAuth and the host must still set
 `MISSION_CONTROL_AGENT_ID` to `claude-code` or `ohmypi` so each harness keeps its own memory bank.
 
-Outside a sandbox, Finance, Maps, Life and Retro default to the public router's `/<service>/mcp`
-routes and use Clerk OAuth; run `/mcp list` and authorize each service in oh-my-pi. Deploy the
-router's service MCP OAuth handlers before releasing this plugin configuration. Health, FPL,
-FPL Intelligence, Reddit and the shared browser still require private service endpoints.
+Outside a sandbox, oh-my-pi defaults to the public router for all Mission Control MCPs. Run `/mcp list`,
+then `/mcp reauth mission-control:<server>` to authorize the ones you need. The shared browser is
+`mission-control:auto_browser`; its public MCP endpoint is `/browser/mcp`, separate from the live desktop.
+The browser's private bearer token stays in the tenant pod and is not needed on the workstation.
 
 The plugin is declarative: `.claude-plugin/plugin.json` (Claude Code), `plugin.json` (oh-my-pi), `.mcp.json`, `skills/`,
 `hooks/`, `commands/`, `agents/`. `omp` expands `${VAR}` and `${VAR:-default}` in `.mcp.json`, so the same file works in
@@ -79,9 +79,11 @@ memory plugins recall and retain twice against the same memory.
 
 ## Server prerequisites
 
-The memory router must serve the MCP OAuth discovery documents
-(`/.well-known/oauth-protected-resource` and `/.well-known/oauth-authorization-server`) and Clerk must have CIMD
-(preferred) or DCR enabled, with default scopes `openid profile email offline_access`.
+The public router must publish the MCP OAuth discovery documents and the oh-my-pi public client metadata
+at `https://api.nighthawklabs.org/oauth/omp-client.json`. Clerk must admit that client and grant `openid`,
+`profile`, `email`, and `offline_access`. If Clerk requires pre-registration, explicitly allow the metadata
+URL under **OAuth applications** in the Clerk dashboard; do not enable unrestricted dynamic registration.
+The oh-my-pi callback listens on `http://127.0.0.1:3334/callback`.
 
 Do not add an `Authorization` header or `headersHelper` for the `hippocampus` server — either disables Claude Code's
 OAuth fallback.

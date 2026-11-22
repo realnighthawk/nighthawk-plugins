@@ -1,6 +1,6 @@
 {
   "name": "mission-control",
-  "version": "0.16.1",
+  "version": "0.16.2",
   "description": "Agent Harness for oh-my-pi: the tenant's connected MCP services directly, two Agent Skills (browser, workspace), plus long-term memory with recall and retain hooks.",
   "author": {
     "name": "Nighthawk Labs"
