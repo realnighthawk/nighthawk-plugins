@@ -99,7 +99,8 @@ case $cmd in
     port=$(free_port)
     tmp=$(mktemp -d)
     printf 'browser:\n  cdpUrl: http://127.0.0.1:%s\n' "$port" >"$tmp/omp.yml"
-    websocat -b -H "Authorization: Bearer $TOKEN" "tcp-l:127.0.0.1:$port" "$WS_URL" >/dev/null 2>&1 &
+    # -H takes every argument after it as a header, so it goes last.
+    websocat -b "tcp-l:127.0.0.1:$port" "$WS_URL" -H "Authorization: Bearer $TOKEN" >/dev/null 2>&1 &
     tunnel=$!
     trap 'kill "$tunnel" 2>/dev/null || true; rm -rf "$tmp"' EXIT INT TERM
     say "your workstation's browser is attached (127.0.0.1:$port)"
