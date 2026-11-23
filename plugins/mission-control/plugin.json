@@ -1,6 +1,6 @@
 {
   "name": "mission-control",
-  "version": "0.18.0",
+  "version": "0.18.1",
   "description": "Mission Control for oh-my-pi: tools and memory through one MCP connection, plus the workspace skill.",
   "author": {
     "name": "Nighthawk Labs"
