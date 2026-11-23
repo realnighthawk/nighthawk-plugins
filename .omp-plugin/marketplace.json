@@ -8,7 +8,7 @@
   },
   "metadata": {
     "description": "The tenant's connected MCP services and long-term memory for agent harnesses.",
-    "version": "0.17.0",
+    "version": "0.18.0",
     "pluginRoot": "./plugins"
   },
   "plugins": [
