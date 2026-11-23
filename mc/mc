@@ -1,0 +1,112 @@
+#!/bin/sh
+# mc: run omp with your Mission Control workstation's browser attached.
+#
+#   mc omp [omp arguments]   sign in if needed, connect the workstation's browser, start omp
+#   mc login                 sign in again (a link lasts 12 hours)
+#   mc status                say whether the workstation is reachable
+#
+# It leans on existing tools: curl, python3 (a one-shot listener for the sign-in), websocat (WebSocket to a local port) and omp's own --config.
+# The workstation's browser appears to omp as a local one, at a free port on 127.0.0.1. Nothing is installed besides this file and websocat.
+set -eu
+
+ROUTER=${MC_ROUTER_URL:-https://api.nighthawklabs.org}
+WEB=${MC_WEB_URL:-https://mission-control.nighthawklabs.org}
+DIR=${XDG_CONFIG_HOME:-$HOME/.config}/mc
+TOKEN_FILE=$DIR/token
+WS_URL=$(printf '%s' "$ROUTER" | sed -e 's#^https#wss#' -e 's#^http#ws#')/workstation/cdp
+
+say() { printf 'mc: %s\n' "$*" >&2; }
+need() { command -v "$1" >/dev/null 2>&1 || { say "$1 is needed. $2"; exit 1; }; }
+free_port() { python3 -c 'import socket;s=socket.socket();s.bind(("127.0.0.1",0));print(s.getsockname()[1])'; }
+
+# ok = the router accepted the token and reached the workstation; login = the token is missing or expired; down = no workstation is running.
+probe() {
+  code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 -H "Authorization: Bearer $1" "$ROUTER/workstation/cdp" || echo 000)
+  case $code in
+    400) echo ok ;;
+    401) echo login ;;
+    502) echo down ;;
+    *) echo "error $code" ;;
+  esac
+}
+
+# Sign in through the browser: the Mission Control page, once you confirm, sends the token to a listener on this machine's loopback.
+login() {
+  need python3 "It runs the one-time sign-in listener."
+  mkdir -p "$DIR" && chmod 700 "$DIR"
+  port=$(free_port)
+  state=$(python3 -c 'import secrets;print(secrets.token_urlsafe(16))')
+  out=$(mktemp)
+  MC_STATE=$state MC_OUT=$out python3 - "$port" <<'PY' &
+import http.server, os, sys, time, urllib.parse
+state, out = os.environ["MC_STATE"], os.environ["MC_OUT"]
+class H(http.server.BaseHTTPRequestHandler):
+    def do_GET(self):
+        q = urllib.parse.urlparse(self.path)
+        p = urllib.parse.parse_qs(q.query)
+        ok = q.path == "/callback" and p.get("state") == [state] and p.get("token")
+        if ok:
+            fd = os.open(out, os.O_WRONLY | os.O_TRUNC, 0o600)
+            os.write(fd, p["token"][0].encode()); os.close(fd)
+        self.send_response(200 if ok else 400)
+        self.send_header("Content-Type", "text/plain; charset=utf-8"); self.end_headers()
+        self.wfile.write(b"Connected. You can close this tab." if ok else b"Not the sign-in mc is waiting for.")
+    def log_message(self, *a): pass
+srv = http.server.HTTPServer(("127.0.0.1", int(sys.argv[1])), H)
+srv.timeout = 5
+end = time.time() + 180
+while time.time() < end and not os.path.getsize(out):
+    srv.handle_request()
+PY
+  listener=$!
+  url="$WEB/connect?port=$port&state=$state"
+  say "opening $url"
+  (open "$url" || xdg-open "$url") >/dev/null 2>&1 || say "open that address in your browser"
+  wait "$listener" || true
+  if [ ! -s "$out" ]; then rm -f "$out"; say "no sign-in came back in 3 minutes"; exit 1; fi
+  mv "$out" "$TOKEN_FILE" && chmod 600 "$TOKEN_FILE"
+  say "signed in"
+}
+
+# Make sure there is a token that works. Sets TOKEN and STATE (ok or down).
+ensure() {
+  TOKEN=$(cat "$TOKEN_FILE" 2>/dev/null || true)
+  STATE=$([ -n "$TOKEN" ] && probe "$TOKEN" || echo login)
+  if [ "$STATE" = login ]; then
+    login
+    TOKEN=$(cat "$TOKEN_FILE")
+    STATE=$(probe "$TOKEN")
+  fi
+  case $STATE in ok | down) ;; *) say "the router answered unexpectedly ($STATE)"; exit 1 ;; esac
+}
+
+cmd=${1:-}
+case $cmd in
+  login) login ;;
+  status)
+    ensure
+    if [ "$STATE" = ok ]; then say "connected: your workstation is reachable"; else say "your workstation is not running: create it at $WEB/workstation"; fi
+    ;;
+  omp)
+    shift
+    need omp "Install oh-my-pi first."
+    ensure
+    if [ "$STATE" = down ]; then
+      say "your workstation is not running, so omp starts without it. Create it at $WEB/workstation, then run mc omp again."
+      exec omp "$@"
+    fi
+    need websocat "Install it: brew install websocat (macOS), or see https://github.com/vi/websocat"
+    port=$(free_port)
+    tmp=$(mktemp -d)
+    printf 'browser:\n  cdpUrl: http://127.0.0.1:%s\n' "$port" >"$tmp/omp.yml"
+    websocat -b -H "Authorization: Bearer $TOKEN" "tcp-l:127.0.0.1:$port" "$WS_URL" >/dev/null 2>&1 &
+    tunnel=$!
+    trap 'kill "$tunnel" 2>/dev/null || true; rm -rf "$tmp"' EXIT INT TERM
+    say "your workstation's browser is attached (127.0.0.1:$port)"
+    omp --config "$tmp/omp.yml" "$@"
+    ;;
+  *)
+    say "usage: mc omp [omp arguments] | mc login | mc status"
+    exit 2
+    ;;
+esac

@@ -10,6 +10,7 @@ and adds long-term memory with recall and retain hooks. The same directory carri
 | Skills | `hippocampus`, `services`, and the portable Agent Skill `workspace`. Task skills live in the optional plugins `travel`, `fpl` and `goals`. |
 | Hooks | Claude Code: `SessionStart` asks for recall and `SessionEnd` spools a slice. oh-my-pi: `before_agent_start` and `session_shutdown` do the same from `hooks/pre/memory.ts`. The agent makes every MCP call itself. |
 | Rules | `rules/browser.md`, always applied: browser work uses oh-my-pi's built-in browser, which is attached to the person's workstation. There is no separate browser connection. |
+| Command | `mc omp` (installed once from `mc/install.sh`, shown on the Workstation page): signs in through the browser, attaches the workstation's browser to omp for that session, and starts omp. |
 | Commands | Claude Code only: `/mission-control:hippocampus:remember`, `:recall`, `:forget` (confirms first). |
 | Agents | Claude Code only: `services-researcher` (read-only research across the connected servers) and `memory-curator` (turns finished work into retained memory). |
 

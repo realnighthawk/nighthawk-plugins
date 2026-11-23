@@ -9,7 +9,7 @@ For any browser work (opening a site, reading a logged-in page, doing what an MC
 `browser`. It is attached to the person's workstation, a computer of their own that has the open web and keeps their
 saved logins, so it is already signed in where they signed in. There is no separate browser connection and none to ask for.
 
-- If the built-in browser is not attached to a workstation, say so once and stop. Do not look for another browser tool.
+- If the built-in browser is not attached to a workstation, say so once and stop. Do not look for another browser tool. Tell the person to quit and start omp with `mc omp`, which attaches their workstation (or to create the workstation at `/workstation` in Mission Control if it does not exist). If `mc` is not installed, they install it with the one line shown on that page.
 - Never ask for, read or type a password, verification code or recovery answer, and never read cookies, tokens or storage.
   When a sign-in, a CAPTCHA or a decision needs the person, say so and point them to the Workstation page in Mission
   Control (`/workstation`), where they can take over the same screen. Wait for them to say it is done.
