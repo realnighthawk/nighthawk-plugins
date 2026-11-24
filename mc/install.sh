@@ -42,7 +42,8 @@ else
   # omp exits 0 even when a step fails, so read what it says.
   run() { out=$("$@" 2>&1) || true; printf '%s\n' "$out"; case $out in *"Failed"* | *"failed"* | *"rror"*) return 1 ;; esac; }
   if omp plugin marketplace list 2>&1 | grep -q "$MARKETPLACE"; then run omp plugin marketplace update "$MARKETPLACE"; else run omp plugin marketplace add "$MARKET_URL"; fi
-  if omp plugin list 2>&1 | grep -q "$PLUGIN"; then run omp plugin upgrade "$PLUGIN"; else run omp plugin install "$PLUGIN"; fi
+  # Not `plugin upgrade`: it compares the catalog's declared version, which a stale entry leaves unchanged. Reinstall what the marketplace holds.
+  run omp plugin install --force "$PLUGIN"
 fi
 
 # A program in ~/.local/bin is only found if that directory is on the PATH.
