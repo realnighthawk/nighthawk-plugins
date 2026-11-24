@@ -2,6 +2,7 @@
 // npx @nighthawklabs/mission-control — set up Mission Control for every harness found (Claude Code, oh-my-pi), then start with `mc claude` or `mc omp`.
 // It runs the bundled mc/install.sh against the bundled mc (MC_SRC=file://...), so the starter matches this package's version. No dependencies.
 // ponytail: POSIX only (the starter is a shell script); a Node port of mc is the upgrade for Windows.
+import { aliasMarketplaces } from "./alias.mjs";
 import { spawnSync } from "node:child_process";
 import { existsSync, rmSync } from "node:fs";
 import { dirname, join } from "node:path";
@@ -23,6 +24,8 @@ Then run:  mc claude   or   mc omp
 For any other agent that reads skills, install also runs npx @nighthawklabs/cookbook.`);
   process.exit(bad ? 2 : 0);
 }
+
+
 
 const sh = (c, opts = {}) => spawnSync("sh", ["-c", c], { stdio: "inherit", ...opts });
 const has = (c) => spawnSync("sh", ["-c", `command -v ${c}`], { stdio: "ignore" }).status === 0;
@@ -49,6 +52,16 @@ if (cmd === "uninstall") {
   if (args.includes("--purge")) rmSync(join(process.env.XDG_CONFIG_HOME || join(process.env.HOME, ".config"), "mc"), { recursive: true, force: true });
   console.log(`\nRemoved the plugin and ${mc}.${args.includes("--purge") ? "" : " Your sign-in is kept (add --purge to remove it)."} websocat was left in place.`);
   process.exit(0);
+}
+
+if (has("claude")) {
+  const listed = spawnSync("sh", ["-c", "claude plugin marketplace list 2>&1"], { encoding: "utf8" }).stdout || "";
+  for (const alias of aliasMarketplaces(listed)) {
+    console.log(`removing the duplicate marketplace "${alias}" (same repo as mission-control-plugins)`);
+    sh(`claude plugin uninstall mission-control@${alias} --scope user 2>&1 | grep -v "not found in installed"; claude plugin marketplace remove ${alias} 2>&1`);
+  }
+  const mcp = spawnSync("sh", ["-c", "claude mcp list 2>&1"], { encoding: "utf8" }).stdout || "";
+  for (const l of mcp.split("\n").filter((l) => /mcp-hub\.nighthawklabs\.org/.test(l))) console.log(`warning: a leftover MCP entry points at a host that no longer answers: ${l.trim()}\n  remove it with: claude mcp remove ${l.split(":")[0].trim()}`);
 }
 
 // install and update are the same: install.sh is safe to run again and refreshes what is there.
