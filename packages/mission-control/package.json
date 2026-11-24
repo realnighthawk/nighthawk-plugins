@@ -1,6 +1,6 @@
 {
   "name": "@nighthawklabs/mission-control",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "One command to set up Mission Control for Claude Code and oh-my-pi: the plugin, the mc starter, the workstation browser, and sign-in.",
   "type": "module",
   "bin": { "mission-control": "bin/cli.mjs" },
