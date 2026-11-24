@@ -91,18 +91,23 @@ case $cmd in
     shift
     need omp "Install oh-my-pi first."
     ensure
+    tmp=$(mktemp -d)
+    trap 'kill "${tunnel:-}" 2>/dev/null || true; rm -rf "$tmp"' EXIT INT TERM
+    # Memory is oh-my-pi's own (its hindsight backend) on your workspace's memory server, through the router: recalled at the start of a turn, retained at the end.
+    # The token goes in the environment, not in the file.
+    printf 'memory:\n  backend: hindsight\nhindsight:\n  apiUrl: %s/memory\n  bankId: ohmypi\n  scoping: global\n  mentalModelsEnabled: false\n  mentalModelAutoSeed: false\n' "$ROUTER" >"$tmp/omp.yml"
+    export HINDSIGHT_API_TOKEN=$TOKEN MISSION_CONTROL_NATIVE_MEMORY=1
     if [ "$STATE" = down ]; then
       say "your workstation is not running, so omp starts without it. Create it at $WEB/workstation, then run mc omp again."
-      exec omp "$@"
+      omp --config "$tmp/omp.yml" "$@"
+      exit $?
     fi
     need websocat "Install it: brew install websocat (macOS), or see https://github.com/vi/websocat"
     port=$(free_port)
-    tmp=$(mktemp -d)
-    printf 'browser:\n  cdpUrl: http://127.0.0.1:%s\n' "$port" >"$tmp/omp.yml"
+    printf 'browser:\n  cdpUrl: http://127.0.0.1:%s\n' "$port" >>"$tmp/omp.yml"
     # -H takes every argument after it as a header, so it goes last.
     websocat -b "tcp-l:127.0.0.1:$port" "$WS_URL" -H "Authorization: Bearer $TOKEN" >/dev/null 2>&1 &
     tunnel=$!
-    trap 'kill "$tunnel" 2>/dev/null || true; rm -rf "$tmp"' EXIT INT TERM
     say "your workstation's browser is attached (127.0.0.1:$port)"
     omp --config "$tmp/omp.yml" "$@"
     ;;

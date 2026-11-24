@@ -154,6 +154,8 @@ function spool(file: string | null, entries: readonly Entry[]): void {
 
 export default function (pi: HookAPI): void {
 	if (DISABLED) return;
+	// The host put memory on oh-my-pi's own memory slot (built-in retain / recall / reflect, recalled and retained by oh-my-pi itself): nothing to do here.
+	if (process.env.MISSION_CONTROL_NATIVE_MEMORY) return;
 	const direct = Boolean(process.env.MISSION_CONTROL_MEMORY_URL || process.env.MISSION_CONTROL_MEMORY_KEY);
 	let ready: Promise<string> | undefined;
 	let injected = false;
