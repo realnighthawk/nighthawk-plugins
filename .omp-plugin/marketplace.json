@@ -8,13 +8,13 @@
   },
   "metadata": {
     "description": "The tenant's connected MCP services and long-term memory for agent harnesses.",
-    "version": "0.18.4",
+    "version": "0.18.5",
     "pluginRoot": "./plugins"
   },
   "plugins": [
     {
       "name": "mission-control",
-      "version": "0.18.4",
+      "version": "0.18.5",
       "source": "./plugins/mission-control",
       "description": "Mission Control tools and memory for oh-my-pi through one MCP connection, plus the workspace skill.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
