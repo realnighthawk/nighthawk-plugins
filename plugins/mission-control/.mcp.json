@@ -5,7 +5,8 @@
       "url": "${MISSION_CONTROL_CONNECTIONS_URL:-https://api.nighthawklabs.org/mcp}",
       "oauth": {
         "clientId": "https://api.nighthawklabs.org/oauth/mission-control-client.json",
-        "redirectUri": "http://127.0.0.1:3334/callback"
+        "redirectUri": "http://127.0.0.1:3334/callback",
+        "callbackPort": 3334
       }
     }
   }
