@@ -83,21 +83,16 @@ for path, agent in IDENTITY.items():
     if agent not in text:
         wrong.append(f"{path}: agent id is not {agent}")
 
-# Claude Code still connects directly and gets its agent identity from the host.
-DIRECT_MCP = "plugins/mission-control/.claude-plugin/mcp.json"
-text = (ROOT / DIRECT_MCP).read_text()
-if "MISSION_CONTROL_AGENT_ID" not in text:
-    wrong.append(f"{DIRECT_MCP}: agent id is not MISSION_CONTROL_AGENT_ID")
-
-# Claude Code registers the fixed tenant backends directly.
-SERVERS = ["finance", "maps", "life", "retro", "health", "fpl", "fpl_intelligence", "reddit"]
-for path in [DIRECT_MCP]:
-    text = (ROOT / path).read_text()
-    if "MISSION_CONTROL_HUB_URL" in text or '"reactor"' in text:
-        wrong.append(f"{path}: still points at the hub")
-    missing = [name for name in SERVERS if f'"{name}"' not in text]
-    if missing:
-        wrong.append(f"{path}: missing direct servers {missing}")
+# The plugin names no service: one connection to the platform (the tenant's hub), which a sandbox points at the hub directly through the environment.
+CONNECTION = "plugins/mission-control/.mcp.json"
+text = (ROOT / CONNECTION).read_text()
+if "${MISSION_CONTROL_CONNECTIONS_URL:-https://api.nighthawklabs.org/mcp}" not in text:
+    wrong.append(f"{CONNECTION}: the connection must be ${{MISSION_CONTROL_CONNECTIONS_URL:-https://api.nighthawklabs.org/mcp}}")
+for name in ["finance", "maps", "life", "retro", "health", "fpl", "reddit", "trek"]:
+    for path in ["plugins/mission-control/.mcp.json", "plugins/mission-control/.claude-plugin/mcp.json", "plugins/travel/.mcp.json"]:
+        file = ROOT / path
+        if file.exists() and f'"{name}"' in file.read_text():
+            wrong.append(f"{path}: registers {name}; connections are made in the hub, not in a plugin")
 # Other clients cannot reach cluster-internal backends and must not register the hub either.
 for path in ["plugins/claude-app/.mcp.json", "plugins/chatgpt-memory/.mcp.json"]:
     if '"reactor"' in (ROOT / path).read_text() or "MISSION_CONTROL_HUB_URL" in (ROOT / path).read_text():

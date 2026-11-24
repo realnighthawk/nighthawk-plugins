@@ -11,9 +11,10 @@ Public client plugins for [agent-brain](https://github.com/realnighthawk/agent-b
 | Claude app | [plugins/claude-app/](plugins/claude-app/README.md) | OAuth (memory only) |
 | ChatGPT | [plugins/chatgpt-memory/](plugins/chatgpt-memory/README.md) | OAuth (memory only) |
 
-Every client gets Hippocampus (memory). Mission Control also provides Finance, Maps, Life, Retro, Health,
-FPL, FPL Intelligence and Reddit; the browser is omp's built-in one, attached to the person's workstation. OMP reaches them through one public MCP connection.
-Claude Code and pinned managed sandboxes use direct connections. The hosted apps are memory-only.
+Every client gets Hippocampus (memory). Mission Control adds one connection, to the platform's connections (finance, maps, life, retro,
+health, FPL, Reddit, the workstation browser and whatever the person connects in the web app). The plugin names no service: connections are made
+and signed in on the Connections page, and their tools appear in the agent. The browser is omp's built-in one, attached to the person's
+workstation. A managed sandbox reaches the same connections directly. The hosted apps are memory-only.
 
 ## Skills
 

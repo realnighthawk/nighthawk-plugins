@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "trek": {
-      "type": "http",
-      "url": "https://trek.nighthawklabs.org/mcp"
-    }
-  }
-}

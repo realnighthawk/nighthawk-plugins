@@ -5,7 +5,7 @@ and adds long-term memory with recall and retain hooks. The same directory carri
 
 | Piece | What it does |
 |---|---|
-| Service MCP servers | `finance`, `maps`, `life`, `retro`, `health`, `fpl`, `fpl_intelligence`, and `reddit`, each registered directly. In a sandbox the addresses and owner subject come from `MISSION_CONTROL_*` variables; there is no hub. |
+| `shared` MCP | The one connection to the platform's connections, as `<connection>__<tool>` tools. Locally it is the public `/mcp` with one OAuth sign-in; in a sandbox `MISSION_CONTROL_CONNECTIONS_URL` points it at the tenant's hub directly. Connections are added and signed in on the web app's Connections page, not here. |
 | `hippocampus` MCP | The harness's long-term memory (agent-brain) at `https://api.nighthawklabs.org/memory/mcp`: `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. |
 | Skills | `hippocampus`, `services`, and the portable Agent Skill `workspace`. Task skills live in the optional plugins `travel`, `fpl` and `goals`. |
 | Hooks | Claude Code: `SessionStart` asks for recall and `SessionEnd` spools a slice. oh-my-pi: `before_agent_start` and `session_shutdown` do the same from `hooks/pre/memory.ts`. The agent makes every MCP call itself. |
