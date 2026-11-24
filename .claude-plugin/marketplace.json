@@ -33,7 +33,7 @@
     },
     {
       "name": "goals",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "source": "./plugins/goals",
       "description": "Goals, tasks, events, reminders and artifacts in the Life engine.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
