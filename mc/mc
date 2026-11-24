@@ -80,6 +80,24 @@ ensure() {
   case $STATE in ok | down) ;; *) say "the router answered unexpectedly ($STATE)"; exit 1 ;; esac
 }
 
+# Tell Mission Control this session exists, so the Agents page lists it. One beat now and every 30 seconds; a last "offline" on exit. It reports where omp runs
+# (machine, folder, version), not what is said in it, and a failed beat is ignored: it never gets in omp's way.
+beat() {
+  body=$(printf '{"session_id":"%s","host":"%s","state":"%s","now":"Running in %s","cwd":"%s","version":"%s"}' \
+    "$SESSION" "$HOST" "$1" "$(printf '%s' "$PWD" | sed -e "s#^$HOME#~#" -e 's/["\\]/_/g')" "$(printf '%s' "$PWD" | sed 's/["\\]/_/g')" "$OMP_VERSION")
+  curl -s -o /dev/null --max-time 10 -X POST -H "Authorization: Bearer $TOKEN" -H 'Content-Type: application/json' -d "$body" "$ROUTER/local-agents/heartbeat" || true
+}
+start_beats() {
+  SESSION=$(python3 -c 'import secrets;print(secrets.token_hex(8))' 2>/dev/null || date +%s%N)
+  HOST=$(hostname -s 2>/dev/null | tr -c 'A-Za-z0-9._-\n' '_' || echo unknown)
+  OMP_VERSION=$(omp --version 2>/dev/null | head -1 | tr -c 'A-Za-z0-9._ -\n' '_' || true)
+  ( while :; do beat idle; sleep 30; done ) &
+  beater=$!
+}
+stop_beats() {
+  if [ -n "${beater:-}" ]; then kill "$beater" 2>/dev/null || true; beat offline; fi
+}
+
 cmd=${1:-}
 case $cmd in
   login) login ;;
@@ -92,7 +110,8 @@ case $cmd in
     need omp "Install oh-my-pi first."
     ensure
     tmp=$(mktemp -d)
-    trap 'kill "${tunnel:-}" 2>/dev/null || true; rm -rf "$tmp"' EXIT INT TERM
+    trap 'stop_beats; kill "${tunnel:-}" 2>/dev/null || true; rm -rf "$tmp"' EXIT INT TERM
+    start_beats
     # Memory is oh-my-pi's own (its hindsight backend) on your workspace's memory server, through the router: recalled at the start of a turn, retained at the end.
     # The token goes in the environment, not in the file.
     printf 'memory:\n  backend: hindsight\nhindsight:\n  apiUrl: %s/memory\n  bankId: ohmypi\n  scoping: global\n  mentalModelsEnabled: false\n  mentalModelAutoSeed: false\n' "$ROUTER" >"$tmp/omp.yml"
