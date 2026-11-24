@@ -58,7 +58,6 @@ def PNG():
 TARGETS = {
     "assets/mission-control.svg": lambda: ICON("mission-control"),
     "plugins/mission-control/assets/icon.svg": lambda: ICON("mission-control"),
-    "plugins/mission-control/skills/hippocampus/SKILL.md": lambda: skill(None),
     "plugins/mission-control/skills/services/SKILL.md": services_skill,
     "plugins/claude-app/skills/hippocampus/SKILL.md": lambda: skill("claude-app"),
     "assets/mission-control.png": PNG,
