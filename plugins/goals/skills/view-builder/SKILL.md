@@ -13,6 +13,7 @@ and no code, and an artifact never calculates anything: an app does that, and th
 |---|---|---|
 | `document` | A plan, report, booking, analysis or reference, as pages of Markdown, short text and links | none: you author it now |
 | `deck` | The same shape shown one page at a time | none |
+| `brief` | A decision or plan the person acts on and returns to: a verdict, a few tiles, moves, watch items, what is ahead | none: you author it now |
 | `collection` | A list or table of records the person can act on: chores, a shopping list, open items | an app's endpoint, with per-row actions |
 | `tracker` | One measurement over time, with an optional target and a form that logs a value | an app's endpoint |
 
@@ -25,7 +26,7 @@ Build an artifact when the output will be used again: the person will come back 
 answer in chat.
 
 **Build** when:
-- It is a plan, report, booking or reference they will return to.
+- It is a plan, report, booking or reference they will return to (a `brief` when it is a decision they act on).
 - It is data that changes over time and they act on it (a `tracker` or `collection`; an app must back it).
 - They ask for a deck, document, dashboard, checklist, or "something I can open or share".
 - It is long or structured enough (several sections, tables) that chat would bury it.
@@ -66,6 +67,21 @@ is what a tracker is for. Use a Markdown table for facts the person gave you or 
 from.
 
 Do not create a goal or task just to hold a draft.
+
+## Briefs
+
+A weekly plan, a trip decision or a review the person acts on is a `brief`, not a `document`. It is drawn with icons, tone and
+tiles, so write it as a screen, not an essay:
+
+- `headline`: the verdict in one line. Everything below supports it.
+- `stats`: up to 4 tiles of a figure, a short label and a note ("+12.9", "5-week gain"). Pick the numbers the decision rests on.
+- `moves`: what to do, in order, with a state (`todo`, `done`, `hold`) and a tag for a deadline. `watch`: what could change the plan,
+  with a level (`info`, `warn`, `risk`). `ahead`: dated steps in order.
+- Icons come from a fixed set (`check swap star alert clock calendar trend_up trend_down target shield bolt flag pin money user trophy heart`)
+  and tones are `neutral good warn risk`. Choose them to carry meaning; leave them out when they would not.
+- Every text slot is short on purpose and the engine refuses a long one. Put method and reasoning in a folded `details` entry and
+  sources in `links`; use a `document` for anything that needs paragraphs.
+- Ids are lowercase letters, digits and underscores, starting with a letter: `gk_swap`, never `gk-swap`.
 
 ## Collections and trackers need an app
 
