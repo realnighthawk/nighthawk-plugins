@@ -8,7 +8,7 @@ and adds long-term memory with recall and retain hooks. The same directory carri
 | `shared` MCP | The one connection to the platform's connections, as `<connection>__<tool>` tools. Locally it is the public `/mcp` with one OAuth sign-in; in a sandbox `MISSION_CONTROL_CONNECTIONS_URL` points it at the tenant's hub directly. Connections are added and signed in on the web app's Connections page, not here. |
 | `hippocampus` MCP | The harness's long-term memory (agent-brain) at `https://api.nighthawklabs.org/memory/mcp`: `memory_recall`, `memory_retain`, `memory_reflect`, `memory_forget`. |
 | Skills | `services` and the portable Agent Skill `workspace`. Task skills live in the optional plugins `travel`, `fpl` and `goals`. |
-| Hooks | Claude Code: `SessionStart` asks for recall and `SessionEnd` spools a slice. oh-my-pi: `before_agent_start` and `session_shutdown` do the same from `hooks/pre/memory.ts`. The agent makes every MCP call itself. |
+| Hooks | Claude Code: `SessionStart` asks for recall and `SessionEnd` spools a slice. oh-my-pi has no memory hook: memory is its own `hindsight` backend, set up by the sandbox host or by `mc omp`, which recalls at the start of a turn and retains at the end and gives the agent built-in `recall`, `retain` and `reflect`. |
 | Rules | `rules/browser.md`, always applied: browser work uses oh-my-pi's built-in browser, which is attached to the person's workstation. There is no separate browser connection. |
 | Command | `mc omp` (set up once by `mc/install.sh`, which also installs websocat and this plugin, and is shown on the Workstation page): signs in through the browser, attaches the workstation's browser to omp for that session, and starts omp. |
 | Commands | Claude Code only: `/mission-control:hippocampus:remember`, `:recall`, `:forget` (confirms first). |
@@ -58,7 +58,7 @@ the id:
 
 ## Hooks
 
-Local OMP's `hooks/pre/memory.ts` asks the agent to recall on the first turn through `mission-control:shared`.
+Local OMP gets memory from `mc omp`, which selects its `hindsight` backend on your workspace's memory server.
 It uses OMP's existing sign-in; the hook does not open a separate memory connection. It also hands any
 queued slices to the agent for retention through that connection, removing a slice only after successful retention.
 

@@ -8,13 +8,13 @@
   },
   "metadata": {
     "description": "The tenant's connected MCP services and long-term memory for agent harnesses.",
-    "version": "0.19.2",
+    "version": "0.19.3",
     "pluginRoot": "./plugins"
   },
   "plugins": [
     {
       "name": "mission-control",
-      "version": "0.19.2",
+      "version": "0.19.3",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
