@@ -15,7 +15,12 @@
     {
       "name": "mission-control",
       "version": "0.18.5",
-      "source": "./plugins/mission-control",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
+        "path": "plugins/mission-control",
+        "ref": "v0.6.0"
+      },
       "description": "Mission Control tools and memory for oh-my-pi through one MCP connection, plus the workspace skill.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
       "repository": "https://github.com/realnighthawk/nighthawk-plugins.git"
@@ -23,7 +28,12 @@
     {
       "name": "travel",
       "version": "0.2.0",
-      "source": "./plugins/travel",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
+        "path": "plugins/travel",
+        "ref": "v0.6.0"
+      },
       "description": "Trip planning in TREK with maps research, itinerary checks, budget and packing.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
       "repository": "https://github.com/realnighthawk/nighthawk-plugins.git"
@@ -31,7 +41,12 @@
     {
       "name": "fpl",
       "version": "0.1.0",
-      "source": "./plugins/fpl",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
+        "path": "plugins/fpl",
+        "ref": "v0.6.0"
+      },
       "description": "Fantasy Premier League gameweek planning: squad, transfers, XI, captain, chips and the league overlay.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
       "repository": "https://github.com/realnighthawk/nighthawk-plugins.git"
@@ -39,7 +54,12 @@
     {
       "name": "goals",
       "version": "0.1.0",
-      "source": "./plugins/goals",
+      "source": {
+        "source": "git-subdir",
+        "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
+        "path": "plugins/goals",
+        "ref": "v0.6.0"
+      },
       "description": "Goals, tasks, events, reminders and artifacts in the Life engine.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
       "repository": "https://github.com/realnighthawk/nighthawk-plugins.git"
