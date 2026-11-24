@@ -9,7 +9,7 @@
   "plugins": [
     {
       "name": "mission-control",
-      "version": "0.18.1",
+      "version": "0.18.2",
       "source": "./plugins/mission-control",
       "description": "Agent Harness tools, skills and memory: the tenant's direct MCP services, eight Agent Skills, long-term memory with automatic recall/retain hooks, commands, and subagents.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
