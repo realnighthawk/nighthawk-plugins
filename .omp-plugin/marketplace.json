@@ -27,7 +27,7 @@
     },
     {
       "name": "travel",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
