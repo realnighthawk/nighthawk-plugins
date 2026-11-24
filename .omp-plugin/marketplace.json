@@ -19,7 +19,7 @@
         "source": "git-subdir",
         "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
         "path": "plugins/mission-control",
-        "ref": "v0.7.4"
+        "ref": "v0.7.5"
       },
       "description": "Mission Control tools and memory for oh-my-pi through one MCP connection, plus the workspace skill.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
@@ -32,7 +32,7 @@
         "source": "git-subdir",
         "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
         "path": "plugins/travel",
-        "ref": "v0.7.4"
+        "ref": "v0.7.5"
       },
       "description": "Trip planning in TREK with maps research, itinerary checks, budget and packing.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
@@ -45,7 +45,7 @@
         "source": "git-subdir",
         "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
         "path": "plugins/fpl",
-        "ref": "v0.7.4"
+        "ref": "v0.7.5"
       },
       "description": "Fantasy Premier League gameweek planning: squad, transfers, XI, captain, chips and the league overlay.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
@@ -58,7 +58,7 @@
         "source": "git-subdir",
         "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
         "path": "plugins/goals",
-        "ref": "v0.7.4"
+        "ref": "v0.7.5"
       },
       "description": "Goals, tasks, events, reminders and artifacts in the Life engine.",
       "homepage": "https://github.com/realnighthawk/nighthawk-plugins",
