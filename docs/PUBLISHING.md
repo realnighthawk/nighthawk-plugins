@@ -46,5 +46,7 @@ gh release create v0.13.0 --generate-notes
 git tag cookbook-v0.2.0 && git push origin cookbook-v0.2.0
 ```
 
+`@nighthawklabs/mission-control` (`packages/mission-control`, tag `mission-control-vX.Y.Z` matching its package.json) bundles `mc/mc` and `mc/install.sh` at pack time, so `npx` runs the starter that was published.
+
 `.github/workflows/npm-publish.yml` publishes `@nighthawklabs/cookbook` on the `cookbook-v*` tag; plugin tags do not
 publish npm.

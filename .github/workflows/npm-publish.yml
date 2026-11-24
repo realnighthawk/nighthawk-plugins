@@ -3,7 +3,7 @@ name: Test and publish the npm package
 on:
   push:
     branches: [main]
-    tags: ["cookbook-v*"]
+    tags: ["cookbook-v*", "mission-control-v*"]
   pull_request:
   workflow_dispatch:
 
@@ -55,6 +55,31 @@ jobs:
             console.error(`tag ${tag} does not match package.json version ${pkg.version}`);
             process.exit(1);
           }
+          JS
+      - name: Publish
+        run: npm publish --access public
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+  publish-mission-control:
+    if: startsWith(github.ref, 'refs/tags/mission-control-v')
+    needs: test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: packages/mission-control
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          registry-url: "https://registry.npmjs.org"
+      - name: The tag matches package.json
+        run: |
+          node - <<'JS'
+          const pkg = require('./package.json');
+          const tag = process.env.GITHUB_REF_NAME.replace(/^mission-control-v/, '');
+          if (pkg.version !== tag) { console.error(`tag ${tag} does not match package.json version ${pkg.version}`); process.exit(1); }
           JS
       - name: Publish
         run: npm publish --access public

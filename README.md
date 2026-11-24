@@ -16,6 +16,13 @@ health, FPL, Reddit, the workstation browser and whatever the person connects in
 and signed in on the Connections page, and their tools appear in the agent. The browser is omp's built-in one, attached to the person's
 workstation. A managed sandbox reaches the same connections directly. The hosted apps are memory-only.
 
+## Install
+
+```bash
+npx @nighthawklabs/mission-control   # mc + the plugin in Claude Code and/or oh-my-pi, then sign-in
+mc claude                            # or: mc omp
+```
+
 ## Skills
 
 The plugins ship portable Agent Skills, written to the Claude Agent Skills format. `plugins/*/skills`
@@ -49,6 +56,7 @@ npx @nighthawklabs/cookbook --uninstall
 plugins/mission-control/  Mission Control manifests, shared and direct MCP configs, skills, hooks, commands, agents
 plugins/{travel,fpl,goals}/  optional skill plugins, installed per agent
 plugins/<client>/         the memory-only client plugins
+packages/mission-control/ npm installer: `npx @nighthawklabs/mission-control` sets up mc and the plugin in Claude Code and oh-my-pi
 packages/cookbook/        npm wrapper: install.mjs, lint, tests; stages the skills at pack time
 shared/                   the memory protocol, rendered into each client
 scripts/sync-shared.py    regenerate the client memory text and verify identity/endpoints
