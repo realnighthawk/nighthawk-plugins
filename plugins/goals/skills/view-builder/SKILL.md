@@ -13,7 +13,7 @@ and no code, and an artifact never calculates anything: an app does that, and th
 |---|---|---|
 | `document` | A plan, report, booking, analysis or reference, as pages of Markdown, short text and links | none: you author it now |
 | `deck` | The same shape shown one page at a time | none |
-| `brief` | A decision or plan the person acts on and returns to: a verdict, a few tiles, moves, watch items, what is ahead | none: you author it now |
+| `board` | A screen of typed components for any task you author now: tiles, moves, watch items, a timeline, callouts, facts, a table, bars, a chart, progress, folded notes, sources | none: you author it now |
 | `collection` | A list or table of records the person can act on: chores, a shopping list, open items | an app's endpoint, with per-row actions |
 | `tracker` | One measurement over time, with an optional target and a form that logs a value | an app's endpoint |
 
@@ -26,7 +26,7 @@ Build an artifact when the output will be used again: the person will come back 
 answer in chat.
 
 **Build** when:
-- It is a plan, report, booking or reference they will return to (a `brief` when it is a decision they act on).
+- It is a plan, report, booking or reference they will return to (a `board` when it is a screen they act on).
 - It is data that changes over time and they act on it (a `tracker` or `collection`; an app must back it).
 - They ask for a deck, document, dashboard, checklist, or "something I can open or share".
 - It is long or structured enough (several sections, tables) that chat would bury it.
@@ -68,17 +68,21 @@ from.
 
 Do not create a goal or task just to hold a draft.
 
-## Briefs
+## Boards
 
-A weekly plan, a trip decision or a review the person acts on is a `brief`, not a `document`. It is drawn with icons, tone and
-tiles, so write it as a screen, not an essay:
+A plan, a weekly review, a comparison or a status the person acts on or returns to is a `board`, not a `document`. It is drawn
+with icons, tone, tiles and charts, so compose it as a screen, not an essay. Read `templates_get` for the components and their
+limits; the shape is a header and an ordered list of `sections`, each one component:
 
-- `headline`: the verdict in one line. Everything below supports it.
-- `stats`: up to 4 tiles of a figure, a short label and a note ("+12.9", "5-week gain"). Pick the numbers the decision rests on.
-- `moves`: what to do, in order, with a state (`todo`, `done`, `hold`) and a tag for a deadline. `watch`: what could change the plan,
-  with a level (`info`, `warn`, `risk`). `ahead`: dated steps in order.
-- Icons come from a fixed set (`check swap star alert clock calendar trend_up trend_down target shield bolt flag pin money user trophy heart`)
-  and tones are `neutral good warn risk`. Choose them to carry meaning; leave them out when they would not.
+- Header (optional): a one-line `headline` (a verdict or title), a small `eyebrow` and a `subline`. Lead with what matters most.
+- Components: `stats` (up to 4 tiles: a figure, a short label, a note), `moves` (what to do, with a state and a deadline tag),
+  `watch` (what could change the plan, with a level), `steps` (dated steps, drawn as a timeline), `callout` (one highlighted note),
+  `facts` (label and value pairs), `table` (a small comparison), `bars` (values compared by length), `chart` (a small line or
+  column snapshot), `progress` (bars toward a goal), `details` (folded Markdown for method) and `links` (sources). Repeat and
+  order them as the task needs; do not use one only because it exists.
+- Icons come from a fixed set (`check swap star alert clock calendar trend_up trend_down target shield bolt flag pin money user
+  trophy heart`) and tones are `neutral good warn risk`. Choose them to carry meaning; leave them out when they would not.
+- Every component is a snapshot. Never chart or tile a number as if it were live: that is what a tracker is for.
 - Every text slot is short on purpose and the engine refuses a long one. Put method and reasoning in a folded `details` entry and
   sources in `links`; use a `document` for anything that needs paragraphs.
 - Ids are lowercase letters, digits and underscores, starting with a letter: `gk_swap`, never `gk-swap`.
