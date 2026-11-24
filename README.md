@@ -12,7 +12,7 @@ Public client plugins for [agent-brain](https://github.com/realnighthawk/agent-b
 | ChatGPT | [plugins/chatgpt-memory/](plugins/chatgpt-memory/README.md) | OAuth (memory only) |
 
 Every client gets Hippocampus (memory). Mission Control also provides Finance, Maps, Life, Retro, Health,
-FPL, FPL Intelligence, Reddit, and Auto Browser. OMP reaches them through one public MCP connection.
+FPL, FPL Intelligence and Reddit; the browser is omp's built-in one, attached to the person's workstation. OMP reaches them through one public MCP connection.
 Claude Code and pinned managed sandboxes use direct connections. The hosted apps are memory-only.
 
 ## Skills
