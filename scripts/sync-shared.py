@@ -41,9 +41,9 @@ def skill(agent):
 
 def services_skill():
     return (
-        "---\nname: services\ndescription: Use the tenant's connected MCP servers directly (life, finance, maps, retro, health, FPL, "
+        "---\nname: services\ndescription: Use the tenant's connected services, reached through the one `shared` MCP connection (life, finance, maps, retro, health, FPL, "
         "Reddit). Use when a task needs one of the user's own services or accounts.\n---\n"
-        + NOTE + "\n# Connected services\n\nThe plugin registers one MCP server per service; call their tools directly.\n\n" + SERVICES
+        + NOTE + "\n# Connected services\n\nThe plugin registers one MCP server, `shared` (the tenant's mcp-hub). Every service below is reached through it.\n\n" + SERVICES
     )
 
 

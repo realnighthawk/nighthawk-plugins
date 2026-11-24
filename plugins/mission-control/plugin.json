@@ -1,7 +1,7 @@
 {
   "name": "mission-control",
-  "version": "0.19.3",
-  "description": "Mission Control for oh-my-pi: tools and memory through one MCP connection, plus the workspace skill.",
+  "version": "0.20.0",
+  "description": "Agent Harness: the tenant's connected services through one MCP connection, the workspace Agent Skill, and long-term memory and the workstation browser through `mc`.",
   "author": {
     "name": "Nighthawk Labs"
   },

@@ -1,5 +1,5 @@
 #!/bin/sh
-# One step to set up Mission Control for omp: installs websocat and mc, adds the Mission Control plugin to omp, and signs you in.
+# One step to set up Mission Control for omp and Claude Code: installs websocat and mc, adds the Mission Control plugin to whichever is installed, and signs you in.
 #   curl -fsSL https://raw.githubusercontent.com/realnighthawk/nighthawk-plugins/main/mc/install.sh | sh
 # Safe to run again: it updates what is there. Nothing needs sudo; programs go in ~/.local/bin.
 # MC_NO_LOGIN=1 skips the sign-in at the end.
@@ -46,6 +46,14 @@ else
   run omp plugin install --force "$PLUGIN"
 fi
 
+step "the Mission Control plugin for Claude Code"
+if ! command -v claude >/dev/null 2>&1; then
+  echo "claude is not installed, so the plugin was skipped."
+else
+  claude plugin marketplace add "$MARKET_URL" --scope user 2>&1 || claude plugin marketplace update "$MARKETPLACE" 2>&1 || true
+  claude plugin install "$PLUGIN" --scope user 2>&1 || claude plugin update "$PLUGIN" 2>&1 || true
+fi
+
 # A program in ~/.local/bin is only found if that directory is on the PATH.
 profile=
 case "${SHELL:-}" in */zsh) profile=$HOME/.zshrc ;; */bash) profile=$HOME/.bashrc ;; esac
@@ -59,4 +67,4 @@ if [ -z "${MC_NO_LOGIN:-}" ]; then
   "$BIN/mc" login || echo "sign in later with: mc login"
 fi
 
-printf '\nDone. Start omp with your workstation attached:  mc omp\n'
+printf '\nDone. Start with your workstation attached:  mc omp   or   mc claude\n'

@@ -1,7 +1,8 @@
 #!/bin/sh
-# mc: run omp with your Mission Control workstation's browser attached.
+# mc: run omp or Claude Code with your Mission Control workstation's browser and memory attached.
 #
 #   mc omp [omp arguments]   sign in if needed, connect the workstation's browser, start omp
+#   mc claude [claude args]  the same for Claude Code: browser as the `browser` MCP, memory recalled at start and retained at end by the plugin's hooks
 #   mc login                 sign in again (a link lasts 12 hours)
 #   mc status                say whether the workstation is reachable
 #
@@ -90,7 +91,7 @@ beat() {
 start_beats() {
   SESSION=$(python3 -c 'import secrets;print(secrets.token_hex(8))' 2>/dev/null || date +%s%N)
   HOST=$(hostname -s 2>/dev/null | tr -c 'A-Za-z0-9._-\n' '_' || echo unknown)
-  OMP_VERSION=$(omp --version 2>/dev/null | head -1 | tr -c 'A-Za-z0-9._ -\n' '_' || true)
+  OMP_VERSION=$("${AGENT_CMD:-omp}" --version 2>/dev/null | head -1 | tr -c 'A-Za-z0-9._ -\n' '_' || true)
   ( while :; do beat idle; sleep 30; done ) &
   beater=$!
 }
@@ -130,8 +131,31 @@ case $cmd in
     say "your workstation's browser is attached (127.0.0.1:$port)"
     omp --config "$tmp/omp.yml" "$@"
     ;;
+  claude)
+    shift
+    need claude "Install Claude Code first."
+    ensure
+    AGENT_CMD=claude
+    tmp=$(mktemp -d)
+    trap 'stop_beats; kill "${tunnel:-}" 2>/dev/null || true; rm -rf "$tmp"' EXIT INT TERM
+    start_beats
+    # Claude Code has no memory or browser slot, so the plugin's hooks do the memory over the router's REST API (they read these three), and the browser is an MCP.
+    export MC_MEMORY_URL=$ROUTER/memory MC_MEMORY_TOKEN=$TOKEN MC_MEMORY_BANK=${MC_MEMORY_BANK:-claude-code}
+    if [ "$STATE" = down ]; then
+      say "your workstation is not running, so Claude Code starts without a browser. Create it at $WEB/workstation, then run mc claude again."
+      claude "$@"
+      exit $?
+    fi
+    need websocat "Install it: brew install websocat (macOS), or see https://github.com/vi/websocat"
+    port=$(free_port)
+    websocat -b "tcp-l:127.0.0.1:$port" "$WS_URL" -H "Authorization: Bearer $TOKEN" >/dev/null 2>&1 &
+    tunnel=$!
+    printf '{"mcpServers":{"browser":{"command":"npx","args":["-y","@playwright/mcp@latest","--cdp-endpoint","http://127.0.0.1:%s"]}}}' "$port" >"$tmp/mcp.json"
+    say "your workstation's browser is attached as the browser MCP (127.0.0.1:$port)"
+    claude --mcp-config "$tmp/mcp.json" --append-system-prompt "Browser work uses the browser MCP tools. They drive the person's own workstation browser, which keeps their saved logins. There is no other browser; if it cannot connect, say so once." "$@"
+    ;;
   *)
-    say "usage: mc omp [omp arguments] | mc login | mc status"
+    say "usage: mc omp [omp arguments] | mc claude [claude arguments] | mc login | mc status"
     exit 2
     ;;
 esac

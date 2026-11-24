@@ -1,8 +1,8 @@
 {
   "name": "mission-control",
-  "version": "0.19.3",
-  "mcpServers": "./.claude-plugin/mcp.json",
-  "description": "Agent Harness: the tenant's connected MCP services, the workspace Agent Skill, and long-term memory with recall at session start and retain at session end.",
+  "version": "0.20.0",
+  "mcpServers": "./.mcp.json",
+  "description": "Agent Harness: the tenant's connected services through one MCP connection, the workspace Agent Skill, and long-term memory and the workstation browser through `mc`.",
   "author": {
     "name": "Nighthawk Labs"
   },

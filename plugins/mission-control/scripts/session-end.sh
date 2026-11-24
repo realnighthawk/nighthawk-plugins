@@ -1,60 +1,42 @@
 #!/bin/sh
-# SessionEnd: spool a compact slice of the finished session so the next
-# SessionStart can have the agent retain it through its own OAuth MCP
-# connection. No network, no credential. Fail-open.
+# SessionEnd: retain a compact slice of the finished session in the workspace's memory (Hindsight REST, through the router).
+# Runs only under `mc claude` (MC_MEMORY_TOKEN set); anywhere else it does nothing. Tool output is never sent. Fail-open.
 [ -n "${MISSION_CONTROL_DISABLE_HOOKS:-}" ] && exit 0
+[ -n "${MC_MEMORY_TOKEN:-}" ] || exit 0
 
-event=$(cat)
-field() { printf '%s' "$event" | sed -n "s/.*\"$1\":[[:space:]]*\"\([^\"]*\)\".*/\1/p"; }
-transcript=$(field transcript_path)
-session=$(field session_id)
-[ -n "$transcript" ] && [ -f "$transcript" ] || exit 0
+EVENT=$(cat) python3 - <<'PY' 2>/dev/null || exit 0
+import json, os, urllib.request
 
-dir="${CLAUDE_PLUGIN_DATA:-$HOME/.cache/mission-control}/retain-queue"
-mkdir -p "$dir" 2>/dev/null || exit 0
-out="$dir/$(printf '%s' "${session:-no-session}" | tr -c 'A-Za-z0-9_-' '_').txt"
-
-TRANSCRIPT="$transcript" OUT="$out" python3 - <<'PY' 2>/dev/null || exit 0
-import json, os
-
-src, out = os.environ["TRANSCRIPT"], os.environ["OUT"]
-cap = 120_000
-skip_prefixes = ("<local-command", "<command-name>", "<command-message>",
-                 "<command-args>", "<hippocampus-memory>")
+event = json.loads(os.environ["EVENT"])
+src = event.get("transcript_path", "")
+if not os.path.isfile(src):
+    raise SystemExit(0)
+skip = ("<local-command", "<command-name>", "<command-message>", "<command-args>", "<memory>")
 lines, users = [], 0
-with open(src, encoding="utf-8", errors="replace") as f:
-    for raw in f:
-        try:
-            e = json.loads(raw)
-        except Exception:
-            continue
-        if e.get("isMeta"):
-            continue
-        role = e.get("type")
-        if role not in ("user", "assistant"):
-            continue
-        content = (e.get("message") or {}).get("content")
-        if isinstance(content, str):
-            parts = [content]
-        elif isinstance(content, list):
-            parts = [b.get("text", "") for b in content
-                     if isinstance(b, dict) and b.get("type") == "text"]
-        else:
-            parts = []
-        text = "\n".join(t for t in parts if t).strip()
-        if not text or text.startswith(skip_prefixes):
-            continue
-        if role == "user":
-            users += 1
+for raw in open(src, encoding="utf-8", errors="replace"):
+    try:
+        e = json.loads(raw)
+    except Exception:
+        continue
+    role = e.get("type")
+    if e.get("isMeta") or role not in ("user", "assistant"):
+        continue
+    c = (e.get("message") or {}).get("content")
+    parts = [c] if isinstance(c, str) else [b.get("text", "") for b in c or [] if isinstance(b, dict) and b.get("type") == "text"]
+    text = "\n".join(t for t in parts if t).strip()
+    if text and not text.startswith(skip):
+        users += role == "user"
         lines.append(f"{role}: {text}")
-
 text = "\n\n".join(lines)
 if users < 4 and len(text) < 4000:
-    raise SystemExit(1)
-with open(out, "w", encoding="utf-8") as f:
-    f.write(text[-cap:])
-PY
+    raise SystemExit(0)
 
-# Keep at most 10 spooled sessions.
-ls -t "$dir" 2>/dev/null | tail -n +11 | while IFS= read -r f; do rm -f "$dir/$f"; done
+base, bank = os.environ["MC_MEMORY_URL"], os.environ.get("MC_MEMORY_BANK", "claude-code")
+body = {"items": [{"content": text[-120_000:], "context": f"Claude Code session in {os.path.basename(event.get('cwd') or os.getcwd())}"}], "async": True}
+req = urllib.request.Request(
+    f"{base}/v1/default/banks/{bank}/memories", data=json.dumps(body).encode(),
+    headers={"Authorization": "Bearer " + os.environ["MC_MEMORY_TOKEN"], "Content-Type": "application/json", "User-Agent": "mission-control-hook/1"},
+)
+urllib.request.urlopen(req, timeout=25).read()
+PY
 exit 0

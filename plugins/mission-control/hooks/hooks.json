@@ -1,11 +1,11 @@
 {
-  "description": "Hippocampus memory: signal a recall at session start, spool a compact slice at session end, and have the next session retain it. The agent performs every MCP call itself over its own OAuth connection.",
+  "description": "Memory under mc claude: recall from the workspace memory at session start, retain a compact slice at session end, over the router's REST API. Does nothing without MC_MEMORY_TOKEN.",
   "hooks": {
     "SessionStart": [
-      { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/session-start.sh\"", "timeout": 5 } ] }
+      { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/session-start.sh\"", "timeout": 20 } ] }
     ],
     "SessionEnd": [
-      { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/session-end.sh\"", "timeout": 15 } ] }
+      { "hooks": [ { "type": "command", "command": "sh \"${CLAUDE_PLUGIN_ROOT}/scripts/session-end.sh\"", "timeout": 30 } ] }
     ]
   }
 }
