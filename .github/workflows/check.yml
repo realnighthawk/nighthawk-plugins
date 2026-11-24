@@ -17,14 +17,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: "20"
-      - run: pip install pytest jsonschema
       - name: Generated client files are current
         run: python3 scripts/sync-shared.py --check
-      - name: Skills package
-        run: make -C packages/cookbook check
-      - name: Installer syntax
-        run: |
-          node --check packages/cookbook/bin/install.mjs
-          node --check packages/cookbook/bin/stage-skills.mjs
       - name: Mission Control hooks
         run: sh plugins/mission-control/scripts/test-hooks.sh

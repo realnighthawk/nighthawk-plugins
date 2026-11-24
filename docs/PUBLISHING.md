@@ -1,7 +1,6 @@
 # Publishing
 
-The plugins ship as files in this public repo. There are no binaries or images. The portable skills are also published
-on npm as `@nighthawklabs/cookbook` from `packages/cookbook`.
+The plugins ship as files in this public repo. There are no binaries or images.
 
 | Plugin | How it reaches users |
 |---|---|
@@ -35,18 +34,14 @@ Still to do before submitting to ChatGPT, none of which is in the repo (the demo
 
 ## Release
 
-Plugins and the skills package have separate tags in one repository.
+Plugins and the installer package have separate tags in one repository.
 
 ```bash
 # plugins: tag the release
 git tag -a v0.13.0 -m "v0.13.0" && git push origin v0.13.0
 gh release create v0.13.0 --generate-notes
-
-# skills package: the tag must match packages/cookbook/package.json
-git tag cookbook-v0.2.0 && git push origin cookbook-v0.2.0
 ```
 
 `@nighthawklabs/mission-control` (`packages/mission-control`, tag `mission-control-vX.Y.Z` matching its package.json) bundles `mc/mc` and `mc/install.sh` at pack time, so `npx` runs the starter that was published.
 
-`.github/workflows/npm-publish.yml` publishes `@nighthawklabs/cookbook` on the `cookbook-v*` tag; plugin tags do not
-publish npm.
+`.github/workflows/npm-publish.yml` publishes `@nighthawklabs/mission-control` on its tag; plugin tags do not publish npm.

@@ -20,8 +20,7 @@ mission-control uninstall [--purge]      remove the plugin from both and mc (--p
 mission-control status                   is the workstation reachable
 mission-control login                    sign in again
 
-Then run:  mc claude   or   mc omp
-For any other agent that reads skills, install also runs npx @nighthawklabs/cookbook.`);
+Then run:  mc claude   or   mc omp`);
   process.exit(bad ? 2 : 0);
 }
 
@@ -76,7 +75,4 @@ if (args.includes("--no-login")) env.MC_NO_LOGIN = "1";
 const run = spawnSync("sh", [installer], { stdio: "inherit", env });
 if (run.status !== 0) process.exit(run.status ?? 1);
 
-if (!has("claude") && !has("omp")) {
-  console.log("\nNeither Claude Code nor oh-my-pi was found: installing the portable skills for other agents.");
-  process.exit(spawnSync("npx", ["--yes", "@nighthawklabs/cookbook"], { stdio: "inherit" }).status ?? 0);
-}
+if (!has("claude") && !has("omp")) console.log("\nNeither Claude Code nor oh-my-pi was found: only mc was installed.");

@@ -7,5 +7,4 @@ __pycache__/
 node_modules/
 *.tgz
 .DS_Store
-/packages/cookbook/skills/
 /packages/mission-control/mc/

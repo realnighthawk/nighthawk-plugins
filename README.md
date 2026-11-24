@@ -26,8 +26,7 @@ mc claude                            # or: mc omp
 ## Skills
 
 The plugins ship portable Agent Skills, written to the Claude Agent Skills format. `plugins/*/skills`
-is the source; `packages/cookbook` stages those skills into the npm tarball at pack time, so there is no second copy in
-the repository.
+is the source.
 
 | Skill | What it does |
 |---|---|
@@ -41,15 +40,6 @@ The `travel` plugin registers [TREK MCP](https://trek.nighthawklabs.org/mcp) dir
 `travel@mission-control-plugins`, authorize TREK from `/mcp` in Claude Code or oh-my-pi. Maps and Life still come
 from Mission Control. Managed sandboxes must allow HTTPS egress to `trek.nighthawklabs.org` for MCP and OAuth.
 
-`@nighthawklabs/cookbook` publishes the same skills for agents without a plugin marketplace:
-
-```bash
-npx @nighthawklabs/cookbook                 # every skill into ~/.agents/skills
-npx @nighthawklabs/cookbook --skills travel-planner,manage-goals
-npx @nighthawklabs/cookbook --dry-run
-npx @nighthawklabs/cookbook --uninstall
-```
-
 ## Repository layout
 
 ```
@@ -57,7 +47,6 @@ plugins/mission-control/  Mission Control manifests, shared and direct MCP confi
 plugins/{travel,fpl,goals}/  optional skill plugins, installed per agent
 plugins/<client>/         the memory-only client plugins
 packages/mission-control/ npm installer: `npx @nighthawklabs/mission-control` sets up mc and the plugin in Claude Code and oh-my-pi
-packages/cookbook/        npm wrapper: install.mjs, lint, tests; stages the skills at pack time
 shared/                   the memory protocol, rendered into each client
 scripts/sync-shared.py    regenerate the client memory text and verify identity/endpoints
 ```
@@ -72,16 +61,13 @@ python3 scripts/sync-shared.py           # regenerate the memory text
 python3 scripts/sync-shared.py --check
 ```
 
-The npm package has no committed skills: `packages/cookbook/bin/stage-skills.mjs` copies the portable skills from
-`plugins/*/skills` into the tarball at `prepack` (and before `make check`).
-
 ## Tests
 
 ```bash
 make check
 ```
 
-That runs the sync check, the skills package's lint and pytest, and the Mission Control hook test.
+That runs the sync check, the Mission Control hook test and the installer package test.
 
 ## Related
 
