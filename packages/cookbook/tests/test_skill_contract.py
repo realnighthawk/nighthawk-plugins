@@ -10,9 +10,9 @@ SKILLS = sorted((ROOT / "skills").glob("*/SKILL.md"))
 TEXT_SUFFIXES = {".md", ".py", ".json", ".txt", ".yaml", ".yml", ".sh", ".js", ".ts"}
 HARNESS_ONLY = (
     "run_code", "skill_sdk", "tenant_worker", "discover_tools", "load_skills", "ask_user", "finish_task",
-    "{baseDir}", "{{include", "nighthawk-skill", "reactor", "search_tools", "call_tool",
+    "{baseDir}", "{{include", "nighthawk-skill", "reactor", "search_tools", "call_tool", "mcp__",
 )
-MCP_SLASH = re.compile(r"`(?:life|trek|maps|fpl|fpl_intelligence|reddit|exa|finance)/[A-Za-z][A-Za-z0-9_.]*`")
+MCP_SLASH = re.compile(r"`(?:life|trek|maps|fpl|fpl_intelligence|fpl-intelligence|reddit|exa|finance|retro|health|gmail|notion|grafana|browser)[/:][A-Za-z][A-Za-z0-9_.]*`")
 
 
 def parts(path: Path):

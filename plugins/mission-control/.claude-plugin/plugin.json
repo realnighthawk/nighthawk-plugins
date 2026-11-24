@@ -1,6 +1,6 @@
 {
   "name": "mission-control",
-  "version": "0.20.1",
+  "version": "0.20.2",
   "mcpServers": "./.mcp.json",
   "description": "Agent Harness: the tenant's connected services through one MCP connection, the workspace Agent Skill, and long-term memory and the workstation browser through `mc`.",
   "author": {

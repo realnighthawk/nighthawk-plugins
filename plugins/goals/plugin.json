@@ -1,6 +1,6 @@
 {
   "name": "goals",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Goals, tasks, events, reminders and artifacts in the Life engine, and the artifacts built on them. Uses the tenant's service servers registered by the mission-control plugin.",
   "author": {
     "name": "Nighthawk Labs"

@@ -10,11 +10,10 @@ holds the person's own commitments around the trip: one goal with the actions an
 and after it. `maps` is the research and routing layer: compare places, order a day, check distances and weather, then
 write the result into TREK. Keep those roles separate; a record copied into two places drifts.
 
-Call each server's tools directly, using the names and schemas it advertises: `trek` for the trip, `maps` for
-places and routes, `life` for the person's commitments. Tool names are fully qualified: `trek:<name>`,
-`maps:<name>`, `life:<name>`.
+Call the tools directly, using the schemas they advertise: `trek__*` for the trip, `maps__*` for
+places and routes, `life__*` for the person's commitments. Tools are named `<service>__<tool>` (the hub's name). Your harness may put a prefix in front of that name; match by the `<service>__<tool>` ending and never invent a prefix.
 The TREK surface is large and versioned: do not guess a tool name or an id. Resolve trip, day, place and member ids from
-`trek:list_trips`, `trek:get_trip_summary` or the matching `trek:list_*` first. If no `trek` tool is found, say travel planning is not
+`trek__list_trips`, `trek__get_trip_summary` or the matching `trek__list_*` first. If no `trek` tool is found, say travel planning is not
 connected and stop; do not fake it with notes. If a maps or Life tool is missing, use what is connected and say what is not.
 
 A new trip gets a Life goal. A change to a trip that already exists does not create a second one. If the person only asks
@@ -40,7 +39,7 @@ outright. Change a preference and the shortlist should visibly change; if it doe
 candidates.
 
 At the start, recall travel preferences with whatever memory tools are available, and read the person's time zone with
-`life:settings_get`; use that time zone as the home zone. Ask for anything that
+`life__settings_get`; use that time zone as the home zone. Ask for anything that
 is missing or ambiguous and would change the plan — the destination, dates, who is going, budget, pace, or a preference
 that conflicts with a hard constraint — one thing at a time; do not interrogate. Use what you already know first: if a
 recalled preference applies, put it in `preferences.json`, state the plan around it in the person's terms ("you like food
@@ -59,11 +58,11 @@ the plan.
 
 ## 1. Find or start the trip
 
-Call `trek:list_trips` first. If the person named a trip, use it. If they are starting one, confirm the destination,
-the dates and the currency, then `trek:create_trip`; days are generated from the date range. Call
-`trek:get_trip_summary` before non-trivial changes, every time: TREK changes live and other members may be editing it.
+Call `trek__list_trips` first. If the person named a trip, use it. If they are starting one, confirm the destination,
+the dates and the currency, then `trek__create_trip`; days are generated from the date range. Call
+`trek__get_trip_summary` before non-trivial changes, every time: TREK changes live and other members may be editing it.
 
-Call `life:intentions_list` and `life:tasks_list` too. If a goal (an intention) for this trip already exists, reuse it and add only
+Call `life__intentions_list` and `life__tasks_list` too. If a goal (an intention) for this trip already exists, reuse it and add only
 what is missing; never create a second goal for the same trip.
 
 ## 2. Set up the Life side
@@ -90,7 +89,7 @@ python3 scripts/travelplan.py reminders brief.json preferences.json
 ```
 
 It returns the goal line, the dated tasks with alerts, and `operations`. Fix every `problem`; read `warnings` for tasks
-already in the past (skip them and say so). Then call `life:batch_apply` with a fresh `idempotency_key` and
+already in the past (skip them and say so). Then call `life__batch_apply` with a fresh `idempotency_key` and
 `operations`: it creates the goal and the tasks, each linked to the goal, all or nothing. If the goal already exists, put its id in
 `brief.json` as `goal_id` and rerun, and the operations create only the tasks and their links.
 
@@ -105,11 +104,11 @@ to-dos for what the group shares and Life tasks for what the person must persona
 
 Use maps to decide and TREK to keep:
 
-- Resolve the base and candidate places with `maps:geocode`, `maps:search_places`,
-  `maps:search_nearby` and `maps:get_place_details`.
-- Order a day with `maps:plan_route`; check legs and feasibility with `maps:get_directions` and
-  `maps:get_distance_matrix`; use `maps:get_elevation` for a hike, `maps:get_weather` for the dates,
-  and `maps:get_timezone` when the trip crosses zones.
+- Resolve the base and candidate places with `maps__geocode`, `maps__search_places`,
+  `maps__search_nearby` and `maps__get_place_details`.
+- Order a day with `maps__plan_route`; check legs and feasibility with `maps__get_directions` and
+  `maps__get_distance_matrix`; use `maps__get_elevation` for a hike, `maps__get_weather` for the dates,
+  and `maps__get_timezone` when the trip crosses zones.
 
 Write the candidates to `candidates.json` (`name`, `types`, `rating`, `ratings_count`, `price_level`, `distance_km`,
 `tags`) and run:
@@ -123,8 +122,8 @@ penalised, `never` excluded. Apply the hard filters first — `never`, dietary, 
 score cannot fix a place that cannot feed them or cannot be entered. You still choose for fit, opening hours and the shape
 of the day; never let a score override a hard constraint.
 
-- Write the chosen place into TREK. `trek:search_place` returns the `osm_id`/`google_place_id` that makes TREK show
-  hours, ratings and map links; `trek:create_place` also accepts `lat`/`lng` from maps. Prefer TREK's search when it finds the
+- Write the chosen place into TREK. `trek__search_place` returns the `osm_id`/`google_place_id` that makes TREK show
+  hours, ratings and map links; `trek__create_place` also accepts `lat`/`lng` from maps. Prefer TREK's search when it finds the
   same place.
 
 Never invent a coordinate, price, opening time, flight number or airport code. Resolve it or ask. A weather forecast far
@@ -166,7 +165,7 @@ every problem before the first TREK write. The shape is:
 - **Group work.** `create_todo` for shared trip to-dos; `create_collab_note` and the Collab tools when the addon is on;
   `create_share_link` for a read-only link; `export_trip_ics` when they want the trip in a calendar.
 
-After a change, call `trek:get_trip_summary` and recap what changed. Do not read the whole itinerary back unless it is new.
+After a change, call `trek__get_trip_summary` and recap what changed. Do not read the whole itinerary back unless it is new.
 
 ## 5. The wider TREK surface
 

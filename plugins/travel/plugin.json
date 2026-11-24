@@ -1,6 +1,6 @@
 {
   "name": "travel",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Trip planning, itinerary checks, budget and packing with a direct TREK MCP connection. Uses Mission Control for Maps and Life.",
   "author": {
     "name": "Nighthawk Labs"

@@ -8,13 +8,13 @@
   },
   "metadata": {
     "description": "The tenant's connected MCP services and long-term memory for agent harnesses.",
-    "version": "0.20.1",
+    "version": "0.20.2",
     "pluginRoot": "./plugins"
   },
   "plugins": [
     {
       "name": "mission-control",
-      "version": "0.20.1",
+      "version": "0.20.2",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
@@ -27,7 +27,7 @@
     },
     {
       "name": "travel",
-      "version": "0.3.0",
+      "version": "0.3.1",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
@@ -40,7 +40,7 @@
     },
     {
       "name": "fpl",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/realnighthawk/nighthawk-plugins.git",
@@ -53,7 +53,7 @@
     },
     {
       "name": "goals",
-      "version": "0.1.0",
+      "version": "0.1.1",
       "source": {
         "source": "git-subdir",
         "url": "https://github.com/realnighthawk/nighthawk-plugins.git",

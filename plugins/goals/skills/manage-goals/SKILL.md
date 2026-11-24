@@ -7,7 +7,7 @@ description: Sets up and manages the person's goals, habits, tasks, reminders an
 
 Everything here is the person's own record: it can be edited and undone, so make the change and tell them what you did.
 
-Call the `life` server's tools directly, using the names and schemas it advertises. If no Life tools are connected, say
+Call the `life__*` tools directly, using the schemas they advertise. Tools are named `<service>__<tool>` (the hub's name). Your harness may put a prefix in front of that name; match by the `<service>__<tool>` ending and never invent a prefix. If no Life tools are connected, say
 goal tracking is not connected and create nothing. The browser is not a substitute for the engine's writes.
 
 ## When the engine is the right place
@@ -44,7 +44,7 @@ time, say so. When the work finishes, do what the reminder said with the result,
 - An **event** happens at a time whether or not anyone acts, and the person shows up (a flight, a dinner, a meeting).
 - A **reminder** is not a thing of its own: it is a task or event with an alert (`alert_before_minutes`; 0 means at the time).
 - A **routine or habit** is a task that repeats (`recurrence`). Give it an alert if they want to be told.
-- A task or event serves a goal through a `serves` link (`life:links_set`). Never copy one into the goal.
+- A task or event serves a goal through a `serves` link (`life__links_set`). Never copy one into the goal.
 
 ## 1. Which mode?
 
@@ -58,9 +58,9 @@ time, say so. When the work finishes, do what the reminder said with the result,
 
 ## 2. See what exists
 
-Call `life:intentions_list` and `life:tasks_list` together (add `subject: "agent"` when it could be a reminder or goal
+Call `life__intentions_list` and `life__tasks_list` together (add `subject: "agent"` when it could be a reminder or goal
 you set for yourself). If a goal they already have looks like this one, ask whether to change that goal (name it) or
-create a new one, and wait for the answer. If a task they already have serves the new goal, link it with `life:links_set`
+create a new one, and wait for the answer. If a task they already have serves the new goal, link it with `life__links_set`
 after the setup (the task `serves` the goal, which the engine stores as an intention); a link is a change, not a
 creation.
 
@@ -108,50 +108,50 @@ Design it:
 
 ### 3c. Check and apply
 
-1. Read the person's zone with `life:settings_get` → `time_zone`.
+1. Read the person's zone with `life__settings_get` → `time_zone`.
 2. Run `python3 scripts/goalplan.py check plan.json --tz <zone>`. Fix every problem it prints and run it again. It
    prints `{"ok": true, "problems": []}` when the plan is fit to try.
 3. Run `python3 scripts/goalplan.py build plan.json --tz <zone>`. It prints `goal_id`, `idempotency_key`, `operations`
    and a `summary` of what will be created.
-4. Call `life:batch_dry_run` with the `operations`. Fix any refusal and build again.
-5. Call `life:batch_apply` with the printed `idempotency_key` and `operations`.
+4. Call `life__batch_dry_run` with the `operations`. Fix any refusal and build again.
+5. Call `life__batch_apply` with the printed `idempotency_key` and `operations`.
 
 The batch is all or nothing. Do not report the setup as made until the apply succeeds. Keep that idempotency key as the
 undo key.
 
 ## 4. Create a single task or event
 
-Use `life:tasks_create` for something to do: a time is a deadline or a cue, `alert_before_minutes` makes it a reminder,
-and `recurrence` makes it a habit. Use `life:calendar_events_create` for something that happens at a time whether or not
+Use `life__tasks_create` for something to do: a time is a deadline or a cue, `alert_before_minutes` makes it a reminder,
+and `recurrence` makes it a habit. Use `life__calendar_events_create` for something that happens at a time whether or not
 anyone acts (a meeting, a flight, a dinner), with `at`, `minutes` and an alert where it helps. Link it to a goal with
-`life:links_set` (`from_kind` task or event, relation `serves`, `to_kind` intention) when it serves one; otherwise leave
+`life__links_set` (`from_kind` task or event, relation `serves`, `to_kind` intention) when it serves one; otherwise leave
 it unlinked. Every direct create or link call takes a fresh `idempotency_key`. Do not create a goal for a single item.
 
 ## 5. Change what exists
 
 Edit, do not start over. Every direct write takes a fresh `idempotency_key`; an edit, completion, snooze or archive also
 needs the version you last read (`expected_version`). An update replaces the record's fields, so read the record first
-(from `life:intentions_list`/`life:tasks_list`, or the matching `*_get`), then send every field you want kept, including
-`title`, along with the change: `life:intentions_update`, `life:tasks_update`, `life:calendar_events_update`.
+(from `life__intentions_list`/`life__tasks_list`, or the matching `*_get`), then send every field you want kept, including
+`title`, along with the change: `life__intentions_update`, `life__tasks_update`, `life__calendar_events_update`.
 
-Use the tool that matches what they said: `life:tasks_complete` for done (a repeating task completes one occurrence: name
-it with `at`; an agent task takes `result`), `life:tasks_snooze`/`life:calendar_events_snooze` to defer an alert without
-moving the item, `life:intentions_archive`/`life:intentions_restore` to put a goal away or bring it back, and the
+Use the tool that matches what they said: `life__tasks_complete` for done (a repeating task completes one occurrence: name
+it with `at`; an agent task takes `result`), `life__tasks_snooze`/`life__calendar_events_snooze` to defer an alert without
+moving the item, `life__intentions_archive`/`life__intentions_restore` to put a goal away or bring it back, and the
 delete/restore tools when they want something gone (it can be restored). When a date moves (a flight, a deadline), look
-at what depends on it with `life:links_list` for the goal (`kind` intention) and move those too, telling the person what
+at what depends on it with `life__links_list` for the goal (`kind` intention) and move those too, telling the person what
 you changed; ask first if it is not obvious.
 
 If the request is ambiguous ("clear them all" after a list), ask which records they mean before changing anything.
 Archive is reversible; delete is restorable; still say what you are about to change.
 
-To take back a whole setup, call `life:batch_undo` with a fresh `idempotency_key` and `batch_key` set to the undo key
+To take back a whole setup, call `life__batch_undo` with a fresh `idempotency_key` and `batch_key` set to the undo key
 from the report that set it up.
 
 ## 6. Progress
 
-When they tell you a measurement ("I'm 81.5 today"), record what they said with `life:activities_record` (a fresh
+When they tell you a measurement ("I'm 81.5 today"), record what they said with `life__activities_record` (a fresh
 `idempotency_key`, `kind: "measurement"`, `text` in their words, `occurred_at` now) and tie it to the goal with
-`life:links_set` (`from_kind: "activity"`, `relation: "evidences"`, `to_kind: "intention"`). If a tracker artifact's app
+`life__links_set` (`from_kind: "activity"`, `relation: "evidences"`, `to_kind: "intention"`). If a tracker artifact's app
 takes logged values, `view-builder` says how to use it. Only record what they said.
 
 ## 7. Tell the person

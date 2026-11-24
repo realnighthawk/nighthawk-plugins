@@ -30,14 +30,14 @@ USE_TRIGGER = re.compile(r"(?i)\buse (this|it|when|whenever|for)\b")
 # A skill is portable: it names no runtime entry point, tool loader, prompt include, or hub.
 HARNESS_ONLY = (
     "run_code", "skill_sdk", "tenant_worker", "discover_tools", "load_skills", "ask_user", "finish_task",
-    "{baseDir}", "{{include", "nighthawk-skill", "reactor", "search_tools", "call_tool",
+    "{baseDir}", "{{include", "nighthawk-skill", "reactor", "search_tools", "call_tool", "mcp__",
     "preload:", "always:",
 )
 # `tools:` is only harness frontmatter; a body may say "tools" in prose, so the line-start form is checked separately.
 HARNESS_LINE = re.compile(r"(?m)^(?:preload|tools|always):")
-# MCP tools are fully qualified `server:tool`; a slash is the old hub form.
+# MCP tools are named by the hub, `<service>__<tool>`; a skill never uses `service:tool`, a slash, or a harness-prefixed `mcp__` name.
 MCP_SLASH = re.compile(
-    r"`(?:life|trek|maps|fpl|fpl_intelligence|reddit|exa|finance)/[A-Za-z][A-Za-z0-9_.]*`"
+    r"`(?:life|trek|maps|fpl|fpl_intelligence|fpl-intelligence|reddit|exa|finance|retro|health|gmail|notion|grafana|browser)[/:][A-Za-z][A-Za-z0-9_.]*`"
 )
 
 SECRET_PATTERNS = [

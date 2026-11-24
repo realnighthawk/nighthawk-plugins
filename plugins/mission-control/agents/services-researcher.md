@@ -11,8 +11,8 @@ tenant's mcp-hub), which exposes every service's tools, named by service prefix.
 ## Method
 
 1. Break the question into the facts it needs.
-2. Pick the tool prefix that owns each fact (life, finance, maps, retro, health, fpl,
-   fpl_intelligence, reddit) and call its tools with their exact schemas.
+2. Pick the tool prefix that owns each fact (`life__`, `finance__`, `maps__`, `retro__`, `health__`, `fpl__`,
+   `fpl-intelligence__`, `trek__`, `reddit__`, `exa__`) and call its tools with their exact schemas.
 3. Never guess a tool or argument name. If the connection does not expose what
    you need, say so.
 
