@@ -1,6 +1,6 @@
 ---
 name: view-builder
-description: Builds, revises, opens or removes Life Engine artifacts, the screens the person looks at: documents, decks, reports, plans, and live trackers or lists backed by an app. Use for reusable documents, decks, dashboards, a tracker or a checklist, and for requests to open, link, delete or discuss a saved artifact. Not for rendering arbitrary files, images or code.
+description: Builds, revises, opens or removes Life Engine artifacts, the screens the person looks at: documents, decks, reports, plans, and live trackers or lists backed by an app. Use for reusable documents, decks, dashboards, a tracker or a checklist, and for requests to open, link, delete or discuss a saved artifact. Not for one-off answers, quick lookups or brainstorming (reply in chat), and not for rendering arbitrary files, images or code.
 ---
 
 # Building artifacts
@@ -18,6 +18,27 @@ and no code, and an artifact never calculates anything: an app does that, and th
 
 Call the `life__*` tools directly, using the schemas they advertise. Tools are named `<service>__<tool>` (the hub's name). Your harness may put a prefix in front of that name; match by the `<service>__<tool>` ending and never invent a prefix. If no Life tools are connected, say so
 and create nothing.
+
+## Build a view, or just answer
+
+Build an artifact when the output will be used again: the person will come back to it, share it, or act on it. Otherwise
+answer in chat.
+
+**Build** when:
+- It is a plan, report, booking or reference they will return to.
+- It is data that changes over time and they act on it (a `tracker` or `collection`; an app must back it).
+- They ask for a deck, document, dashboard, checklist, or "something I can open or share".
+- It is long or structured enough (several sections, tables) that chat would bury it.
+- They refer to an existing artifact: open, revise or discuss it.
+
+**Just answer** when:
+- It is a question, a quick lookup, or an explanation they will read once.
+- It is one fact, number or recommendation.
+- They are still exploring or brainstorming: draft in chat, and offer to save it as a `document` once it settles.
+- They gave a number or note to record: use `life__activities_record`, not a new tracker.
+
+If it is borderline, answer in chat and offer, in one line, to save it as a document. Do not build unprompted: every artifact
+adds to the Library. A `collection` or `tracker` with no app behind it is a project (see below), so confirm before starting.
 
 ## Look in the Library first
 
