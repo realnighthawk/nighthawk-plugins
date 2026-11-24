@@ -4,7 +4,11 @@
 [ -n "${MISSION_CONTROL_DISABLE_HOOKS:-}" ] && exit 0
 [ -n "${MC_MEMORY_TOKEN:-}" ] || exit 0
 
-EVENT=$(cat) python3 - <<'PY' 2>/dev/null || exit 0
+# Read the event before the heredoc: dash opens the heredoc as stdin first, so `EVENT=$(cat) python3 - <<PY` would read the script, not the event.
+EVENT=$(cat)
+export EVENT
+
+python3 - <<'PY' 2>/dev/null || exit 0
 import json, os, urllib.request
 
 event = json.loads(os.environ["EVENT"])

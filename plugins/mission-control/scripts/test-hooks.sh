@@ -2,6 +2,8 @@
 # One runnable check for the memory hooks: a stub memory server, a fabricated session; assert start recalls into JSON context and end retains the user
 # text but never tool output, and that both do nothing without MC_MEMORY_TOKEN.
 set -eu
+# A developer's own session (mc claude) exports these; the no-token cases below must start without them.
+unset MC_MEMORY_TOKEN MC_MEMORY_URL MC_MEMORY_BANK MISSION_CONTROL_DISABLE_HOOKS
 here=$(cd "$(dirname "$0")" && pwd)
 tmp=$(mktemp -d)
 trap 'kill "${srv:-}" 2>/dev/null || true; rm -rf "$tmp"' EXIT
